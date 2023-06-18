@@ -6,7 +6,15 @@ use App\Libraries\CustomFormBuilder;
 
 class FormController extends BaseController
 {
-    public function index()
+    private $formBuilder;
+
+    public function __construct()
+    {
+        // Instantiate the CustomFormBuilder library
+        $this->formBuilder = new CustomFormBuilder();
+    }
+
+    public function newForm()
     {
         $fields = [
             ['label' => 'Name', 'label_class' => 'Name-control', 'type' => 'text', 'type_class' => 'form-control name-control','placeholder' => 'Enter your name', 'required' => true, 'disabled' => false],
@@ -33,11 +41,54 @@ class FormController extends BaseController
             ]
         ];
 
-        //Create the library 
-        $FormBuidler = new CustomFormBuilder();
+        $data  = [
+            'Name' => "My KuKuBird Size Chart",
+            'Structure' => $fields
+        ];
 
-        //Call the library
-        $formViewTemplate = $FormBuidler->createFormTemplate($fields);
+        /*
+            Possible Parameters for $data , else default
+            Complusory is 'Structure'!
+            $data  = [
+                'Name' => 
+                'Version' =>
+                'Datetime' =>
+                'Description' =>
+                'Structure' => 
+            ];
+        */
+
+        //Call the library to insert the form template 
+        try{
+            $formID = $this->formBuilder->newFormTemplate($data);
+
+            $data = [
+                'title' => 'Successful Insertion',
+                'formID'  => $formID
+            ];
+
+            return view('templates/header', $data)
+            . view('success')
+            . view('templates/footer');
+
+        }catch(\Execption $e){
+            // Show the default CodeIgniter error page with the error message
+            show_error('An error occurred while inserting the form data. Please try again.');
+        }
+    }
+
+    public function index()
+    {
+
+        // Call the createForm method to generate the form view template
+        $formID = 1; // Example formid
+        $formViewTemplate;
+
+        try{
+            $formViewTemplate = $this->formBuilder->getForm($formID);
+        }catch(\Exception $e){
+            $formViewTemplate = $e->getMessage();
+        }
 
         $data = [
             'title' => 'Form Fields',

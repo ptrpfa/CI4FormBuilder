@@ -27,10 +27,11 @@ $routes->set404Override();
  * --------------------------------------------------------------------
  */
 $routes->get('/form', 'FormController::index');
-
+$routes->get('/new', 'FormController::newForm');
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+
 
 /*
  * --------------------------------------------------------------------
