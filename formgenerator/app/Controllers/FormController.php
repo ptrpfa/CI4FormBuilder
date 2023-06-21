@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\CustomFormBuilder;
+use Exception;
 
 class FormController extends BaseController
 {
@@ -71,7 +72,7 @@ class FormController extends BaseController
             . view('success')
             . view('templates/footer');
 
-        }catch(\Execption $e){
+        }catch(Exception $e){
             // Show the default CodeIgniter error page with the error message
             show_error('An error occurred while inserting the form data. Please try again.');
         }
@@ -82,11 +83,11 @@ class FormController extends BaseController
 
         // Call the createForm method to generate the form view template
         $formID = 1; // Example formid
-        $formViewTemplate;
+        $formViewTemplate = null;
 
         try{
             $formViewTemplate = $this->formBuilder->getForm($formID);
-        }catch(\Exception $e){
+        }catch(Exception $e){
             $formViewTemplate = $e->getMessage();
         }
 
