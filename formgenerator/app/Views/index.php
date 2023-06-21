@@ -1,11 +1,9 @@
-<?= $FormView ?>
-
-<style>
-.checkbox-group {
-    display: flex;
-}
-
-.form-check {
-    margin-right: 20px; /* Adjust the spacing between the checkboxes */
-}
-</style>
+<form>
+    <?php foreach ($FormView as $input): ?>
+        <div class="form-group">
+            <?= $input['label']; ?>
+            <?= $input['input']; ?>
+        </div><br>
+    <?php endforeach; ?>
+    <button type="submit">Submit</button>
+</form>
