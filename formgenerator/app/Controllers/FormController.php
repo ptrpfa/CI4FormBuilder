@@ -46,20 +46,87 @@ class FormController extends BaseController
 
         $fields = [
             'name' => [
-                //new_label($name='', $value='', $attributes='')
-                'label' => $this->form_help_me->new_label('name', 'Name'), 
-                //new_input($name='', $value='', $attributes='' OR $attributes=[])
-                'input' => $this->form_help_me->new_input('name', '', 'class="form-control" id="name-control" placeholder="Enter your name" required') 
+                //new_div($label, $input, $row, $span, $column, $attributes)
+                'group' => $this->form_help_me->new_div(
+                    array(
+                        //new_label($name='', $value='', $attributes='')
+                        $this->form_help_me->new_label('name', 'Name'), 
+                        //new_input($name='', $value='', $attributes='' OR $attributes=[])
+                        $this->form_help_me->new_input('name', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'), 
+                    ),
+                    1,'md', 9, 'mt-5'
+                )        
             ],
             'message' => [
-                //new_label($name='', $value='', $attributes='')
-                'label' => $this->form_help_me->new_label('message', 'Message', 'class="message-label-control"'),
-                //new_textarea($name='', $value='', $attributes='' OR $attributes=[])
-                'input' => $this->form_help_me->new_textarea(
-                    'message', '',
-                    array('class'=> 'form-control message-control', 'placeholder'=>'Enter you message', 'required'=> true)
+                'group' => $this->form_help_me->new_div(
+                    array(
+                        //new_label($name='', $value='', $attributes='')
+                        $this->form_help_me->new_label('message', 'Message', 'class="message-label-control"'),
+                        //new_textarea($name='', $value='', $attributes='' OR $attributes=[])
+                        $this->form_help_me->new_textarea(
+                            'message', '',
+                            array('class'=> 'form-control message-control', 'placeholder'=>'Enter you message', 'required'=> true)
+                        ),
+                    ),
+                    2,'md', 9
                 )
-            ]
+            ],
+            'sex-help' => [
+                'group' => $this->form_help_me->new_div(
+                    [
+                        $this->form_help_me->new_div(
+                            [
+                                $this->form_help_me->new_label('sex-help', 'How to sex'),
+                                $this->form_help_me->new_para_helper('sex-help', 'Key in which sex group you are', 'id="sex-helper"'),
+                            ],
+                            '', 'md', 2
+                        ),
+                        $this->form_help_me->new_div(
+                            [
+                                $this->form_help_me->new_label('gender', 'Choose Gender:'),
+                                '<br>',
+                                $this->form_help_me->new_div(
+                                    [
+                                        $this->form_help_me->new_radio('gender', 'male', 'id="male" class="form-check-input"'),
+                                        $this->form_help_me->new_label('male', 'Male', 'class="form-check-label"'),
+                                    ],
+                                    '', '', '', 'form-check form-check-inline'
+                                ),
+                                $this->form_help_me->new_div(
+                                    [
+                                        $this->form_help_me->new_radio('gender', 'female', 'id="female" class="form-check-input"'),
+                                        $this->form_help_me->new_label('female', 'Female', 'class="form-check-label"'),
+                                    ],
+                                    '', '', '', 'form-check form-check-inline'
+                                ),
+                            ],
+                            '', 'md', '5', 'radio-control'
+                        ),
+                    ],
+                    'row'
+                )
+            ],
+            
+            // 'sex' => [
+            //     'group' => $this->form_help_me->new_div(
+            //         [
+            //             $this->form_help_me->new_label('gender', 'Choose Gender:'),
+            //             '<br>',
+            //             $this->form_help_me->new_div(
+            //                 [$this->form_help_me->new_radio('gender', 'male', 'id="male" class="form-check-input"'),
+            //                 $this->form_help_me->new_label('male', 'Male', 'class="form-check-label"')],
+            //                 '', '', '', 'form-check form-check-inline'
+            //             ),
+            //             $this->form_help_me->new_div(
+            //                 [$this->form_help_me->new_radio('gender', 'female', 'id="female" class="form-check-input"'),
+            //                 $this->form_help_me->new_label('female', 'Female', 'class="form-check-label"')],
+            //                 '', '', '', 'form-check form-check-inline'
+            //             ),
+            //         ],
+            //         '', 'md', '5', 'radio-control'
+            //     )
+            // ],
+            
         ];
 
         $data  = [
@@ -102,7 +169,7 @@ class FormController extends BaseController
     {
 
         // Call the createForm method to generate the form view template
-        $formID = 4; // Example formid
+        $formID = 29; // Example formid
         $formViewTemplate = null;
 
         try{
