@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseService;
+use App\Libraries\FormBuilder2;
 
 /**
  * Services Configuration file.
@@ -29,4 +30,12 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+    public static function formBuilder2($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('formBuilder2');
+        }
+
+        return new FormBuilder2();
+    }
 }
