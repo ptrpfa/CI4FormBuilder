@@ -10,6 +10,14 @@ class SurveyModel extends Model
 
     protected $allowedFields = ['name', 'message'];
 
-}
+    public function getSurvey($id = false)
+    {
+        if ($id === false) {
+            return $this->findAll();
+        }
 
-?>
+        return $this->where(['id' => $id])->first();
+
+    }
+
+}

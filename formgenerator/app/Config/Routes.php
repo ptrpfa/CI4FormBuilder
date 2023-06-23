@@ -35,6 +35,7 @@ $routes->get('/admin', 'AdminController::index');
 $routes->get('/', 'Home::index');
 use App\Controllers\Survey;
 
+$routes->get('/page', 'Survey::retrieve');
 $routes->match(['get', 'post'], 'survey', [Survey::class, 'create']);
 
 
