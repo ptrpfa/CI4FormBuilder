@@ -29,6 +29,8 @@ $routes->set404Override();
 $routes->get('/form', 'FormController::index');
 $routes->get('/new', 'FormController::newForm');
 $routes->get('/admin', 'AdminController::index');
+$routes->get('/newsurvey', 'Survey::new');
+
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
