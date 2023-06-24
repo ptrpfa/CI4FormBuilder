@@ -4,7 +4,7 @@ namespace App\Libraries;
 
 use App\Models\FormTemplateModel;
 
-class FormBuilder2
+class CustomFormLibrary
 {
     private $formTemplateModel;
 
@@ -14,7 +14,7 @@ class FormBuilder2
     }
     
     /*** 
-        Form HTML Tags Creation
+        Form HTML Container Creation
     ***/
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
@@ -40,23 +40,22 @@ class FormBuilder2
         return $newDIV;
     }
 
-    
+    /*** 
+        Form HTML Tags Creation
+    ***/
+
     public function new_label($name='', $value='', $attributes='')
     {
-        $formLabel = "<label for='" . $name . "' " . $attributes . ">" . $value . "</label>";
+        $attributeString = attributes_creator($attributes);
+
+        $formLabel = "<label for='" . $name . "' " . $attributeString . ">" . $value . "</label>";
         return $formLabel;
     }
 
-    public function new_para_helper($name='', $value='', $attributes=''){
-        $attributeString = '';
-    
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $value) {
-                $attributeString .= $key . '="' . $value . '" ';
-            }
-        } else {
-            $attributeString = $attributes;
-        }
+
+    public function new_para_helper($name='', $value='', $attributes='')
+    {
+        $attributeString = attributes_creator($attributes);
         
         // Trim any trailing whitespace
         $attributeString = trim($attributeString);
@@ -68,16 +67,7 @@ class FormBuilder2
 
     public function new_input($name='', $value='', $attributes='')
     {
-
-        $attributeString = '';
-    
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $value) {
-                $attributeString .= $key . '="' . $value . '" ';
-            }
-        } else {
-            $attributeString = $attributes;
-        }
+        $attributeString = attributes_creator($attributes);
         
         // Trim any trailing whitespace
         $attributeString = trim($attributeString);
@@ -88,15 +78,7 @@ class FormBuilder2
 
     public function new_textarea($name='', $value='', $attributes='')
     {
-        $attributeString = '';
-    
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $value) {
-                $attributeString .= $key . '="' . $value . '" ';
-            }
-        } else {
-            $attributeString = $attributes;
-        }
+        $attributeString = attributes_creator($attributes);
         
         // Trim any trailing whitespace
         $attributeString = trim($attributeString);
@@ -107,15 +89,7 @@ class FormBuilder2
 
     public function new_radio($name = '', $value = '', $attributes = '', $checked = false)
     {
-        $attributeString = '';
-
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $val) {
-                $attributeString .= $key . '="' . $val . '" ';
-            }
-        } else {
-            $attributeString = $attributes;
-        }
+        $attributeString = attributes_creator($attributes);
 
         $checkedAttribute = $checked ? 'checked' : '';
 
@@ -129,15 +103,7 @@ class FormBuilder2
 
     public function new_checkbox($name = '', $value = '', $attributes = '', $checked = false)
     {
-        $attributeString = '';
-
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $val) {
-                $attributeString .= $key . '="' . $val . '" ';
-            }
-        } else {
-            $attributeString = $attributes;
-        }
+        $attributeString = attributes_creator($attributes);
 
         $checkedAttribute = $checked ? 'checked' : '';
 
@@ -148,7 +114,26 @@ class FormBuilder2
 
         return $radio;
     }
+
+    /***
+        Form Creation Helper Class
+    ***/
         
+    private function attributes_creator($attributes)
+    {
+        $attributeString = '';
+
+        if (is_array($attributes)) {
+            foreach ($attributes as $key => $val) {
+                $attributeString .= $key . '="' . $val . '" ';
+            }
+        } else {
+            $attributeString = $attributes;
+        }
+
+        return $attributeString;
+    }
+
     /*** 
         Form Template CRUD
     ***/

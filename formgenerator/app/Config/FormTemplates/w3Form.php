@@ -2,7 +2,7 @@
 
 
 // Get an instance of the FormBuilder2 library
-$formBuilder = service('formBuilder2');
+$formBuilder = service('CustomFormLibrary');
 
 $fields = [
     'name' => [

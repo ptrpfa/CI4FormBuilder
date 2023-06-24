@@ -8,7 +8,7 @@ class AdminController extends BaseController
     public function index()
     {
         //Get the library instance
-        $formBuilder = service('formBuilder2');
+        $formBuilder = service('CustomFormLibrary');
         //Get the Form Fields
         $fields = include(APPPATH . 'Config/FormTemplates/w3Form.php');
         $data  = [

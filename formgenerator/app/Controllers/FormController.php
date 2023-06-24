@@ -10,7 +10,7 @@ class FormController extends BaseController
     public function __construct()
     {
         // Instantiate the CustomFormBuilder library
-        $this->formBuilder = service('formBuilder2');
+        $this->formBuilder = service('CustomFormLibrary');
     }
 
     public function index()
