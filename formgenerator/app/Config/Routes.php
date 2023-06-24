@@ -27,7 +27,6 @@ $routes->set404Override();
  * --------------------------------------------------------------------
  */
 $routes->get('/form', 'FormController::index');
-$routes->get('/new', 'FormController::newForm');
 $routes->get('/admin', 'AdminController::index');
 
 // We get a performance increase by specifying the default
