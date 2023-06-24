@@ -126,6 +126,28 @@ class FormBuilder2
 
         return $radio;
     }
+
+    public function new_checkbox($name = '', $value = '', $attributes = '', $checked = false)
+    {
+        $attributeString = '';
+
+        if (is_array($attributes)) {
+            foreach ($attributes as $key => $val) {
+                $attributeString .= $key . '="' . $val . '" ';
+            }
+        } else {
+            $attributeString = $attributes;
+        }
+
+        $checkedAttribute = $checked ? 'checked' : '';
+
+        // Trim any trailing whitespace
+        $attributeString = trim($attributeString);
+
+        $radio = '<input type="checkbox" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
+
+        return $radio;
+    }
         
     /*** 
         Form Template CRUD
