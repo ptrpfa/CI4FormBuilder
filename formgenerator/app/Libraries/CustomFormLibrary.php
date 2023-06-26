@@ -44,6 +44,19 @@ class CustomFormLibrary
         Form HTML Tags Creation
     ***/
 
+    public function form_open($action = '', $attributes = '')
+    {
+        $attributeString = attributes_creator($attributes);
+
+        $form = '<form action="' . $action . '" method="post" ' . $attributeString .  '>';
+        return $form;
+    }
+
+    public function form_close()
+    {
+        return '</form>';
+    }
+
     public function new_label($name='', $value='', $attributes='')
     {
         $attributeString = attributes_creator($attributes);
@@ -52,25 +65,10 @@ class CustomFormLibrary
         return $formLabel;
     }
 
-
-    public function new_para_helper($name='', $value='', $attributes='')
-    {
-        $attributeString = attributes_creator($attributes);
-        
-        // Trim any trailing whitespace
-        $attributeString = trim($attributeString);
-        $form_para = '<p name="' . $name . '" ' . $attributeString . '>' . $value . '</p>';
-        
-        return $form_para;
-
-    }
-
     public function new_input($name='', $value='', $attributes='')
     {
         $attributeString = attributes_creator($attributes);
-        
-        // Trim any trailing whitespace
-        $attributeString = trim($attributeString);
+
         $input = '<input type="text" name="' . $name . '" value="' . $value . '" ' . $attributeString . '>';
         
         return $input;
@@ -79,9 +77,7 @@ class CustomFormLibrary
     public function new_textarea($name='', $value='', $attributes='')
     {
         $attributeString = attributes_creator($attributes);
-        
-        // Trim any trailing whitespace
-        $attributeString = trim($attributeString);
+
         $textarea = '<textarea name="' . $name . '" value="' . $value . '" ' . $attributeString . '></textarea>';
         return $textarea;
 
@@ -92,9 +88,6 @@ class CustomFormLibrary
         $attributeString = attributes_creator($attributes);
 
         $checkedAttribute = $checked ? 'checked' : '';
-
-        // Trim any trailing whitespace
-        $attributeString = trim($attributeString);
 
         $radio = '<input type="radio" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
 
@@ -107,12 +100,16 @@ class CustomFormLibrary
 
         $checkedAttribute = $checked ? 'checked' : '';
 
-        // Trim any trailing whitespace
-        $attributeString = trim($attributeString);
-
         $radio = '<input type="checkbox" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
 
         return $radio;
+    }
+
+    public function new_html_tag($tag='p', $value='', $attributes='')
+    {
+        $attributeString = attributes_creator($attributes);
+        
+        return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
 
     /***
@@ -130,6 +127,9 @@ class CustomFormLibrary
         } else {
             $attributeString = $attributes;
         }
+
+        // Trim any trailing whitespace
+        $attributeString = trim($attributeString);
 
         return $attributeString;
     }
