@@ -11,7 +11,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Admin');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -26,12 +26,14 @@ $routes->set404Override();
  * Route Definitions
  * --------------------------------------------------------------------
  */
-$routes->get('/form', 'FormController::index');
-$routes->get('/admin', 'AdminController::index');
+
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Admin::index');
+$routes->get('/users', 'Users::index');
+
+$routes->get('/form', 'FormController::index');
 use App\Controllers\Survey;
 
 $routes->get('/page', 'Survey::retrieve');
