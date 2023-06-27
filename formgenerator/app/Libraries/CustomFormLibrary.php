@@ -12,7 +12,7 @@ class CustomFormLibrary
     {
         $this->formTemplateModel = new FormTemplateModel();
     }
-    
+
     /*** 
         Form HTML Container Creation
     ***/
@@ -46,7 +46,7 @@ class CustomFormLibrary
 
     public function form_open($action = '', $attributes = '')
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $form = '<form action="' . $action . '" method="post" ' . $attributeString .  '>';
         return $form;
@@ -54,12 +54,15 @@ class CustomFormLibrary
 
     public function form_close()
     {
-        return '</form>';
+        return '<div style="text-align: center; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>';
     }
 
     public function new_label($name='', $value='', $attributes='')
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $formLabel = "<label for='" . $name . "' " . $attributeString . ">" . $value . "</label>";
         return $formLabel;
@@ -67,7 +70,7 @@ class CustomFormLibrary
 
     public function new_input($name='', $value='', $attributes='')
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $input = '<input type="text" name="' . $name . '" value="' . $value . '" ' . $attributeString . '>';
         
@@ -76,7 +79,7 @@ class CustomFormLibrary
 
     public function new_textarea($name='', $value='', $attributes='')
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $textarea = '<textarea name="' . $name . '" value="' . $value . '" ' . $attributeString . '></textarea>';
         return $textarea;
@@ -85,7 +88,7 @@ class CustomFormLibrary
 
     public function new_radio($name = '', $value = '', $attributes = '', $checked = false)
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $checkedAttribute = $checked ? 'checked' : '';
 
@@ -96,7 +99,7 @@ class CustomFormLibrary
 
     public function new_checkbox($name = '', $value = '', $attributes = '', $checked = false)
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
 
         $checkedAttribute = $checked ? 'checked' : '';
 
@@ -105,13 +108,31 @@ class CustomFormLibrary
         return $radio;
     }
 
-    public function new_html_tag($tag='p', $value='', $attributes='')
+    function new_dropdown($name = '', $options = array(), $selected = '', $attributes = '')
     {
-        $attributeString = attributes_creator($attributes);
+        $attributeString = $this->attributes_creator($attributes);
+
+
+        $dropdown = '<select name="' . $name . '" ' . $attributeString . '>';
+        foreach ($options as $value => $display) {
+            $selectedAttr = ($value == $selected) ? 'selected' : '';
+            $dropdown .= '<option value="' . $value . '" ' . $selectedAttr . '>' . $display . '</option>';
+        }
+        $dropdown .= '</select>';
+        $dropdown .= '<i class="fas fa-caret-down" style="position: absolute; top: 50%; right: 2.5%; transform: translateY(-50%);"></i>';
+        
+        // Modify the dropdown or add additional processing here if needed
+
+        return $dropdown;
+    }
+
+    public function new_html($tag='p', $value='', $attributes='')
+    {
+        $attributeString = $this->attributes_creator($attributes);
         
         return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
-
+    
     /***
         Form Creation Helper Class
     ***/
@@ -139,13 +160,25 @@ class CustomFormLibrary
     ***/
     public function newFormTemplate($data)
     {
-
+        $formStructure = '';
+        $fields = $data['Structure'];
+        
+        foreach($fields as $name => $tag){
+            if ($name !== 'head' && $name !== 'tail') {
+                $formStructure .= '<div class="form-floating">';
+                $formStructure .= $tag['group'];
+                $formStructure .= '</div><br>';
+            }else{
+                $formStructure .= $tag['group'];
+            }
+        }
+        
         //Set the new Structure
-        $data['Structure'] = serialize($data['Structure']);
+        $data['Structure'] = serialize($formStructure);
 
         //Send to model to save
         try{
-            $result = $this->formTemplateModel->createForm($data);
+            $result = $this->formTemplateModel->newForm($data);
 
             return $result;
         }catch(\Exception $e){
@@ -170,4 +203,9 @@ class CustomFormLibrary
             throw $e;
         }
     }
+
+    /*** 
+        User Response CRUD
+    ***/
+
 } 

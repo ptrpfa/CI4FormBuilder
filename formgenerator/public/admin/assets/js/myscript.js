@@ -11,4 +11,45 @@ $(document).ready(function() {
         subrows.addClass('hide');
       }
     });
+
+    $('#formSelector').on('change', function() {
+      var formID = $(this).val();
+      var formValue = $(this).find(":selected").text();
+      console.log(formValue);
+      if (formID !== '') {
+        // Make an AJAX request to fetch the form data
+        $.ajax({
+          url: '/users/newUser', 
+          type: 'POST',
+          data: { formID: formID },
+          dataType: 'json',
+          success: function(response) {
+            if (response.status === 'success') {
+              // Update the form container with the fetched form data
+              $('#new-form-title').html(formValue); 
+              $('#formContainer').html(response.form);
+              
+            } else {
+              console.log('Error fetching form data.');
+            }
+          },
+          error: function() {
+            console.log('Error with ajax.');
+          }
+        });
+      } else {
+        // Clear the form container if no form is selected
+        $('#formContainer').empty();
+      }
+    });
+
+    $(document).on('submit', '#formContainer form', function(e) {
+      var formValue = $('#name-control').val(); // Get the username
+    
+      // Add the value to the form data
+      $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
+    
+      // Continue with the default form submission
+      return true;
+    });
   });

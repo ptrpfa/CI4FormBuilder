@@ -5,6 +5,9 @@
 $formBuilder = service('CustomFormLibrary');
 
 $fields = [
+    'head' => [
+        'group' => $formBuilder->form_open('/users/submit')
+    ],
     'name' => [
         //new_div($label, $input, $row, $span, $column, $attributes)
         'group' => $formBuilder->new_div(
@@ -14,7 +17,7 @@ $fields = [
                 //new_input($name='', $value='', $attributes='' OR $attributes=[])
                 $formBuilder->new_input('name', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'), 
             ),
-            1,'md', 9, 'mt-5'
+            1,'md', 9, 'mt-4'
         )        
     ],
     'message' => [
@@ -37,7 +40,7 @@ $fields = [
                 $formBuilder->new_div(
                     [
                         $formBuilder->new_label('sex-help', 'How to sex'),
-                        $formBuilder->new_para_helper('sex-help', 'Key in which sex group you are', 'id="sex-helper"'),
+                        $formBuilder->new_html('p', 'Key in which sex group you are', 'id="sex-helper"'),
                     ],
                     '', 'md', 2
                 ),
@@ -66,7 +69,9 @@ $fields = [
             'row'
         )
     ],
-
+    'tail' => [
+        'group' => $formBuilder->form_close()
+    ],
     
 ];
 

@@ -4,7 +4,7 @@
         $request = service('request');
         ?>
         <li class="nav-item">
-            <a href="/" class="nav-link <?= !$request->uri->getSegment(1) ? 'active' : null; ?>">
+            <a href="/" class="nav-link <?= ($request->uri->getSegment(1) == '' || $request->uri->getSegment(1) == 'template') ? 'active' : null; ?>">
                 <i class="nav-icon fas fa-duotone fa-passport"></i>
                 <p>Templates</p>
             </a>

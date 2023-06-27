@@ -2,12 +2,12 @@
 // table_helper.php
 
 if (!function_exists('generate_table')) {
-    function generate_table($tableTitle, $columnTitles, $data, $type)
+    function generate_table($tableTitle, $columnTitles, $data, $type, $actions)
     {
         $table = '<div class="table-container" style="margin:3%;">';
         $table .= '<div class="d-flex justify-content-between align-items-center">';
         $table .= '<h3>' . $tableTitle . '</h3>';
-        $table .= '<button class="btn btn-danger">New</button>';
+        $table .= '<button onclick="location.href=\''.site_url($actions['New']).'\'" class="btn btn-danger">New</button>';
         $table .= '</div>';
         $table .= '<div class="table-responsive">';
         $table .= '<table class="table table-hover">';
@@ -37,19 +37,27 @@ if (!function_exists('generate_table')) {
             
                 $table .= '<td>' . ($row[$columnTitle] ?? '') . '</td>';
             }
-    
-            $table .= '<td>';
-            $table .= '<div class="btn-group dropleft">';
-            $table .= '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-            $table .= 'Do What Nig';
-            $table .= '</button>';
-            $table .= '<div class="dropdown-menu">';
-            $table .= '<button class="dropdown-item" type="button">New Form</button>';
-            $table .= '<button class="dropdown-item" type="button" style="color:red;">Delete</button>';
-            $table .= '</div>';
-            $table .= '</div>';
-            $table .= '</td>';       
-    
+            
+            if(array_key_exists('Create', $actions) || array_key_exists('DeleteAll', $actions)){
+                $table .= '<td>';
+                $table .= '<div class="btn-group dropleft">';
+                $table .= '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+                $table .= 'Do What Nig';
+                $table .= '</button>';
+                $table .= '<div class="dropdown-menu">';
+                if (array_key_exists('Create', $actions)) {
+                    $table .= '<button onclick="location.href=\''.site_url($actions['Create']).'\'" class="dropdown-item" type="button">New Form</button>';
+                }
+                if (array_key_exists('DeleteAll', $actions)) {
+                    $table .= '<button onclick="location.href=\''.site_url($actions['DeleteAll']).'\'"class="dropdown-item" type="button" style="color:red;">Delete</button>';
+                }
+                $table .= '</div>';
+                $table .= '</div>';
+                $table .= '</td>';       
+            }else{
+                $table .= '<td></td>';
+            }
+
             $table .= '</tr>';
     
             if (isset($row['Subrows']) && is_array($row['Subrows'])) {
@@ -57,12 +65,17 @@ if (!function_exists('generate_table')) {
                 foreach ($row['Subrows'] as $subrow) {
                     $table .= '<tr style="background-color:#f0f0f0;" >';
                     $table .= '<td></td>';
-                    foreach($subrow as $value){
-                        $table .= '<td>' . $value . '</td>';
+                    foreach($subrow as $key=>$value){
+                        if($key != 'actions'){
+                            $table .= '<td>' . $value . '</td>';
+                        }
                     }
+                    $rowAction = $subrow['actions'];
+
                     $table .= '<td>';
-                    $table .= '<button class="btn btn-primary mr-2 edit-button">Edit</button>';
-                    $table .= '<button class="btn btn-danger delete-button">Delete</button>';
+                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Read']).'\'" class="btn btn-info mr-2 edit-button">View</button>';
+                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Update']).'\'" class="btn btn-primary mr-2 edit-button">Edit</button>';
+                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Delete']).'\'" class="btn btn-danger delete-button">Delete</button>';
                     $table .= '</td>';  
                     $table .= '</tr>';
                 }

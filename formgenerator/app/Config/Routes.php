@@ -1,6 +1,7 @@
 <?php
 
 namespace Config;
+use App\Controllers\UsersDashboard;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -11,7 +12,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Admin');
+$routes->setDefaultController('TemplateDashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -30,10 +31,29 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Admin::index');
-$routes->get('/users', 'Users::index');
+/***
+    Template DashBoard 
+***/
+$routes->get('/', 'TemplateDashboard::index');
+$routes->get('/template', 'TemplateDashboard::index');
+$routes->get('/template/newData', 'TemplateDashboard::newTemplate');
 
+/***
+    User DashBoard 
+***/
+$routes->get('/users', 'UsersDashboard::index');
+$routes->match(['get', 'post'], '/users/newUser', 'UsersDashboard::newUser');
+$routes->post('/users/submit', 'UsersDashboard::submitForm');
+$routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);
+$routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);
+$routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);
+$routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);
+
+/***
+    Testing Routes 
+***/
 $routes->get('/form', 'FormController::index');
+$routes->get('/new', 'AdminController::index');
 use App\Controllers\Survey;
 
 $routes->get('/page', 'Survey::retrieve');
