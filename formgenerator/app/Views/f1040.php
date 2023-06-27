@@ -1015,13 +1015,146 @@
                     <label class="input-group-text" for="inputGroupFile02">Upload</label>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="form-floating">
                     <input type="text" class="form-control form-control-sm mb-1" id="Date" placeholder="Date">
                     <label for="Date">Date</label>
                 </div>
             </div>
+            <div class="col-md-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="yourOccupation" placeholder="Your Occupation">
+                    <label for="yourOccupation">Your Occupation</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <div class="form-text">f the IRS sent you an Identity Protection PIN, enter it here</div>
+                    <input type="text" class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder="">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-5">
+                <div class="form-text">Spouse signature. If a joint return, both must sign.</div>
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02">
+                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="Date" placeholder="Date">
+                    <label for="Date">Date</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="spouseOccupation" placeholder="Spouse Occupation">
+                    <label for="spouseOccupation">Spouse Occupation</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <div class="form-text">f the IRS sent you an Identity Protection PIN, enter it here</div>
+                    <input type="text" class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control form-control-sm mb-1" id="phoneNumber" placeholder="Phone Number">
+                        <label for="phoneNumber">Phone Number</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control form-control-sm mb-1" id="email" placeholder="Email Address">
+                        <label for="email">Email Address</label>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr class="mt-3">
+</div>
+<!-- Paid Preparer Use Only -->
+<div class="row d-flex justify-content-center mx-auto w-75 text-start">
+    <div class="col-md-2">
+        <h5>Paid Preparer Use Only
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="prepName" placeholder="Preparer's Name">
+                    <label for="prepName">Preparer's Name</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="prepSign" placeholder="Preparer's Signature">
+                    <label for="prepSign">Preparer's Signature</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="date" placeholder="Date">
+                    <label for="date">Date</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="ptin" placeholder="PTIN">
+                    <label for="ptin">PTIN</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Check if Self-Employed
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="firmName" placeholder="Firm's name">
+                    <label for="firmName">Firm's Name</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="phoneNumber" placeholder="Phone No.">
+                    <label for="phoneNumber">Phone No.</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="firmAddress" placeholder="Firm's Address">
+                    <label for="firmAddress">Firm's Address</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-floating">
+                    <input type="text" class="form-control form-control-sm mb-1" id="firmEIN" placeholder="Firm's EIN">
+                    <label for="firmEIN">Firm's EIN</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-3">
+</div>
+<!-- footer -->
+<div class="row d-flex justify-content-center mx-auto w-75 text-start">
+    <div class="col-md-9">
+        <h6>Go to www.irs.gov/Form1040 for instructions and the latest information.</h6>
+    </div>
+    <div class="col-md-3">
+        <h6>Form 1040 (2022)</h6>
+    </div>
 </div>
