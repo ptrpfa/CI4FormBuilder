@@ -19,7 +19,7 @@ class Survey extends BaseController
     {
         $model = model(SurveyModel::class);
         
-        $data = $model->getSurvey('2');
+        $data = $model->getSurvey('5');
 
         $encrypter = \Config\Services::encrypter();
 
@@ -83,34 +83,46 @@ class Survey extends BaseController
 
         $post = $this->request->getPost(['name', 'message']);
 
+        $_POST = [
+            'name' => $post['name'],
+            'message' => $post['message']
+        ];
+
         // Rules to define regular expression and required fields, in this 'name' only allows alphabetic characters
         $rules = [
             'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
             'message'  => 'required|max_length[5000]|min_length[10]',
         ];
 
-        if (! $this->validate($rules)) {
+        helper('validation_helper');
+
+        $encryptedData = validate($_POST,$rules);
+
+        if ($encryptedData === false){
             return view('templates/header', $data)
-                . view('survey/create')
-                . view('templates/footer');
+            . view('survey/create')
+            . view('templates/footer');
         }
 
-        // Sanitization technique to remove trailing white spaces
-        $post['name'] = trim($post['name']);
-        $post['message'] = trim($post['message']);
+        // if (! $this->validate($rules)) {
+        //     return view('templates/header', $data)
+        //         . view('survey/create')
+        //         . view('templates/footer');
+        // }
 
-        // Encrypt data before storing into database
-        $encrypter = \Config\Services::encrypter();
+        // // Sanitization technique to remove trailing white spaces
+        // $post['name'] = trim($post['name']);
+        // $post['message'] = trim($post['message']);
 
-        $post['name'] = $encrypter->encrypt($post['name']);
-        $post['message'] = $encrypter->encrypt($post['message']);
+        // // Encrypt data before storing into database
+        // $encrypter = \Config\Services::encrypter();
+
+        // $post['name'] = $encrypter->encrypt($post['name']);
+        // $post['message'] = $encrypter->encrypt($post['message']);
 
         $model = model(SurveyModel::class);
 
-        $model->save([
-            'name' => $post['name'],
-            'message'  => $post['message'],
-        ]);
+        $model->save($encryptedData);
 
         return view('templates/header', ['title'=>'Success'])
             . view('survey/success')
