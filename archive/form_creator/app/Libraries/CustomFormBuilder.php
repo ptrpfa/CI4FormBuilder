@@ -1,4 +1,5 @@
 <?php
+/* OLD Form Builder Controller */
 
 namespace App\Libraries;
 
@@ -54,7 +55,7 @@ class CustomFormBuilder
     {
      
         //Call the model to insert
-        $formid = $this->formModel->newForm($formTemplate);
+        $formid = $this->formModel->createForm($formTemplate);
             
         // Return the formid
         return $formid;

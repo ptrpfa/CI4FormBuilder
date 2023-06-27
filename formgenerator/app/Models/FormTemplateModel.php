@@ -4,7 +4,8 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class FormTemplateModel extends Model
-{
+{   
+    // Model fields
     protected $table = 'Form';
     protected $primaryKey = 'FormID';
     protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure'];
@@ -14,10 +15,10 @@ class FormTemplateModel extends Model
     {
         //Get form structure 
         $formRow = $this->find($formID);
-
+        
+        //Check if empty
         if ($formRow) 
-        { 
-            //Check if empty
+        {     
             return unserialize($formRow['Structure']);
         }else{
             throw new \Exception('Form template not found or invalid for FormID: ' . $formID . '.');

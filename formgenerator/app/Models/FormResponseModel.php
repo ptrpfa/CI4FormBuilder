@@ -5,6 +5,7 @@ use CodeIgniter\Model;
 
 class FormResponseModel extends Model
 {
+    // Model fields
     protected $table = 'Response';
     protected $primaryKey = 'ResponseID';
     protected $allowedFields = ['FormID', 'Datetime', 'User', 'Response'];

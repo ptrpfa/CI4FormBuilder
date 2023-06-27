@@ -19,7 +19,8 @@ class FormModel extends Model
         $this->db->table('form_data')->insert($formData);
     }
 
-    public function newForm($formTemplate){
+    // Function to insert new form into database
+    public function createForm($formTemplate){
         
         $this->db->table('forms')->insert($formTemplate);
         // Get the inserted formid
@@ -29,10 +30,3 @@ class FormModel extends Model
         return $formid;
     }
 }
-
-
-
-
-
-
-
