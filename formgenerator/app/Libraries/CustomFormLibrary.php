@@ -105,7 +105,7 @@ class CustomFormLibrary
         return $radio;
     }
 
-    public function new_html_tag($tag='p', $value='', $attributes='')
+    public function new_html($tag='p', $value='', $attributes='')
     {
         $attributeString = attributes_creator($attributes);
         
