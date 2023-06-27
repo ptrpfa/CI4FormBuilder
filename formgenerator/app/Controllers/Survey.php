@@ -3,8 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\SurveyModel;
-use App\Libraries\CustomFormBuilder;
-use App\Libraries\FormBuilder2;
+use App\Libraries\CustomFormLibrary;
 use Exception;
 
 class Survey extends BaseController
@@ -13,23 +12,24 @@ class Survey extends BaseController
 
     public function __construct()
     {
-        $this->formBuilder = new CustomFormBuilder();
-        $this->form_help_me = new FormBuilder2();
+        $this->form_help_me = new CustomFormLibrary();
     }
     
     public function retrieve()
     {
         $model = model(SurveyModel::class);
         
-        $data = $model->getSurvey('9');
+        $data = $model->getSurvey('2');
 
         $encrypter = \Config\Services::encrypter();
 
-        $ciphertext = $data['name'];
+        $ciphertext = $data['message'];
 
-        // $decryptedtext = $encrypter->decrypt($ciphertext);
+        var_dump($ciphertext);
 
-        // var_dump($decryptedtext);
+        $decryptedtext = $encrypter->decrypt($ciphertext);
+
+        var_dump($decryptedtext);
 
         // $encryptionKey = config('Encryption')->key;
 
