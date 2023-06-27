@@ -145,7 +145,7 @@ class CustomFormLibrary
 
         //Send to model to save
         try{
-            $result = $this->formTemplateModel->newForm($data);
+            $result = $this->formTemplateModel->createForm($data);
 
             return $result;
         }catch(\Exception $e){

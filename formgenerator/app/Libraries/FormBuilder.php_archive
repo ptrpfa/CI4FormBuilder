@@ -5,21 +5,26 @@ namespace App\Libraries;
 use App\Models\FormTemplateModel;
 
 class CustomFormBuilder
-{
+{   
+    // Class instance
     private $formTemplateModel;
 
+    // Constructor
     public function __construct()
     {
         $this->formTemplateModel = new FormTemplateModel();
     }
 
+    // Function to render HTML input elements
     private function generateFormInputs($fields){
+        /* Initialsie HTML input components */
+        // Types of input fields
         $fieldTypes = [
             'checkbox' => "<input type='checkbox' class='%s' id='%s' name='%s' value='%s'>",
             'text' => "<input type='text' name='%s' class='%s' placeholder='%s' %s %s>",
             'textarea' => "<textarea name='%s' class='%s' placeholder='%s' %s %s></textarea>"
         ]; 
-
+        // Label field
         $formLabel = "<label for='%s' class='%s'>%s</label>";
         $formInputs = [];
 
@@ -33,6 +38,7 @@ class CustomFormBuilder
             //Default field type is text
             $formElement = isset($fieldTypes[$type]) ? $fieldTypes[$type] : $fieldTypes['text'];
 
+            // Specific input type rendering
             if($type === 'checkbox'){
                 $checkboxes = $field['checkboxes'];
 
@@ -88,10 +94,10 @@ class CustomFormBuilder
 
     }
 
+    // Function to render HTML form
     public function newFormTemplate($data)
     {
-        //Get back the form inputs 
-
+        // Render HTML form inputs
         $formInputs = $this -> generateFormInputs($data['Structure']);
 
         //Create the form template 
@@ -125,7 +131,7 @@ class CustomFormBuilder
 
         //Send to model to save
         try{
-            $result = $this->formTemplateModel->newForm($data);
+            $result = $this->formTemplateModel->createForm($data);
 
             return $result;
         }catch(\Exception $e){
