@@ -36,7 +36,8 @@ $routes->set404Override();
 ***/
 $routes->get('/', 'TemplateDashboard::index');
 $routes->get('/template', 'TemplateDashboard::index');
-$routes->get('/template/newData', 'TemplateDashboard::newTemplate');
+
+// $routes->get('/template/newData', 'TemplateDashboard::newTemplate');
 
 /***
     User DashBoard 

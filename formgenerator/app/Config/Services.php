@@ -30,12 +30,15 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    //  Function to return a shared instance of the custom form library class
     public static function CustomFormLibrary($getShared = true)
     {
         if ($getShared) {
             return static::getSharedInstance('CustomFormLibrary');
         }
-
-        return new CustomFormLibrary();
+        else {
+            return new CustomFormLibrary();
+        }
     }
 }

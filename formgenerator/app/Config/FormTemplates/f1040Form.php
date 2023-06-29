@@ -1,8 +1,7 @@
 <?php
 
-
-// Get an instance of the FormBuilder2 library
-$formBuilder = service('formBuilder2');
+// Get an instance of the CustomFormLibrary library
+$formBuilder = service('CustomFormLibrary');
 
 $fields = 
 [

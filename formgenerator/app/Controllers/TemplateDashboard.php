@@ -12,7 +12,7 @@ class TemplateDashboard extends BaseController
 		***/
 
 		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form Name', 'Version', 'Description', 'Dateitme'];
+		$columnTitles = ['Form Name', 'Version', 'Description', 'Datetime'];
 		/*** 
 			Create the Action Button redirection URL  
 		***/
