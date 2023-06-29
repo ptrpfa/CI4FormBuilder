@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PAY MY TAX</title>
+    <title>Form Management</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -44,8 +44,6 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-               
-            
                 <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
@@ -60,7 +58,7 @@
             <!-- Brand Logo -->
             <a href="/" class="brand-link"  style="text-decoration:none;">
                 <img src="/admin/assets/img/crud_logo.png" alt="CI4 CRUD Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Tax Evasion</span>
+                <span class="brand-text font-weight-light">Form Builder</span>
             </a>
 
             <!-- Sidebar -->
@@ -84,7 +82,15 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <?= view_cell('\App\Libraries\Title::title', ['title' => @$title]) ?>
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class='m-0 text-dark'><?= @$title ?></h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <section class="content">
                 <div class="container-fluid">
                     <?= $this->renderSection('content') ?>
