@@ -4,7 +4,9 @@ use CodeIgniter\Model;
 
 class TableModel extends Model
 {
-    protected $table; // Specify the table property
+    protected $table = 'Response';
+    protected $primaryKey = 'ResponseID';
+    protected $allowedFields = ['Datetime','User','Response','FormID'];
 
     public function getData($table) //Get all data from a table
     {
