@@ -3,21 +3,21 @@
 namespace App\Libraries;
 
 // Imports
-use App\Models\FormTemplateModel;
+use App\Models\FormModel;
 use App\Models\FormResponseModel;
 
 class CustomFormLibrary
 {
 
     // Class variables
-    private $formTemplateModel;
+    private $formModel;
     private $formResponseModel;
 
     // Class constructor
     public function __construct()
     {   
         // Create an instance of both form template and response models
-        $this->formTemplateModel = new FormTemplateModel();
+        $this->formModel = new FormModel();
         $this->formResponseModel = new FormResponseModel();
     }
 
@@ -28,12 +28,19 @@ class CustomFormLibrary
     ***/
     
     // Function to get a specifed form template from the database
-    public function getForm($formID)
-    {
+    public function getForm($formID = null, $structure_only = true)
+    {   
+        /* 
+            Arguments:
+            $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
+            $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
+        */
+
         try {
-            // Retrieve form template from the database based on the formid
-            return $this->formTemplateModel->get_form($formID);
-        }catch(\Exception $e){
+            // Retrieve form template(s) from the database based on the arguments passed 
+            return $this->formModel->get_form($formID, $structure_only);
+        }
+        catch(\Exception $e) {
             // Log the error or display a user-friendly error message
             log_message('error', 'Form retrieval failed: ' . $e->getMessage());
             // Throw exception
@@ -62,7 +69,7 @@ class CustomFormLibrary
 
         //Send to model to save
         try{
-            $result = $this->formTemplateModel->create_form($data);
+            $result = $this->formModel->create_form($data);
 
             return $result;
         }catch(\Exception $e){

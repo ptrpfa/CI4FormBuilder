@@ -11,11 +11,13 @@ $routes = Services::routes();
  * Router Setup
  * --------------------------------------------------------------------
  */
+
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('TemplateDashboard');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
+
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
@@ -35,8 +37,10 @@ $routes->set404Override();
     Template Dashboard 
 ***/
 $routes->get('/', 'TemplateDashboard::index');
-// $routes->get('/template', 'TemplateDashboard::index');
-// $routes->get('/template/newData', 'TemplateDashboard::newTemplate');
+$routes->post('/template/create', 'TemplateDashboard::createForm');           // View to create a new form template
+$routes->post('/template/(:num)', 'TemplateDashboard::readForm');        // View to read a specified form template
+$routes->post('/template/update/(:num)', 'TemplateDashboard::updateForm');    // View to update a specified form template
+$routes->post('/template/delete/(:num)', 'TemplateDashboard::deleteForm');    // View to delete a specified form template
 
 /***
     User Dashboard 

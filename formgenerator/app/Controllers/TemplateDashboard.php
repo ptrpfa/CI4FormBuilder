@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controllers;
+
+// Imports
 use App\Models\TableModel;
 
 class TemplateDashboard extends BaseController
@@ -15,52 +17,46 @@ class TemplateDashboard extends BaseController
         $this->formBuilder = service('CustomFormLibrary');
     }
 	
+	// Index view
 	public function index()
 	{
 
-		// Set table values
-		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form', 'Version', 'Description', 'Datetime'];
-		$actions = [									// Create the Action Button redirection URL  
-			'New' => base_url('template/create_form'),  		// Whole New Form Template
-			'DeleteAll' => base_url('template/delete_form'), 	// Delete all version of this forms
-		];
-
-		$forms = (new TableModel())->getData('Form');
+		// Initialise view's context data
 		$data = [];
 
-		foreach ($forms as $form) {
-			// Access the fields of each row
+		// Get all form data
+		$forms = $this->formBuilder->getForm(null, false);
+
+		// Loop through each form
+		foreach ($forms as $form) 
+		{
+			// Get form fields
 			$formID = $form['FormID'];
 			$name = $form['Name'];
 			$version = $form['Version'];
 			$datetime = $form['Datetime'];
 			$description = $form['Description'];
-			$actions['Create' ] = 'template/createForm/' . $name; //New version of this template
 
-			// Check if the row already exists in $data
-			$subrow = [
-				'Version' => $version,
-				'Description' => $description,
-				'Datetime' => $datetime,
-				'actions' => [
-					'Read' => 'template/readForm/' . $formID , //Read Form 
-					'Update' => 'template/update_form/' . $formID, //Edit Form 
-					'Delete' => 'template/delete_form/'. $formID, //Delete specific form 
-				]
+			// Set subrow actions
+			$subrow_actions = [	
+				'Read' => base_url('template/') . $formID,
+				'Update' => base_url('template/update/') . $formID,
+				'Delete' => base_url('template/delete/'). $formID, 
+			];
+
+			// Set subrow information
+			$subrow = [	
+				'Version' => $version, 
+				'Description' => $description, 
+				'Datetime' => $datetime, 
+				'actions' => $subrow_actions
 			];
 		
-			// Find the row in $data based on the 'id' field
-			foreach ($data as $rowData) {
-				if ($rowData['id'] === $formID) {
-					$rowData['Subrows'][] = $subrow;
-					break;
-				}
-			}
-
+			
+			// Set row information
 			$rowData = [
-				'name' => $name,
 				'id' => $formID,
+				'name' => $name,
 				'Subrows' => [
 					$subrow
 				]
@@ -68,7 +64,26 @@ class TemplateDashboard extends BaseController
 		
 			// Merge the new row with the existing data
 			$data[] = $rowData;
+
+			// Loop through each data entry
+			// Find the row in $data based on the 'id' field
+			foreach ($data as $rowData) {
+				if ($rowData['id'] === $formID) {
+					// Append current subrow to 
+					$rowData['Subrows'][] = $subrow;
+					break;
+				}
+			}
+
 		}
+
+		// Set table values
+		$tableTitle = 'Web Form Templates';
+		$columnTitles = ['Form', 'Version', 'Description', 'Datetime'];
+		$actions = [									
+			'New' => base_url('template/create'),  		// Whole New Form Template
+			// 'DeleteAll' => base_url('template/deleteForm/'), 	// Delete all version of this forms
+		];
 
         // Generate the table
 		$table = $this->formBuilder->generate_table($tableTitle, $columnTitles, $data, $type='admin', $actions);
@@ -78,11 +93,36 @@ class TemplateDashboard extends BaseController
 		return view('admin/dashboard', $data);
 	}
 
-	//--------------------------------------------------------------------
-	public function newData()
-	{
-		$data['title'] = 'Meow Templates';
-		$data['table'] =  '';
-		return view('admin/dashboard', $data);
+	// View to get a particular form template
+	public function readForm($formID) {
+		
+		// Fetch form data
+		$form = $this->formBuilder->getForm($formID, false);
+		
 	}
+
+	// View to create a new form template
+	public function createForm($formID = null) {
+
+		null;
+	}
+
+	// View to update a form template
+	public function updateForm($formID) {
+		null;
+	}
+
+	// View to delete a form template
+	public function deleteForm($formID) {
+		$all = null;
+	}
+
+
+	//--------------------------------------------------------------------
+	// public function newData()
+	// {
+	// 	$data['title'] = 'Meow Templates';
+	// 	$data['table'] =  '';
+	// 	return view('admin/dashboard', $data);
+	// }
 }

@@ -6,15 +6,10 @@ class TableModel extends Model
 {
     protected $table; // Specify the table property
 
-    public function getData($table, $formID= false) //Get all data from a table
+    public function getData($table) //Get all data from a table
     {
         $this->table = $table; // Set the table name
-        
-        if ($formID === false) {
-            return $this->findAll();
-        }
-
-        return $this->where(['FormID' => $formID])->first();
+        return $this->findAll();
     }
 
     public function getResponse() //Get the responses form of each user
