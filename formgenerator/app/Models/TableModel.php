@@ -3,7 +3,8 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class TableModel extends Model
-{
+{   
+    // Temporary
     protected $table = 'Response';
     protected $primaryKey = 'ResponseID';
     protected $allowedFields = ['Datetime','User','Response','FormID'];
