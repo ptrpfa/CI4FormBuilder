@@ -32,15 +32,14 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 /***
-    Template DashBoard 
+    Template Dashboard 
 ***/
 $routes->get('/', 'TemplateDashboard::index');
-$routes->get('/template', 'TemplateDashboard::index');
-
+// $routes->get('/template', 'TemplateDashboard::index');
 // $routes->get('/template/newData', 'TemplateDashboard::newTemplate');
 
 /***
-    User DashBoard 
+    User Dashboard 
 ***/
 $routes->get('/users', 'UsersDashboard::index');
 $routes->match(['get', 'post'], '/users/newUser', 'UsersDashboard::newUser');

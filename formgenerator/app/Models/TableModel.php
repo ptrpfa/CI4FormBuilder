@@ -1,6 +1,5 @@
 <?php
 namespace App\Models;
-use CodeIgniter\Database\BaseBuilder;
 use CodeIgniter\Model;
 
 class TableModel extends Model

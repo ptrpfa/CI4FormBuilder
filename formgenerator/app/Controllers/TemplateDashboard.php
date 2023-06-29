@@ -4,25 +4,29 @@ namespace App\Controllers;
 use App\Models\TableModel;
 
 class TemplateDashboard extends BaseController
-{
+{	
+	// Class variables
+    private $formBuilder;
+
+	// Class constructor
+	public function __construct()
+    {
+        // Instantiate the CustomFormBuilder library
+        $this->formBuilder = service('CustomFormLibrary');
+    }
+	
 	public function index()
 	{
-		/*** 
-			Create the table columns and getting the Data from model
-		***/
 
+		// Set table values
 		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form Name', 'Version', 'Description', 'Datetime'];
-		/*** 
-			Create the Action Button redirection URL  
-		***/
-		$actions = [
-			'New' => 'template/newForm', //Whole New Form Template
-			'DeleteAll' => 'template/DeleteForm', //Delete all version of this form
+		$columnTitles = ['Form', 'Version', 'Description', 'Datetime'];
+		$actions = [									// Create the Action Button redirection URL  
+			'New' => base_url('template/create_form'),  		// Whole New Form Template
+			'DeleteAll' => base_url('template/delete_form'), 	// Delete all version of this forms
 		];
 
-		$tableModel = new TableModel();
-		$forms = $tableModel->getData('Form');
+		$forms = (new TableModel())->getData('Form');
 		$data = [];
 
 		foreach ($forms as $form) {
@@ -41,8 +45,8 @@ class TemplateDashboard extends BaseController
 				'Datetime' => $datetime,
 				'actions' => [
 					'Read' => 'template/readForm/' . $formID , //Read Form 
-					'Update' => 'template/updateForm/' . $formID, //Edit Form 
-					'Delete' => 'template/deleteForm/'. $formID, //Delete specific form 
+					'Update' => 'template/update_form/' . $formID, //Edit Form 
+					'Delete' => 'template/delete_form/'. $formID, //Delete specific form 
 				]
 			];
 		
@@ -66,45 +70,8 @@ class TemplateDashboard extends BaseController
 			$data[] = $rowData;
 		}
 
-		// $data = [
-		// 	[
-		// 		'name' => 'Form 1',
-		// 		'id'=> 1,
-		// 		'Subrows' => [
-		// 			[
-		// 				'Version' => '1.0',
-		// 				'Description' => 'W3-Form Bulk cargo evasion',
-		// 				'Datetime' => '2023-06-26 15:30:00',
-		// 			],
-		// 			[
-		// 				'Version' => '2.0',
-		// 				'Description' => 'W3-Form Bulk cargo invasion',
-		// 				'Datetime' => '2023-06-30 15:30:00',
-		// 			],
-		// 			// Add more subrows for John Doe
-		// 		]
-		// 	],
-		// 	[
-		// 		'name' => 'Form 2',
-		// 		'Subrows' => [
-		// 			[
-		// 				'Version' => '1.0',
-		// 				'Description' => 'My father evade the family',
-		// 				'Datetime' => '2023-06-26 15:30:00',
-		// 			],
-		// 			[
-		// 				'Version' => '3.0',
-		// 				'Description' => 'i save money for father day',
-		// 				'Datetime' => '2023-06-31 15:30:00',
-		// 			],
-		// 			// Add more subrows for Jane Smith
-		// 		]
-		// 	],
-		// 	// Add more users with their subrows
-		// ];
-
         // Generate the table
-		$table = generate_table($tableTitle, $columnTitles, $data, $type='admin', $actions);
+		$table = $this->formBuilder->generate_table($tableTitle, $columnTitles, $data, $type='admin', $actions);
 
         $data['title'] = 'Form Templates';
 		$data['table'] =  $table;

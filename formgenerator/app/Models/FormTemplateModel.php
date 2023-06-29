@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+// Imports
 use CodeIgniter\Model;
 
 class FormTemplateModel extends Model
@@ -10,8 +11,8 @@ class FormTemplateModel extends Model
     protected $primaryKey = 'FormID';
     protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure'];
 
-    //Get the Form Template
-    public function getFormTemplateById($formID)
+    // Function to get a specified form
+    public function get_form($formID)
     {
         //Get form structure 
         $formRow = $this->find($formID);
@@ -21,12 +22,12 @@ class FormTemplateModel extends Model
         {     
             return unserialize($formRow['Structure']);
         }else{
-            throw new \Exception('Form template not found or invalid for FormID: ' . $formID . '.');
+            throw new \Exception('Form template not found or invalid for FormID: ' . $formID . '!');
         }
     }
 
-    //Create a New Form Template
-    public function newForm($data)
+    // Function to create a new form template and insert it into the database
+    public function create_form($data)
     {    
         $this->insert($data);
 
@@ -42,15 +43,15 @@ class FormTemplateModel extends Model
         }
     }
     
-    //Update the Form Template
-    public function updateForm($formID, $data)
+    // Function to update a specified form template
+    public function update_form($formID, $data)
     {
-
+        null;
     }
 
-    //Delete the Form Template
-    public function deleteForm($formID)
+    // Function to delete a specified form template
+    public function delete_form($formID)
     {
-        
+        null;
     }
 }
