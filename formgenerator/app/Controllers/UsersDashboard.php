@@ -146,14 +146,36 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		//when form is submitted will go to here 
-		$post = $this->request->getPost(); 
-		//var_dump($post); //uncomment this to show the data you received, $post['username'] get the username keyed in at the very top of form
-		
-		//Call the library to save, match with Hakeem's Data saving model
-		/* Fill in this portion  */
-
-        $data['title'] = 'Success';
+		$post = $this->request->getPost(['name', 'message']);
+	
+		// Add input validation rules
+		$rules = [
+			'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
+			'message' => 'required|max_length[5000]|min_length[10]',
+		];
+	
+		// Validate the input using the custom validate function
+		$validatedData = validate($post, $rules);
+	
+		if (!$validatedData) {
+			// Validation failed, return error view or perform any other actions
+			return view('admin/users/error');
+		}
+	
+		// Create an instance of the TableModel for Response
+		$responseTableModel = model(TableModel::class);
+		$responseTableModel->setTable('Response'); // Set the table name
+	
+		// Store the validated encrypted data into the database
+		$responseTableModel->save([
+			'Response' => serialize([
+				'name' => $validatedData['name'],
+				'message' => $validatedData['message'],
+			]),
+		]);
+	
+		// Proceed with any additional actions or redirect as needed
+		$data['title'] = 'Form Submission';
 		return view('admin/users/success', $data);
 	}
 
@@ -228,8 +250,26 @@ class UsersDashboard extends BaseController
 
 	public function deleteForm($responseID, $formID)
 	{
-        //Call lib which call model
-		//Check if success or not then return properly
+		echo $responseID;
+
+		// Create an instance of the TableModel for Response
+		$responseTableModel = model(TableModel::class);
+	
+		// Set the table name
+		$responseTableModel->setTable('Response');
+	
+		// Find the data with the provided $responseID 
+		$response = $responseTableModel->find($responseID);
+	
+		if (!$response) {
+			throw new PageNotFoundException('Cannot find the response: ' . $responseID);
+		}
+	
+		// Delete the row of data 
+		$responseTableModel->delete($responseID);
+		
+		// Redirect to success page 
+		$data['title'] = 'Form Deletion';
 		return view('admin/users/success', $data);
 	}
 }
