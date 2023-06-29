@@ -250,25 +250,26 @@ class UsersDashboard extends BaseController
 
 	public function deleteForm($responseID, $formID)
 	{
-		echo $responseID;
-
 		// Create an instance of the TableModel for Response
 		$responseTableModel = model(TableModel::class);
 	
 		// Set the table name
 		$responseTableModel->setTable('Response');
 	
-		// Find the data with the provided $responseID 
-		$response = $responseTableModel->find($responseID);
-	
+		// Find the specific form entry with the provided $responseID and $formID
+		$response = $responseTableModel->where('ResponseID', $responseID)
+										->where('FormID', $formID)
+										->first();
 		if (!$response) {
-			throw new PageNotFoundException('Cannot find the response: ' . $responseID);
+			throw new PageNotFoundException('Cannot find the response: ' . $responseID . ' and form: ' . $formID);
+			$data['title'] = 'Form Deletion';
+			return view('admin/users/error', $data);
 		}
 	
-		// Delete the row of data 
-		$responseTableModel->delete($responseID);
-		
-		// Redirect to success page 
+		// Delete the specific form entry
+		$responseTableModel->delete($response['ResponseID']);
+	
+		// Redirect to success page
 		$data['title'] = 'Form Deletion';
 		return view('admin/users/success', $data);
 	}
