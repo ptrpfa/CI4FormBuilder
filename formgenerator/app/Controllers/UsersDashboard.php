@@ -146,8 +146,13 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		$post = $this->request->getPost(['name', 'message']);
-	
+		$post = $this->request->getPost();
+		$uername = $post['username'];
+		//Remove username from the array
+		//Call library to validate and sanitize the remaining data 
+		//Call Library to serialize() and encrypt and sent to model to save
+		//Sucess
+
 		// Add input validation rules
 		$rules = [
 			'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
@@ -170,12 +175,13 @@ class UsersDashboard extends BaseController
 		$responseTableModel->save([
 			'Response' => serialize([
 				'name' => $validatedData['name'],
-				'message' => $validatedData['message'],
+				'message' => $validatedData['text'],
 			]),
 		]);
 	
 		// Proceed with any additional actions or redirect as needed
 		$data['title'] = 'Form Submission';
+		var_dump($post);
 		return view('admin/users/success', $data);
 	}
 

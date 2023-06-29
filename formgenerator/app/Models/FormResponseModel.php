@@ -8,7 +8,7 @@ class FormResponseModel extends Model
     // Model fields
     protected $table = 'Response';
     protected $primaryKey = 'ResponseID';
-    protected $allowedFields = ['FormID', 'Datetime', 'User', 'Response'];
+    protected $allowedFields = ['FormID', 'User', 'Response'];
 
     //Get the form data
     public function retrieveFormData($formData, $formID, $user)
@@ -17,9 +17,9 @@ class FormResponseModel extends Model
     }
     
     //Inserting form data
-    public function insertFormData($formData, $formID, $user)
+    public function insertFormData($formID, $user, $formData)
     {
-        $this->insert($formData);
+        $this->insert($formID, $user, $formData);
     }
 
     //Update the form data

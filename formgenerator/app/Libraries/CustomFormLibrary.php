@@ -87,6 +87,7 @@ class CustomFormLibrary
     /*** 
         User Response CRUD
     ***/
+    //creatNewForm(){}
 
     // Something here
     // ..
@@ -247,7 +248,7 @@ class CustomFormLibrary
 
         $input = '<input type="text" name="' . $name . '" value="' . $value . '" ' . $attributeString . '>';
         
-        return $input;
+        return $input; 
     }
 
     public function new_textarea($name='', $value='', $attributes='')
