@@ -47,21 +47,16 @@ class CustomFormLibrary
         $formStructure = '';
         $fields = $data['Structure'];
         
-        foreach($fields as $name => $tags){
-            if ($name !== 'head' && $name !== 'tail') {
-              
-                foreach($tags as $tag=>$input){
-                    // $formStructure .= '<div class="form-floating">';
-                    $formStructure .= $input;
-                    // $formStructure .= '</div><br>';
-                }
-              
-            }else{
-                $formStructure .= $tag['group'];
+        //Create the form tags template
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                $formStructure .= createFormHTML($value);
+            } else {
+                $formStructure .= $value;
             }
         }
         
-        //Set the new Structure
+        //Give in the new form
         $data['Structure'] = serialize($formStructure);
 
         //Send to model to save
@@ -75,6 +70,22 @@ class CustomFormLibrary
             
             throw $e;
         }
+    }
+
+    public function test($data){ //For Ryan to buckle boots, dun touch
+        $formStructure = '';
+        $fields = $data['Structure'];
+        
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                $formStructure .= createFormHTML($value);
+            } else {
+                $formStructure .= $value;
+            }
+        }
+        
+        //Set the new Structure
+        return $formStructure; //<-- This shit is the form html
     }
 
     // Function to update a specified form template in the database
@@ -197,27 +208,17 @@ class CustomFormLibrary
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
     {
-        if (is_numeric($row)) {
-            $rowClass = 'row-' . $row;
-        } else {
-            $rowClass = $row;
-        }
-        if ($span) {
-            $columnClass = 'col-' . $span . '-' . $column;
-        } elseif ($column) {
-            $columnClass = 'col-md-' . $column;
-        } else {
-            $columnClass = '';
-        }
+        $rowClass = is_numeric($row) ? 'row-' . $row : $row;
+        $columnClass = ($span ? 'col-' . $span . '-' . $column : ($column ? 'col-md-' . $column : ''));
    
-        $content = implode('', $data);
+        $content = implode('', array_values($data));
         $newDIV =  "<div class='$rowClass $columnClass $attributes'>"
                     . $content
                     . "</div>";
 
         return $newDIV;
     }
-
+    
     /*** 
         Form HTML Tags Creation
     ***/
