@@ -83,4 +83,11 @@ class FormModel extends Model
     {
         null;
     }
+
+    // Function to delete all versions of a specified form template
+    public function delete_all_form($formID)
+    {
+        null;
+    }
+
 }

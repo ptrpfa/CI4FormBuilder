@@ -75,7 +75,7 @@ class UsersDashboard extends BaseController
 		}
 
         // Generate the table
-		$table = $this->formBuilder->generate_table($tableTitle, $columnTitles, $data, $type='user', $actions);
+		$table = create_dashboard_table($tableTitle, $columnTitles, $data, 'user', $actions);
 
         $data['title'] = 'Users';
 		$data['table'] =  $table;

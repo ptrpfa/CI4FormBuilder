@@ -20,7 +20,7 @@ class TemplateDashboard extends BaseController
 		// Initialise view's context data
 		$data = [];
 
-		// Get all form data
+		// Get all form template data
 		$forms = $this->formBuilder->getForm(null, false);
 
 		// Loop through each form
@@ -32,6 +32,7 @@ class TemplateDashboard extends BaseController
 			$version = $form['Version'];
 			$datetime = $form['Datetime'];
 			$description = $form['Description'];
+			$status = $form['Status'] ? 'Active' : 'Inactive';
 
 			// Set subrow actions
 			$subrow_actions = [	
@@ -45,6 +46,7 @@ class TemplateDashboard extends BaseController
 				'Version' => $version, 
 				'Description' => $description, 
 				'Datetime' => $datetime, 
+				'Status' => $status,
 				'actions' => $subrow_actions
 			];
 		
@@ -75,14 +77,14 @@ class TemplateDashboard extends BaseController
 
 		// Set table values
 		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form', 'Version', 'Description', 'Datetime'];
+		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
 		$actions = [									
 			'New' => base_url('template/create'),  		// Whole New Form Template
 			// 'DeleteAll' => base_url('template/deleteForm/'), 	// Delete all version of this forms
 		];
 
         // Generate the table
-		$table = $this->formBuilder->generate_table($tableTitle, $columnTitles, $data, $type='admin', $actions);
+		$table = create_dashboard_table($tableTitle, $columnTitles, $data, 'admin', $actions);
 
         $data['title'] = 'Form Templates';
 		$data['table'] =  $table;
@@ -110,6 +112,11 @@ class TemplateDashboard extends BaseController
 
 	// View to delete a form template
 	public function deleteForm($formID) {
+		null;
+	}
+
+	// View to delete all versions of a specified form template
+	public function deleteAllForm($formID) {
 		$all = null;
 	}
 

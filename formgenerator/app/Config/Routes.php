@@ -37,10 +37,11 @@ $routes->set404Override();
     Template Dashboard 
 ***/
 $routes->get('/', 'TemplateDashboard::index');
-$routes->post('/template/create', 'TemplateDashboard::createForm');           // View to create a new form template
-$routes->post('/template/(:num)', 'TemplateDashboard::readForm');        // View to read a specified form template
-$routes->post('/template/update/(:num)', 'TemplateDashboard::updateForm');    // View to update a specified form template
-$routes->post('/template/delete/(:num)', 'TemplateDashboard::deleteForm');    // View to delete a specified form template
+$routes->post('/template/create', 'TemplateDashboard::createForm');                 // View to create a new form template
+$routes->post('/template/(:num)', 'TemplateDashboard::readForm');                   // View to read a specified form template
+$routes->post('/template/update/(:num)', 'TemplateDashboard::updateForm');          // View to update a specified form template
+$routes->post('/template/delete/(:num)', 'TemplateDashboard::deleteForm');          // View to delete a specified form template
+$routes->post('/template/deleteAll/(:num)', 'TemplateDashboard::deleteAllForm');    // View to delete all versions of a specified form template
 
 /***
     User Dashboard 
