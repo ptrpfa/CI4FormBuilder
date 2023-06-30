@@ -31,7 +31,7 @@ $fields =
                         ),
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_paragraph('Check only one box.'),
+                                $formBuilder->new_html('','Check only one box.'),
                             ],
                             'row'
                         ),
@@ -50,7 +50,7 @@ $fields =
                 ),
                 $formBuilder->new_div(
                     [
-                        $formBuilder->new_paragraph("If you checked the MFS box, enter the name of your spouse. If you checked the HOH or QSS box, enter the child's name if the qualifying person is a child but not your dependent:"),
+                        $formBuilder->new_html("", "If you checked the MFS box, enter the name of your spouse. If you checked the HOH or QSS box, enter the child's name if the qualifying person is a child but not your dependent:"),
                         $formBuilder->new_input('name','','class="form-control form-control-sm w-75" type="text" aria-label="child name"')
                     ],
                     'row w-auto'
@@ -317,7 +317,7 @@ $fields =
                         $formBuilder->new_div(
                             [
                                 $formBuilder->new_html('h6', 'Presidential Election Campaign', '', 'class="card-title"'),
-                                $formBuilder->new_paragraph('Check here if you, or your filing jointly, want $3 to go to this fund. Checking a box below will not change your tax or refund.'),
+                                $formBuilder->new_html('','Check here if you, or your filing jointly, want $3 to go to this fund. Checking a box below will not change your tax or refund.'),
                                 $formBuilder->new_div(
                                     [
                                         $formBuilder->new_div(
@@ -360,7 +360,7 @@ $fields =
                 ),
                 $formBuilder->new_div(
                     [
-                        $formBuilder->new_paragraph('At any time during 2022, did you: (a) receive (as a reward, award, or payment for property or services); or (b) sell, exchange, gift, or otherwise dispose of a digital asset (or a financial interest in a digital asset)? (See instructions.)'),
+                        $formBuilder->new_html('', 'At any time during 2022, did you: (a) receive (as a reward, award, or payment for property or services); or (b) sell, exchange, gift, or otherwise dispose of a digital asset (or a financial interest in a digital asset)? (See instructions.)'),
                     ],
                     'col-md-8'
                 ),
@@ -402,7 +402,7 @@ $fields =
                     [
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_paragraph('Someone can claim:'),
+                                $formBuilder->new_html('','Someone can claim:'),
                             ],
                             'row'
                         ),
@@ -449,7 +449,7 @@ $fields =
                     [
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_paragraph('You:'),
+                                $formBuilder->new_html('', 'You:'),
                             ],
                             'form-text'
                         ),
@@ -474,7 +474,7 @@ $fields =
                     [
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_paragraph('Spouse:'),
+                                $formBuilder->new_html('', 'Spouse:'),
                             ],
                             'form-text'
                         ),
@@ -531,7 +531,7 @@ $fields =
                     [
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_paragraph('(see instructions):'),
+                                $formBuilder->new_html('', '(see instructions):'),
                             ],
                             'form-text row'
                         ),
@@ -1202,7 +1202,7 @@ $fields =
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_checkbox_input('35a', '', 'form-check-input', '35a'),
+                                        $formBuilder->new_checkbox('35a', '', 'form-check-input', '35a'),
                                         $formBuilder->new_label('If Form 8888 is attached, check here', '35a', 'form-check-label'),
                                     ],
                                     1, 'form-check form-check-reverse'
@@ -1226,14 +1226,14 @@ $fields =
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_checkbox_input('flexCheckDefault', '', 'form-check-input', 'flexCheckDefault'),
+                                        $formBuilder->new_checkbox('flexCheckDefault', '', 'form-check-input', 'flexCheckDefault'),
                                         $formBuilder->new_label('Checking', 'flexCheckDefault', 'form-check-label'),
                                     ],
                                     1, 'form-check form-check-inline'
                                 ),
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_checkbox_input('flexCheckDefault', '', 'form-check-input', 'flexCheckDefault'),
+                                        $formBuilder->new_checkbox('flexCheckDefault', '', 'form-check-input', 'flexCheckDefault'),
                                         $formBuilder->new_label('Savings', 'flexCheckDefault', 'form-check-label'),
                                     ],
                                     1, 'form-check form-check-inline'
@@ -1308,19 +1308,21 @@ $fields =
                         $formBuilder->new_div(
                             [
                                 $formBuilder->new_label('Sign Here', ''),
-                                $formBuilder->new_paragraph('Joint return? See instructions. Keep a copy for your records.'),
+                                $formBuilder->new_html('', 'Joint return? See instructions. Keep a copy for your records.'),
                             ],
                             1, 'row'
                         ),
                         $formBuilder->new_div(
-                            $formBuilder->new_paragraph('Under penalties of perjury, I declare that I have examined this return and accompanying schedules and statements, and to the best of my knowledge and belief, they are true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.'),
-                            1, 'form-text'
+                            [
+                            $formBuilder->new_html('', 'Under penalties of perjury, I declare that I have examined this return and accompanying schedules and statements, and to the best of my knowledge and belief, they are true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.'),
+                            ],
+                            1, '', '' , 'form-text'
                         ),
                         $formBuilder->new_div(
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_paragraph('Upload your signature below:'),
+                                        $formBuilder->new_html('', 'Upload your signature below:'),
                                         $formBuilder->new_div(
                                             [
                                                 $formBuilder->new_input('file', '', 'class="form-control" id="inputGroupFile02"'),
@@ -1358,12 +1360,16 @@ $fields =
                                 $formBuilder->new_div(
                                     [
                                         $formBuilder->new_div(
-                                            $formBuilder->new_paragraph('If the IRS sent you an Identity Protection PIN, enter it here'),
-                                            1, 'form-floating'
+                                            [
+                                            $formBuilder->new_html('', 'If the IRS sent you an Identity Protection PIN, enter it here'),
+                                            ],
+                                            1,'','', 'form-floating'
                                         ),
                                         $formBuilder->new_div(
+                                            [
                                             $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder=""'),
-                                            1, 'form-floating'
+                                            ],
+                                            1,'','', 'form-floating'
                                         ),
                                     ],
                                     1, 'col-md-3'
@@ -1375,7 +1381,7 @@ $fields =
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_paragraph('Spouse signature. If a joint return, both must sign.'),
+                                        $formBuilder->new_html('', 'Spouse signature. If a joint return, both must sign.'),
                                         $formBuilder->new_div(
                                             [
                                                 $formBuilder->new_input('file', '', 'class="form-control" id="inputGroupFile02"'),
@@ -1413,12 +1419,16 @@ $fields =
                                 $formBuilder->new_div(
                                     [
                                         $formBuilder->new_div(
-                                            $formBuilder->new_paragraph('If the IRS sent you an Identity Protection PIN, enter it here'),
-                                            1, 'form-floating'
+                                            [
+                                            $formBuilder->new_html('', 'If the IRS sent you an Identity Protection PIN, enter it here'),
+                                            ],
+                                            1,'','', 'form-floating'
                                         ),
                                         $formBuilder->new_div(
+                                            [
                                             $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder=""'),
-                                            1, 'form-floating'
+                                            ],
+                                            1,'','', 'form-floating'
                                         ),
                                     ],
                                     1, 'col-md-3'
@@ -1467,7 +1477,9 @@ $fields =
         'group' => $formBuilder->new_div(
             [
                 $formBuilder->new_div(
-                    $formBuilder->new_heading('Paid Preparer Use Only', 'h5'),
+                    [
+                    $formBuilder->new_html('h5','Paid Preparer Use Only'),
+                    ],
                     1, 'col-md-2'
                 ),
                 $formBuilder->new_div(
@@ -1589,7 +1601,7 @@ $fields =
                     1, 'col-md-10'
                 ),
             ],
-            1, 'row d-flex justify-content-center mx-auto w-75 text-start'
+            1, 'row', '','', 'd-flex justify-content-center mx-auto w-75 text-start'
         ),
     ],
     // footer
@@ -1597,15 +1609,19 @@ $fields =
         'group' => $formBuilder->new_div(
             [
                 $formBuilder->new_div(
-                    $formBuilder->new_heading('Go to www.irs.gov/Form1040 for instructions and the latest information.', 'h6'),
-                    1, 'col-md-9'
+                    [
+                    $formBuilder->new_html('h6','Go to www.irs.gov/Form1040 for instructions and the latest information.'),
+                    ],
+                    1, '','9'
                 ),
                 $formBuilder->new_div(
-                    $formBuilder->new_heading('Form 1040 (2022)', 'h6'),
-                    1, 'col-md-3'
+                    [
+                    $formBuilder->new_html('h6','Form 1040 (2022)'),
+                    ],
+                    1, '', '3'
                 ),
             ],
-            1, 'row d-flex justify-content-center mx-auto w-75 text-start'
+            1, 'row', '','', 'd-flex justify-content-center mx-auto w-75 text-start'
         ),
     ],
 ];

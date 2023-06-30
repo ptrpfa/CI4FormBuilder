@@ -47,11 +47,15 @@ class CustomFormLibrary
         $formStructure = '';
         $fields = $data['Structure'];
         
-        foreach($fields as $name => $tag){
+        foreach($fields as $name => $tags){
             if ($name !== 'head' && $name !== 'tail') {
-                $formStructure .= '<div class="form-floating">';
-                $formStructure .= $tag['group'];
-                $formStructure .= '</div><br>';
+              
+                foreach($tags as $tag=>$input){
+                    // $formStructure .= '<div class="form-floating">';
+                    $formStructure .= $input;
+                    // $formStructure .= '</div><br>';
+                }
+              
             }else{
                 $formStructure .= $tag['group'];
             }
