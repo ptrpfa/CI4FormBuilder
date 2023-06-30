@@ -38,12 +38,12 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 /* Template Dashboard */
-$routes->get('/', [TemplateDashboard::class, 'index']);                                     // Base view
-$routes->get('/template/create', [TemplateDashboard::class, 'createForm']);                 // View to create a new form template
-$routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                   // View to read a specified form template
-$routes->get('/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);          // View to update a specified form template
-$routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);          // View to delete a specified form template
-$routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);    // View to delete all versions of a specified form template
+$routes->get('/', [TemplateDashboard::class, 'index']);                                                         // Base view
+$routes->match(['get', 'post'], '/template/create', [TemplateDashboard::class, 'createForm']);                  // View to create a new form template
+$routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                                       // View to read a specified form template
+$routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);           // View to update a specified form template
+$routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                              // View to delete a specified form template
+$routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                        // View to delete all versions of a specified form template
 
 /* User Dashboard */
 $routes->get('/users', [UsersDashboard::class, 'index']);

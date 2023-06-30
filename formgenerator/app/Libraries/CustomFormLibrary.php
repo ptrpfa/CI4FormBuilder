@@ -63,7 +63,7 @@ class CustomFormLibrary
     }
     
     // Function to create a new form template and insert it into the database
-    public function newFormTemplate($data)
+    public function createForm($data)
     {
         $formStructure = '';
         $fields = $data['Structure'];

@@ -120,8 +120,15 @@ class TemplateDashboard extends BaseController
 
 	// View to create a new form template
 	public function createForm($formID = null) {
-
-		null;
+		// Check request type
+		if($this->request->is('post')) {	 
+			// Get POST data
+			$post = $this->request->getPost(['form_name', 'form_status', 'form_version', 'form_description', 'form_structure']);
+			var_dump($post);
+		}
+		else { // GET request
+			return view('admin/form_template/createForm');
+		}
 	}
 
 	// View to update a form template
