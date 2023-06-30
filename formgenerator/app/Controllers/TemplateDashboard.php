@@ -79,8 +79,8 @@ class TemplateDashboard extends BaseController
 		$tableTitle = 'Web Form Templates';
 		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
 		$actions = [									
-			'New' => base_url('template/create'),  		// Whole New Form Template
-			// 'DeleteAll' => base_url('template/deleteForm/'), 	// Delete all version of this forms
+			'New' => base_url('template/create'),  				// Whole New Form Template
+			'DeleteAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
 		];
 
         // Generate the table
@@ -117,7 +117,10 @@ class TemplateDashboard extends BaseController
 
 	// View to delete all versions of a specified form template
 	public function deleteAllForm($formID) {
-		$all = null;
+		// var_dump($formID);
+		// Delete all versions of the specified form template
+		$this->formBuilder->deleteAllForm($formID);
+		return view('admin/success', ['message' => 'Deleted all versions of form ' . $formID . '!']);
 	}
 
 

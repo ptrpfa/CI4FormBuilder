@@ -11,11 +11,9 @@
             $tableTitle: Table's title
             $columnTitles: Array of column titles
             $data: Array of row data
-            
-
+            $type: Table name, set as each table row's class attribute
+            $actions: Associative array of actions for each row, along with its corresponding URL
         */
-
-        var_dump($data);
 
         // Set table base 
         $table = '<div class="table-container" style="margin:3%;">';
@@ -23,7 +21,7 @@
         $table .= '<h3>' . $tableTitle . '</h3>';
 
         // New form template or response button
-        $table .= '<button onclick="location.href=\''.site_url($actions['New']).'\'" class="btn btn-danger">New</button>';
+        $table .= '<button onclick="location.href=\''. $actions['New'] . '\'" class="btn btn-sm btn-danger">New</button>';
 
         // Close table base tags
         $table .= '</div>';
@@ -62,15 +60,15 @@
             if(array_key_exists('Create', $actions) || array_key_exists('DeleteAll', $actions)){
                 $table .= '<td>';
                 $table .= '<div class="btn-group dropleft">';
-                $table .= '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-                $table .= 'Do What Nig';
+                $table .= '<button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+                $table .= 'Manage';
                 $table .= '</button>';
                 $table .= '<div class="dropdown-menu">';
                 if (array_key_exists('Create', $actions)) {
-                    $table .= '<button onclick="location.href=\''.site_url($actions['Create']).'\'" class="dropdown-item" type="button">New Form</button>';
+                    $table .= '<button onclick="location.href=\''. $actions['Create'] .'\'" class="dropdown-item" type="button">New Form</button>';
                 }
                 if (array_key_exists('DeleteAll', $actions)) {
-                    $table .= '<button onclick="location.href=\''.site_url($actions['DeleteAll']).'\'"class="dropdown-item" type="button" style="color:red;">Delete</button>';
+                    $table .= '<button onclick="location.href=\''. $actions['DeleteAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:red;">Delete</button>';
                 }
                 $table .= '</div>';
                 $table .= '</div>';
@@ -94,9 +92,9 @@
                     $rowAction = $subrow['actions'];
 
                     $table .= '<td>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Read']).'\'" class="btn btn-info mr-2 edit-button">View</button>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Update']).'\'" class="btn btn-primary mr-2 edit-button">Edit</button>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Delete']).'\'" class="btn btn-danger delete-button">Delete</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Read'] .'\'" class="btn btn-sm btn-info mr-2 edit-button">View</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Update'] .'\'" class="btn btn-sm btn-primary mr-2 edit-button">Edit</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Delete'] .'\'" class="btn btn-sm btn-danger delete-button">Delete</button>';
                     $table .= '</td>';  
                     $table .= '</tr>';
                 }
