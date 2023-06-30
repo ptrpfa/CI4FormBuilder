@@ -11,5 +11,13 @@
     <div id="formContainer">
     </div>   
 </div>
-
+<style>
+    .content{
+        margin-left:25%;
+        text-align:center;
+    }
+    #new-form-title{
+        margin-right:22%;
+    }
+</style>
 <?= $this->endSection() ?>

@@ -27,16 +27,15 @@ class CustomFormLibrary
     // Function to get all data from the database
     public function getAllData() 
     {
-        // Build joined query using the form response model as the base
-        $builder = $this->formResponseModel->db->table('Response');
-        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
-        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
-
-        // Form query
-        $query = $builder->get();
-        
         // Return results
-        return $query->getResult();
+        try{
+            return $this->formResponseModel->getAllData();
+        }catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Data retrieval failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
 
     /* Form Template CRUD */

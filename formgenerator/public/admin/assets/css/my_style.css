@@ -1,3 +1,6 @@
 .hide{
     display:none;
 }
+.content-wrapper{
+    background-image: url('../img/marble.jpg');
+}

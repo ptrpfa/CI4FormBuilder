@@ -33,4 +33,25 @@ class FormResponseModel extends Model
     {
 
     }
+
+    //Get All Data
+    public function getAllData()
+    {
+        // Build joined query using the form response model as the base
+        $builder = $this->table('Response');
+        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
+        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
+
+        // Form query
+        $query = $builder->get();
+        
+        // Check for database errors
+        if ($query === false) {
+            $error = $this->db->error();
+            throw new Exception("Database Error: {$error['message']}");
+        }
+
+        // Return results
+        return $query->getResult();
+    }
 }

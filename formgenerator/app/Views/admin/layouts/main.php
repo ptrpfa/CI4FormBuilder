@@ -58,21 +58,22 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class='m-0 text-dark'><?= @$title ?></h1>
-                        </div>
+        <div class="content-header" style="background-color: #f8f9fa; padding: 20px;">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark" style="font-size: 24px; font-weight: bold; color: #333;"> <i class="fas fa-paper-plane" style="color:#888"></i>  <?= @$title ?></h1>
                     </div>
                 </div>
             </div>
-            <section class="content">
-                <div class="container-fluid">
-                    <?= $this->renderSection('content') ?>
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
+        </div>
+    
+        <section class="content">
+            <div class="container-fluid">
+                <?= $this->renderSection('content') ?>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">

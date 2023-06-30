@@ -25,8 +25,13 @@ class UsersDashboard extends BaseController
 		$actions = [
 			'New' => 'users/newUser', //New User & New Form
 		];
-
-		$responses = $this->formBuilder->getAllData();
+		try{
+			$responses = $this->formBuilder->getAllData();
+		}catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		
 		$data = [];
 		
 		foreach ($responses as $response) {
