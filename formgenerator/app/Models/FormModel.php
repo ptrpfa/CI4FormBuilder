@@ -81,7 +81,21 @@ class FormModel extends Model
     // Function to delete a specified form template
     public function delete_form($formID)
     {   
-        null;
+        /* 
+            Arguments:
+            $formID: Form template to be deleted
+        */
+        // Get specified form
+        $form = $this->find($formID);
+        // Check if a valid formID was provided
+        if($form) {     
+            // Update form template's active status
+            $this->update($formID, ['Status' => 0]);
+        }
+        else {
+            // Exception handling
+            throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
+        }
     }
 
     // Function to delete all versions of a specified form template

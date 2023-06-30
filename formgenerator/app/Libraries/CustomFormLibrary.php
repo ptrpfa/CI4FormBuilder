@@ -102,7 +102,20 @@ class CustomFormLibrary
 
     // Function to delete a specified form in the database
     public function deleteForm($formID) {
-        null;
+        /* 
+            Arguments:
+            $formID: Form template to be deleted
+        */
+        try {
+            // Delete the specified form template 
+            $this->formModel->delete_form($formID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
 
     // Function to delete all versions of a specified form template in the database

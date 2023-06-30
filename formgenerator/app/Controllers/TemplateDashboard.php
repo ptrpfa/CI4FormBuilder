@@ -20,8 +20,14 @@ class TemplateDashboard extends BaseController
 		// Initialise view's context data
 		$data = [];
 
-		// Get all form template data
-		$forms = $this->formBuilder->getForm(null, false);
+		try {
+			// Get all form template data
+			$forms = $this->formBuilder->getForm(null, false);
+		}
+		catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
 
 		// Loop through each form
 		foreach ($forms as $form) 
@@ -50,7 +56,6 @@ class TemplateDashboard extends BaseController
 				'actions' => $subrow_actions
 			];
 		
-			
 			// Set row information
 			$rowData = [
 				'id' => $formID,
@@ -86,17 +91,31 @@ class TemplateDashboard extends BaseController
         // Generate the table
 		$table = create_dashboard_table($tableTitle, $columnTitles, $data, 'admin', $actions);
 
+		// Prepare data context
         $data['title'] = 'Form Templates';
 		$data['table'] =  $table;
+
+		// Return view
 		return view('admin/dashboard', $data);
 	}
 
 	// View to get a particular form template
 	public function readForm($formID) {
-		
-		// Fetch form data
-		$form = $this->formBuilder->getForm($formID, false);
-		
+        try {
+			// Fetch form from database
+			$form = $this->formBuilder->getForm($formID, false);
+        }
+		catch(\Exception $e){
+			// Return exception
+            return $e->getMessage();
+        }
+        // Prepare data context
+        $data = [
+            'title' => $form['Name'],
+            'FormView'  => $form['Structure']
+        ];
+		// Return view
+        return view('admin/form_template/previewForm', $data);
 	}
 
 	// View to create a new form template
@@ -110,25 +129,32 @@ class TemplateDashboard extends BaseController
 		null;
 	}
 
-	// View to delete a form template
+	// View to delete a form template (set status to inactive)
 	public function deleteForm($formID) {
-		null;
+		try {
+			// Delete the specified form template
+			$this->formBuilder->deleteForm($formID);
+		}
+		catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		// Return view
+		return view('admin/success', ['message' => 'Deleted form ' . $formID . '!']);
 	}
 
-	// View to delete all versions of a specified form template
+	// View to delete all versions of a specified form template (set status to inactive)
 	public function deleteAllForm($formID) {
-		// var_dump($formID);
-		// Delete all versions of the specified form template
-		$this->formBuilder->deleteAllForm($formID);
+		try {
+			// Delete all versions of the specified form template
+			$this->formBuilder->deleteAllForm($formID);
+		}
+		catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		// Return view
 		return view('admin/success', ['message' => 'Deleted all versions of form ' . $formID . '!']);
 	}
 
-
-	//--------------------------------------------------------------------
-	// public function newData()
-	// {
-	// 	$data['title'] = 'Meow Templates';
-	// 	$data['table'] =  '';
-	// 	return view('admin/dashboard', $data);
-	// }
 }
