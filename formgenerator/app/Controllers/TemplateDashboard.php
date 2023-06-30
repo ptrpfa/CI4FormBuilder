@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-// Imports
-use App\Models\TableModel;
-
 class TemplateDashboard extends BaseController
 {	
 	// Class variables
@@ -20,7 +17,6 @@ class TemplateDashboard extends BaseController
 	// Index view
 	public function index()
 	{
-
 		// Initialise view's context data
 		$data = [];
 
@@ -62,12 +58,12 @@ class TemplateDashboard extends BaseController
 				]
 			];
 		
-			// Merge the new row with the existing data
+			// Append row to data array
 			$data[] = $rowData;
 
 			// Loop through each data entry
-			// Find the row in $data based on the 'id' field
 			foreach ($data as $rowData) {
+				// Find the row in $data based on the 'id' field
 				if ($rowData['id'] === $formID) {
 					// Append current subrow to 
 					$rowData['Subrows'][] = $subrow;

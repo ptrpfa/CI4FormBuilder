@@ -94,5 +94,5 @@ class Autoload extends AutoloadConfig
      * @var string[]
      * @phpstan-var list<string>
      */
-    public $helpers = ['table_helper'];
+    public $helpers = ['validation_helper'];
 }

@@ -11,7 +11,7 @@ class CustomFormLibrary
 
     // Class variables
     private $formModel;
-    private $formResponseModel;
+    public $formResponseModel;      // TO CHANGE TO PRIVATE
 
     // Class constructor
     public function __construct()
@@ -23,9 +23,23 @@ class CustomFormLibrary
 
     /* Class Functions */
 
-    /*** 
-        Form Template CRUD
-    ***/
+    /* General Functions */
+    // Function to get all data from the database
+    public function getAllData() 
+    {
+        // Build joined query using the form response model as the base
+        $builder = $this->formResponseModel->db->table('Response');
+        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
+        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
+
+        // Form query
+        $query = $builder->get();
+        
+        // Return results
+        return $query->getResult();
+    }
+
+    /* Form Template CRUD */
     
     // Function to get a specifed form template from the database
     public function getForm($formID = null, $structure_only = true)
@@ -91,17 +105,13 @@ class CustomFormLibrary
         null;
     }
 
-    /*** 
-        User Response CRUD
-    ***/
+    /* User Response CRUD */
 
     // Something here
     // ..
     // ..
 
-    /*** 
-        Table helper function
-    ***/
+    /* Table helper function */
 
     function generate_table($tableTitle, $columnTitles, $data, $type, $actions)
     {
@@ -193,9 +203,7 @@ class CustomFormLibrary
         return $table;
     }
 
-    /*** 
-        Form HTML Container Creation
-    ***/
+    /* Form HTML Container Creation */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
     {
@@ -220,9 +228,7 @@ class CustomFormLibrary
         return $newDIV;
     }
 
-    /*** 
-        Form HTML Tags Creation
-    ***/
+    /* Form HTML Tags Creation */
 
     public function form_open($action = '', $attributes = '')
     {
@@ -313,9 +319,7 @@ class CustomFormLibrary
         return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
     
-    /***
-        Form Creation Helper Class
-    ***/
+    /* Form Creation Helper Class */
         
     private function attributes_creator($attributes)
     {
