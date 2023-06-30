@@ -12,7 +12,7 @@ class AdminController extends BaseController
         //Get the Form Fields
         $fields = include(APPPATH . 'Config/FormTemplates/f1040Form.php');
         $data  = [
-            'Name' => "f1040",
+            'Name' => "Meow Meow Meow Chart",
             'Structure' => $fields
         ];
 
@@ -30,7 +30,7 @@ class AdminController extends BaseController
 
         //Call the library to insert the form template 
         try{
-            $formID = $formBuilder->newFormTemplate($data);
+            $formID = $formBuilder->createForm($data);
 
             $data = [
                 'title' => 'Successful Insertion',

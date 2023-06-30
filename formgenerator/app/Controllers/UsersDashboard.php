@@ -1,19 +1,17 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\TableModel;
 
 class UsersDashboard extends BaseController
-{
+{	
+	// Class variables
 	private $formBuilder;
-	private $tableModel;
 
+	// Class constructor
 	public function __construct()
 	{
-		//Get the library instance
-		$this->formBuilder = service('CustomFormLibrary');	
-		//Get the Model for the tables
-		$this->tableModel = new TableModel();
+		// Instantiate the CustomFormBuilder library
+        $this->formBuilder = service('CustomFormLibrary');
 	}
 
 	public function index()
@@ -28,8 +26,7 @@ class UsersDashboard extends BaseController
 			'New' => 'users/newUser', //New User & New Form
 		];
 
-		$tableModel = new TableModel();
-		$responses = $tableModel->getResponse();
+		$responses = $this->formBuilder->getAllData();
 		$data = [];
 		
 		foreach ($responses as $response) {
@@ -78,7 +75,7 @@ class UsersDashboard extends BaseController
 		}
 
         // Generate the table
-		$table = $this->formBuilder->generate_table($tableTitle, $columnTitles, $data, $type='user', $actions);
+		$table = create_dashboard_table($tableTitle, $columnTitles, $data, 'user', $actions);
 
         $data['title'] = 'Users';
 		$data['table'] =  $table;
@@ -109,7 +106,8 @@ class UsersDashboard extends BaseController
         }
 		
 		//Get all the data, currently library's model does not support to get all. Can add if you want
-		$formData = $this->tableModel->getData('Form'); 
+		$formData = $this->formBuilder->getForm(null, false);
+
 		$options = [];
 		foreach ($formData as $form) {
 			$options[$form['FormID']] = $form['Name'];
@@ -164,19 +162,18 @@ class UsersDashboard extends BaseController
 	
 		if (!$validatedData) {
 			// Validation failed, return error view or perform any other actions
-			return view('admin/users/error');
+			return view('errors/html/error_404', ['message'=>'Validation error']);
 		}
-	
-		// Create an instance of the TableModel for Response
-		$responseTableModel = model(TableModel::class);
-		$responseTableModel->setTable('Response'); // Set the table name
-	
+		
+		// TO CHANGE TO MODEL FUNCTION
 		// Store the validated encrypted data into the database
-		$responseTableModel->save([
+		$this->formBuilder->formResponseModel->save([
+			'FormID' => 22,
+			'User' => 'my name is jeff',
 			'Response' => serialize([
 				'name' => $validatedData['name'],
-				'message' => $validatedData['text'],
-			]),
+				'message' => $validatedData['message'],
+			])
 		]);
 	
 		// Proceed with any additional actions or redirect as needed
@@ -205,7 +202,7 @@ class UsersDashboard extends BaseController
         }
 
 		//Get all the data, currently library's model does not support to get all. Can add if you want
-		$formData = $this->tableModel->getData('Form'); 
+		$formData = $this->formBuilder->getForm(null, false);
 		$options = [];
 		foreach ($formData as $form) {
 			$options[$form['FormID']] = $form['Name'];
@@ -255,25 +252,19 @@ class UsersDashboard extends BaseController
 	}
 
 	public function deleteForm($responseID, $formID)
-	{
-		// Create an instance of the TableModel for Response
-		$responseTableModel = model(TableModel::class);
-	
-		// Set the table name
-		$responseTableModel->setTable('Response');
-	
+	{	
+		// TO CHANGE TO MODEL FUNCTION
 		// Find the specific form entry with the provided $responseID and $formID
-		$response = $responseTableModel->where('ResponseID', $responseID)
-										->where('FormID', $formID)
-										->first();
+		$response = $this->formBuilder->formResponseModel->where('ResponseID', $responseID)->first();
 		if (!$response) {
 			throw new PageNotFoundException('Cannot find the response: ' . $responseID . ' and form: ' . $formID);
 			$data['title'] = 'Form Deletion';
 			return view('admin/users/error', $data);
 		}
-	
+
+		// TO CHANGE TO MODEL FUNCTION
 		// Delete the specific form entry
-		$responseTableModel->delete($response['ResponseID']);
+		$this->formBuilder->formResponseModel->delete($response['ResponseID']);
 	
 		// Redirect to success page
 		$data['title'] = 'Form Deletion';

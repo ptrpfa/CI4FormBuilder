@@ -3,37 +3,58 @@
 namespace App\Libraries;
 
 // Imports
-use App\Models\FormTemplateModel;
+use App\Models\FormModel;
 use App\Models\FormResponseModel;
 
 class CustomFormLibrary
 {
 
     // Class variables
-    private $formTemplateModel;
-    private $formResponseModel;
+    private $formModel;
+    public $formResponseModel;      // TO CHANGE TO PRIVATE
 
     // Class constructor
     public function __construct()
     {   
         // Create an instance of both form template and response models
-        $this->formTemplateModel = new FormTemplateModel();
+        $this->formModel = new FormModel();
         $this->formResponseModel = new FormResponseModel();
     }
 
     /* Class Functions */
 
-    /*** 
-        Form Template CRUD
-    ***/
+    /* General Functions */
+    // Function to get all data from the database
+    public function getAllData() 
+    {
+        // Build joined query using the form response model as the base
+        $builder = $this->formResponseModel->db->table('Response');
+        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
+        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
+
+        // Form query
+        $query = $builder->get();
+        
+        // Return results
+        return $query->getResult();
+    }
+
+    /* Form Template CRUD */
     
     // Function to get a specifed form template from the database
-    public function getForm($formID)
-    {
+    public function getForm($formID = null, $structure_only = true)
+    {   
+        /* 
+            Arguments:
+            $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
+            $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
+        */
+
         try {
-            // Retrieve form template from the database based on the formid
-            return $this->formTemplateModel->get_form($formID);
-        }catch(\Exception $e){
+            // Retrieve form template(s) from the database based on the arguments passed 
+            return $this->formModel->get_form($formID, $structure_only);
+        }
+        catch(\Exception $e) {
             // Log the error or display a user-friendly error message
             log_message('error', 'Form retrieval failed: ' . $e->getMessage());
             // Throw exception
@@ -42,7 +63,7 @@ class CustomFormLibrary
     }
     
     // Function to create a new form template and insert it into the database
-    public function newFormTemplate($data)
+    public function createForm($data)
     {
         $formStructure = '';
         $fields = $data['Structure'];
@@ -61,7 +82,7 @@ class CustomFormLibrary
 
         //Send to model to save
         try{
-            $result = $this->formTemplateModel->create_form($data);
+            $result = $this->formModel->create_form($data);
 
             return $result;
         }catch(\Exception $e){
@@ -96,115 +117,47 @@ class CustomFormLibrary
 
     // Function to delete a specified form in the database
     public function deleteForm($formID) {
-        null;
+        /* 
+            Arguments:
+            $formID: Form template to be deleted
+        */
+        try {
+            // Delete the specified form template 
+            $this->formModel->delete_form($formID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
 
-    /*** 
-        User Response CRUD
-    ***/
-    //creatNewForm(){}
+    // Function to delete all versions of a specified form template in the database
+    public function deleteAllForm($formID) {
+        /* 
+            Arguments:
+            $formID: Form template to be deleted
+        */
+        try {
+            // Delete all versions of the specified form template 
+            $this->formModel->delete_all_forms($formID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletions failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
+    /* User Response CRUD */
 
     // Something here
     // ..
     // ..
 
-    /*** 
-        Table helper function
-    ***/
-
-    function generate_table($tableTitle, $columnTitles, $data, $type, $actions)
-    {
-        $table = '<div class="table-container" style="margin:3%;">';
-        $table .= '<div class="d-flex justify-content-between align-items-center">';
-        $table .= '<h3>' . $tableTitle . '</h3>';
-        $table .= '<button onclick="location.href=\''.site_url($actions['New']).'\'" class="btn btn-danger">New</button>';
-        $table .= '</div>';
-        $table .= '<div class="table-responsive">';
-        $table .= '<table class="table table-hover">';
-        $table .= '<thead><tr>';
-        foreach ($columnTitles as $columnTitle) {
-            $table .= '<th class="col-2 text-nowrap">' . $columnTitle . '</th>';
-        }
-        $table .= '<th class="col-2 text-nowrap">Action</th>';
-        $table .= '</tr></thead>';
-    
-        $table .= '<tbody>';
-        foreach ($data as $row) {
-            $table .= '<tr>';
-            $table .= '<td>';
-            $table .= '<div class="' . $type . '">';
-            $table .= '<span class="dropdown-toggle mr-2" id="dropdown_' . $row['id'] . '"></span>';
-            $table .= $row['name'];
-            $table .= '</div>';
-            $table .= '</td>';
-    
-            $skipFirstColumn = true;
-            foreach ($columnTitles as $columnTitle) {
-                if ($skipFirstColumn) {
-                    $skipFirstColumn = false;
-                    continue;
-                }
-            
-                $table .= '<td>' . ($row[$columnTitle] ?? '') . '</td>';
-            }
-            
-            if(array_key_exists('Create', $actions) || array_key_exists('DeleteAll', $actions)){
-                $table .= '<td>';
-                $table .= '<div class="btn-group dropleft">';
-                $table .= '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
-                $table .= 'Do What Nig';
-                $table .= '</button>';
-                $table .= '<div class="dropdown-menu">';
-                if (array_key_exists('Create', $actions)) {
-                    $table .= '<button onclick="location.href=\''.site_url($actions['Create']).'\'" class="dropdown-item" type="button">New Form</button>';
-                }
-                if (array_key_exists('DeleteAll', $actions)) {
-                    $table .= '<button onclick="location.href=\''.site_url($actions['DeleteAll']).'\'"class="dropdown-item" type="button" style="color:red;">Delete</button>';
-                }
-                $table .= '</div>';
-                $table .= '</div>';
-                $table .= '</td>';       
-            }else{
-                $table .= '<td></td>';
-            }
-
-            $table .= '</tr>';
-    
-            if (isset($row['Subrows']) && is_array($row['Subrows'])) {
-                $table .= '<tbody class="subrows hide" id="subrows_' . $row['id'] . '" >';
-                foreach ($row['Subrows'] as $subrow) {
-                    $table .= '<tr style="background-color:#f0f0f0;" >';
-                    $table .= '<td></td>';
-                    foreach($subrow as $key=>$value){
-                        if($key != 'actions'){
-                            $table .= '<td>' . $value . '</td>';
-                        }
-                    }
-                    $rowAction = $subrow['actions'];
-
-                    $table .= '<td>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Read']).'\'" class="btn btn-info mr-2 edit-button">View</button>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Update']).'\'" class="btn btn-primary mr-2 edit-button">Edit</button>';
-                    $table .= '<button onclick="location.href=\''.site_url($rowAction['Delete']).'\'" class="btn btn-danger delete-button">Delete</button>';
-                    $table .= '</td>';  
-                    $table .= '</tr>';
-                }
-                $table .= '</tbody>';
-            }
-        }
-        $table .= '</tbody>';
-    
-        $table .= '</table>';
-        $table .= '</div>';
-    
-        $table .= '</div>';
-    
-        return $table;
-    }
-
-    /*** 
-        Form HTML Container Creation
-    ***/
+    /* Form HTML Container Creation */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
     {
@@ -218,10 +171,8 @@ class CustomFormLibrary
 
         return $newDIV;
     }
-    
-    /*** 
-        Form HTML Tags Creation
-    ***/
+
+    /* Form HTML Tags Creation */
 
     public function form_open($action = '', $attributes = '')
     {
@@ -312,9 +263,7 @@ class CustomFormLibrary
         return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
     
-    /***
-        Form Creation Helper Class
-    ***/
+    /* Form Creation Helper Class */
         
     private function attributes_creator($attributes)
     {
