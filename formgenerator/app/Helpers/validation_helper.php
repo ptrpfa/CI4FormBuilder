@@ -21,14 +21,33 @@ function validate($data, $rules, $encrypt=true){
     // Initialise service instances
     $validation = \Config\Services::validation();
     $encrypter = \Config\Services::encrypter();
+
     // Loop through and set each rule
     foreach ($rules as $field => $rule) {
         $validation->setRule($field, ucwords(str_replace('_', ' ', $field)), $rule);
     }
+
     // Check rules against data
-    if (! $validation->run($data)) {
-        return false;
+    if (!$validation->run($data)) {
+        $errors = $validation->getErrors();
+        return [
+            'success' => false,
+            'errors' => $errors
+        ];
     }
+
+    // Sanitize each field in the data array
+    foreach ($data as $key => $value) {
+        // Trim whitespace from the input
+        $sanitizedInput = trim($value);
+        // Remove HTML tags from the input
+        $sanitizedInput = strip_tags($sanitizedInput);
+        // Sanitize special characters
+         $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
+        // Update the data array with the sanitized value
+        $data[$key] = $sanitizedInput;
+    }
+    
     // Check whether to encrypt data or not
     if($encrypt) {
         foreach ($data as $key => $value) {
@@ -37,8 +56,25 @@ function validate($data, $rules, $encrypt=true){
             $data[$key] = $encryptedtext;
         }
     }
+
+
     // Return validated and encrypted data
     return $data;
+}
+
+// Function to sanitize data
+function customSanitize($input)
+{
+    $sanitizedInput = trim($input); // Trim whitespace from the input
+    
+    $sanitizedInput = strip_tags($sanitizedInput); // Remove HTML tags from the input
+        
+    return $sanitizedInput;
+}
+
+// Function to serialize data
+function serializeData($data) {
+    return serialize($data);
 }
 
 // Function to decrypt data

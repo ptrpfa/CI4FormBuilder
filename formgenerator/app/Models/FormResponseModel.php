@@ -34,7 +34,11 @@ class FormResponseModel extends Model
     //Inserting form data
     public function insertFormData($formID, $user, $formData)
     {
-        $this->insert($formID, $user, $formData);
+        $this->insert([
+            'FormID' => $formID,
+            'User' => $user,
+            'Response' => $formData
+        ]);
     }
 
     //Update the form data

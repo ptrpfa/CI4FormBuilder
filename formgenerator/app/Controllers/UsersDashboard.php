@@ -151,38 +151,47 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		// $post = $this->request->getPost();
-		// $uername = $post['username'];
+		helper(['form', 'validation_helper']);
+
 		// //Remove username from the array
 		// //Call library to validate and sanitize the remaining data 
 		// //Call Library to serialize() and encrypt and sent to model to save
 		// //Sucess
 
+		$keys = ['name', 'message', 'username'];
 		// // Add input validation rules
-		// $rules = [
-		// 	'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
-		// 	'message' => 'required|max_length[5000]|min_length[10]',
-		// ];
+		$rules = [
+			'name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+			'message' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+		];
+
+		$post = $this->request->getPost($keys);
+
+		// Retrieve the value of 'username'
+		$username = $post['username'];
+
+		// Remove the 'username' key from the array
+		unset($post['username']);
 	
 		// // Validate the input using the custom validate function
-		// $validatedData = validate($post, $rules);
+		$validatedData = validate($post, $rules, false);
 	
-		// if (!$validatedData) {
-		// 	// Validation failed, return error view or perform any other actions
-		// 	return view('errors/html/error_404', ['message'=>'Validation error']);
-		// }
+		if (!$validatedData) {
+			// Validation failed, return error view or perform any other actions
+			return view('errors/html/error_404', ['message'=>'Validation error']);
+		}
 		
-		// TO CHANGE TO MODEL FUNCTION
 		// Store the validated encrypted data into the database
-		$this->formBuilder->formResponseModel->save([
-			'FormID' => 22,
-			'User' => 'my name is jeff',
-			'Response' => serialize([
-				'name' => 'hello',
-				'message' => 'hello',
-			])
+		$formID = 55;
+		$user = $username;
+		$formData = serialize([
+			'name' => $validatedData['name'],
+			'message' => $validatedData['message'],
 		]);
-	
+
+		// Call custom library to insert form data 
+		$this->formBuilder->submitFormData($formID, $user, $formData);
+
 		// Proceed with any additional actions or redirect as needed
 		$data['title'] = 'Form Submission';
 		return view('admin/users/success', $data);

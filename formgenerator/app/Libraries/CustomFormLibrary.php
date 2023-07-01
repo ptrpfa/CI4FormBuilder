@@ -232,6 +232,25 @@ class CustomFormLibrary
         }
     }
 
+    public function submitFormData($formID, $user, $formData) {
+        /* 
+            Arguments:
+            $formID: Form to be submitted
+            $user: User to be submitted 
+            $formData: User response to be submitted 
+        */
+        try {
+            // Submit the specified form response  
+            $this->formResponseModel->insertFormData($formID, $user, $formData);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form insertion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
     /* Form HTML Container Creation */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
