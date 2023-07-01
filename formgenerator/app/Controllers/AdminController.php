@@ -11,9 +11,11 @@ class AdminController extends BaseController
         $formBuilder = service('CustomFormLibrary');
         //Get the Form Fields
         $fields = include(APPPATH . 'Config/FormTemplates/sample.php');
+
         $data  = [
-            'Name' => "Meow Meow Meow Chart",
-            'Structure' => $fields
+            'Name' => "Use this one",
+            'Structure' => $fields,
+            'Version' => 2
         ];
 
         /*
@@ -43,7 +45,7 @@ class AdminController extends BaseController
 
         }catch(Exception $e){
             // Show the default CodeIgniter error page with the error message
-            throw new Exception('An error occurred while inserting the form data. Please try again.');
+            throw new Exception('An error occurred while inserting the form data. Please try again.' . $e->getMessage());
         }
     }
 }

@@ -1,8 +1,8 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
 <?php foreach ($view as $input): ?>
-        <div class="form-floating">
-            <?= $input['group']; ?>
+        <div class="form-floating  username-group">
+            <?= $input; ?>
         </div><br>
     <?php endforeach; ?>
     
@@ -12,12 +12,16 @@
     </div>   
 </div>
 <style>
+    .username-group{
+        margin-left:22%;
+    }
     .content{
-        margin-left:25%;
         text-align:center;
     }
     #new-form-title{
-        margin-right:20%;
+        margin-right:18%;
+        margin-bottom:5%;
+
     }
 </style>
 <?= $this->endSection() ?>

@@ -120,9 +120,9 @@ class UsersDashboard extends BaseController
 		//Using our library to create a input to create a text input for username 
 		//and a select type html tag
 		$form = [
-			'username' => [
+			'username' => 
 				//new_div($label, $input, $row, $span, $column, $attributes)
-				'group' => $this->formBuilder->new_div(
+				$this->formBuilder->new_div(
 					array(
 						//new_label($name='', $value='', $attributes='')
 						$this->formBuilder->new_label('username', 'User Name'), 
@@ -131,15 +131,15 @@ class UsersDashboard extends BaseController
 					),
 					1,'md', 9, 'mt-2'
 				)        
-			],
-			'dropdown' => [
-				'group' => $this->formBuilder->new_div(
+			,
+			'dropdown' => 
+				 $this->formBuilder->new_div(
 					array(
 						$this->formBuilder->new_dropdown('form-names',  $options, '', 'class="form-control" id="formSelector"')
 					),
 					2,'md', 9
 				)
-			],
+			,
 		];
 
         $data['title'] = 'New User';
@@ -149,26 +149,26 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		$post = $this->request->getPost();
-		$uername = $post['username'];
-		//Remove username from the array
-		//Call library to validate and sanitize the remaining data 
-		//Call Library to serialize() and encrypt and sent to model to save
-		//Sucess
+		// $post = $this->request->getPost();
+		// $uername = $post['username'];
+		// //Remove username from the array
+		// //Call library to validate and sanitize the remaining data 
+		// //Call Library to serialize() and encrypt and sent to model to save
+		// //Sucess
 
-		// Add input validation rules
-		$rules = [
-			'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
-			'message' => 'required|max_length[5000]|min_length[10]',
-		];
+		// // Add input validation rules
+		// $rules = [
+		// 	'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
+		// 	'message' => 'required|max_length[5000]|min_length[10]',
+		// ];
 	
-		// Validate the input using the custom validate function
-		$validatedData = validate($post, $rules);
+		// // Validate the input using the custom validate function
+		// $validatedData = validate($post, $rules);
 	
-		if (!$validatedData) {
-			// Validation failed, return error view or perform any other actions
-			return view('errors/html/error_404', ['message'=>'Validation error']);
-		}
+		// if (!$validatedData) {
+		// 	// Validation failed, return error view or perform any other actions
+		// 	return view('errors/html/error_404', ['message'=>'Validation error']);
+		// }
 		
 		// TO CHANGE TO MODEL FUNCTION
 		// Store the validated encrypted data into the database
@@ -176,14 +176,13 @@ class UsersDashboard extends BaseController
 			'FormID' => 22,
 			'User' => 'my name is jeff',
 			'Response' => serialize([
-				'name' => $validatedData['name'],
-				'message' => $validatedData['message'],
+				'name' => 'hello',
+				'message' => 'hello',
 			])
 		]);
 	
 		// Proceed with any additional actions or redirect as needed
 		$data['title'] = 'Form Submission';
-		var_dump($post);
 		return view('admin/users/success', $data);
 	}
 

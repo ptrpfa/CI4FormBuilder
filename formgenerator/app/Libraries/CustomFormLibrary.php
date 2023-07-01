@@ -77,16 +77,13 @@ class CustomFormLibrary
         */
         // Initialise form structure variables
         $formStructure = '';
-
-        if (isset($data['Structure'])) {
-            $fields = $data['Structure'];
-        }else{
-            $fields = $data;
-        }
+        $fields = $data['Structure'];
 
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
-                $formStructure .= $this->createForm($value);
+                foreach ($value as $key => $newValue) {
+                    $formStructure .= $newValue;
+                }
             } else {
                 $formStructure .= $value;
             }
