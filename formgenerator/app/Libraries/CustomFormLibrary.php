@@ -64,44 +64,43 @@ class CustomFormLibrary
     // Function to create a new form template and insert it into the database
     public function createForm($data)
     {   
-
-
         /* 
             Arguments:
             $data: Associative array of form template column values
             Format:
                 $data  = [
                     'Name' => 'Form template name',
+                    'Status' => 1
                     'Version' => 1.0,
-                    'Datetime' => 01/07/2023 13:00,
                     'Description' => 'Sample format',
-                    'Structure' =>  Serialised HTML form structure
+                    'Structure' =>  HTML form structure
                 ];
         */
+        // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
-        
-        //Create the form tags template
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $formStructure .= createFormHTML($value);
-            } else {
-                $formStructure .= $value;
+        if(!is_string($fields)) {
+            // Create the form tags template
+            foreach ($fields as $key => $value) {
+                if (is_array($value)) {
+                    $formStructure .= $this->createForm($value);
+                } else {
+                    $formStructure .= $value;
+                }
             }
         }
-        
-        //Give in the new form
+        else {
+            $formStructure = $fields;
+        }
+        // Serialise the form structure
         $data['Structure'] = serialize($formStructure);
-
-        //Send to model to save
+        // Send to model to save
         try{
-            $result = $this->formModel->create_form($data);
-
-            return $result;
+            return $this->formModel->create_form($data);
         }catch(\Exception $e){
             // Log the error or display a user-friendly error message
             log_message('error', 'Form insertion failed: ' . $e->getMessage());
-            
+            // Throw exception
             throw $e;
         }
     }
@@ -112,7 +111,7 @@ class CustomFormLibrary
         
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
-                $formStructure .= createFormHTML($value);
+                $formStructure .= $this->createForm($value);
             } else {
                 $formStructure .= $value;
             }

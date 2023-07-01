@@ -58,13 +58,24 @@ class FormModel extends Model
     // Function to create a new form template and insert it into the database
     public function create_form($data)
     {    
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Status' => 1
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' =>  HTML form structure
+                ];
+        */
+        // Create new form template and insert it into the database
         $this->insert($data);
-
         // Check if the insertion was successful
         if ($this->affectedRows() > 0) {
             // Get the inserted form ID
             $formid = $this->insertID();
-
             // Return the form ID
             return $formid;
         } else {

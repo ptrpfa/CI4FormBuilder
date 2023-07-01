@@ -112,7 +112,7 @@ class TemplateDashboard extends BaseController
         // Prepare data context
         $data = [
             'title' => $form['Name'],
-            'FormView'  => $form['Structure']
+            'FormView'  => unserialize($form['Structure'])
         ];
 		// Return view
         return view('admin/form_template/previewForm', $data);
@@ -125,11 +125,12 @@ class TemplateDashboard extends BaseController
 
 		// Initialise associative array keys and rules
 		$keys = ['form_name', 'form_status', 'form_version', 'form_description', 'form_structure'];
+		$db_keys = ['Name', 'Status', 'Version', 'Description', 'Structure'];
 		$rules = [
-			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_]+$/]',
+			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
 			'form_status'  => 'required|max_length[1]|min_length[1]|in_list[0,1]',
 			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
-			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_]+$/]',
+			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !]+$/]',
 			'form_structure'  => 'required|min_length[1]',
 		];
 
@@ -139,16 +140,26 @@ class TemplateDashboard extends BaseController
 			$post = $this->request->getPost($keys);
 
 			// Validate data received
-			$encrypted_data = validate($post, $rules, false);
+			$validated_data = validate($post, $rules, false);
 
 			// Check if data validation failed
-			if(!$encrypted_data) {
+			if(!$validated_data) {
+				// Return validation errors
 				return view('admin/form_template/createForm', $post);
 			}
 			else {
-				var_dump($post);
-				var_dump($encrypted_data);
-				var_dump(decrypt($encrypted_data));
+				// Map validated data keys to their database equivalent
+				$validated_data = array_combine($db_keys, array_values($validated_data));
+				try {
+					// Create form
+					$formID = $this->formBuilder->createForm($validated_data);
+				}
+				catch(\Exception $e) {
+					// Return exception
+					return $e->getMessage();
+				}
+				// Return view
+				return view('admin/success', ['message' => 'Created new form ' . $formID . '!']);
 			}
 
 		}
