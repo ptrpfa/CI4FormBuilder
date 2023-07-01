@@ -45,6 +45,7 @@ class TemplateDashboard extends BaseController
 				'Read' => base_url('template/') . $formID,
 				'Update' => base_url('template/update/') . $formID,
 				'Delete' => base_url('template/delete/'). $formID, 
+				'Activate' => base_url('template/activate/'). $formID 
 			];
 
 			// Set subrow information
@@ -121,8 +122,7 @@ class TemplateDashboard extends BaseController
 	// View to create a new form template
 	public function createForm($formID = null) {
 		// Load helper functions in controller
-		helper(['form', 'validation_helper']);
-
+		helper(['form', 'validation_helper', 'filesystem']);
 		// Initialise associative array keys and rules
 		$keys = ['form_name', 'form_status', 'form_version', 'form_description', 'form_structure'];
 		$db_keys = ['Name', 'Status', 'Version', 'Description', 'Structure'];
@@ -165,7 +165,9 @@ class TemplateDashboard extends BaseController
 		}
 		else { 
 			// GET request
-			return view('admin/form_template/createForm');
+			var_dump(directory_map('../app/Config/FormTemplates', 1));
+
+			// return view('admin/form_template/createForm');
 		}
 	}
 
@@ -186,6 +188,20 @@ class TemplateDashboard extends BaseController
 		}
 		// Return view
 		return view('admin/success', ['message' => 'Deleted form ' . $formID . '!']);
+	}
+
+	// View to activate a form template (set status to active)
+	public function activateForm($formID) {
+		try {
+			// Activate the specified form template
+			$this->formBuilder->activateForm($formID);
+		}
+		catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		// Return view
+		return view('admin/success', ['message' => 'Activated form ' . $formID . '!']);
 	}
 
 	// View to delete all versions of a specified form template (set status to inactive)

@@ -42,6 +42,7 @@ $routes->get('/', [TemplateDashboard::class, 'index']);                         
 $routes->match(['get', 'post'], '/template/create', [TemplateDashboard::class, 'createForm']);                  // View to create a new form template
 $routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                                       // View to read a specified form template
 $routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);           // View to update a specified form template
+$routes->get('/template/activate/(:num)', [TemplateDashboard::class, 'activateForm']);                          // View to activate a specified form template
 $routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                              // View to delete a specified form template
 $routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                        // View to delete all versions of a specified form template
 
