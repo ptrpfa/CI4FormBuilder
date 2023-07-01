@@ -94,11 +94,16 @@ class CustomFormLibrary
 
     public function test($data){ //For Ryan to buckle boots, dun touch
         $formStructure = '';
-        $fields = $data['Structure'];
-        
+
+        if (isset($data['Structure'])) {
+            $fields = $data['Structure'];
+        }else{
+            $fields = $data;
+        }
+
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
-                $formStructure .= createFormHTML($value);
+                $formStructure .= $this->test($value);
             } else {
                 $formStructure .= $value;
             }

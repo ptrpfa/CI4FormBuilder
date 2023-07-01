@@ -44,7 +44,7 @@ class Sample extends BaseController
 
         }catch(Exception $e){
             // Show the default CodeIgniter error page with the error message
-            throw new Exception('An error occurred while inserting the form data. Please try again.');
+            throw new Exception('An error occurred. ' . $e->getMessage());
         }
     }
 }
