@@ -1625,3 +1625,4 @@ $fields =
         ),
     ],
 ];
+return $fields;
