@@ -89,19 +89,19 @@ class FormModel extends Model
         null;
     }
 
-    // Function to delete a specified form template
-    public function delete_form($formID)
+    // Function to update the status of a specified form template
+    public function update_form_status($formID, $new_status = 0)
     {   
         /* 
             Arguments:
-            $formID: Form template to be deleted
+            $formID: Form template to be updated
         */
         // Get specified form
         $form = $this->find($formID);
         // Check if a valid formID was provided
         if($form) {     
             // Update form template's active status
-            $this->update($formID, ['Status' => 0]);
+            $this->update($formID, ['Status' => $new_status]);
         }
         else {
             // Exception handling

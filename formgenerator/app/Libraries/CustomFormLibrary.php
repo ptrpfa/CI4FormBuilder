@@ -11,7 +11,7 @@ class CustomFormLibrary
 
     // Class variables
     private $formModel;
-    public $formResponseModel;      // TO CHANGE TO PRIVATE
+    private $formResponseModel;      
 
     // Class constructor
     public function __construct()
@@ -119,7 +119,7 @@ class CustomFormLibrary
         */
         
         try{
-            // Serialise the form structure
+            // Serialise the form structure (HTML dump)
             $data['Structure'] = serialize($data['Structure']);
             // Create new form template
             return $this->formModel->create_form($data);
@@ -166,11 +166,29 @@ class CustomFormLibrary
         */
         try {
             // Delete the specified form template 
-            $this->formModel->delete_form($formID);
+            $this->formModel->update_form_status($formID);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
             log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
+    // Function to activate a specified form in the database
+    public function activateForm($formID) {
+        /* 
+            Arguments:
+            $formID: Form template to be activated
+        */
+        try {
+            // Activate the specified form template 
+            $this->formModel->update_form_status($formID, 1);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form activation failed: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
@@ -196,9 +214,23 @@ class CustomFormLibrary
 
     /* User Response CRUD */
 
-    // Something here
-    // ..
-    // ..
+    // Function to delete a specified form in the database
+    public function deleteResponseFormData($responseID) {
+        /* 
+            Arguments:
+            $responseID: Form to be deleted
+        */
+        try {
+            // Delete the specified form template 
+            $this->formResponseModel->deleteFormData($responseID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
 
     /* Form HTML Container Creation */
 

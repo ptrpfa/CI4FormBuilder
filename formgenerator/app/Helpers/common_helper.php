@@ -92,9 +92,12 @@
                     $rowAction = $subrow['actions'];
 
                     $table .= '<td>';
-                    $table .= '<button onclick="location.href=\''. $rowAction['Read'] .'\'" class="btn btn-sm btn-info mr-2 edit-button">View</button>';
-                    $table .= '<button onclick="location.href=\''. $rowAction['Update'] .'\'" class="btn btn-sm btn-primary mr-2 edit-button">Edit</button>';
-                    $table .= '<button onclick="location.href=\''. $rowAction['Delete'] .'\'" class="btn btn-sm btn-danger delete-button">Delete</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Read'] .'\'" class="btn btn-sm btn-info mr-2 mt-1 edit-button">View</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Update'] .'\'" class="btn btn-sm btn-primary mr-2 mt-1 edit-button">Edit</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Delete'] .'\'" class="btn btn-sm btn-danger mr-2 mt-1 delete-button">Delete</button>';
+                    if (array_key_exists('Activate', $rowAction)) {
+                        $table .= '<button onclick="location.href=\''. $rowAction['Activate'] .'\'" class="btn btn-sm btn-success mt-1 activate-button">Activate</button>';
+                    }
                     $table .= '</td>';  
                     $table .= '</tr>';
                 }
