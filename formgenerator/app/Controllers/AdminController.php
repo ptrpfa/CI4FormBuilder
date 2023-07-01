@@ -10,7 +10,7 @@ class AdminController extends BaseController
         //Get the library instance
         $formBuilder = service('CustomFormLibrary');
         //Get the Form Fields
-        $fields = include(APPPATH . 'Config/FormTemplates/f1040Form.php');
+        $fields = include(APPPATH . 'Config/FormTemplates/sample.php');
         $data  = [
             'Name' => "Meow Meow Meow Chart",
             'Structure' => $fields
