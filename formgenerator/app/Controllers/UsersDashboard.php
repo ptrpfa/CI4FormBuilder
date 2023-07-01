@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+
 class UsersDashboard extends BaseController
 {	
 	// Class variables
@@ -12,6 +13,7 @@ class UsersDashboard extends BaseController
 	{
 		// Instantiate the CustomFormBuilder library
         $this->formBuilder = service('CustomFormLibrary');
+
 	}
 
 	public function index()
@@ -256,25 +258,19 @@ class UsersDashboard extends BaseController
 		return view('admin/users/EditForm', $data);
 	}
 
-	public function deleteForm($responseID, $formID)
-	{	
-		// TO CHANGE TO MODEL FUNCTION
-		// Find the specific form entry with the provided $responseID and $formID
-		$response = $this->formBuilder->formResponseModel->where('ResponseID', $responseID)->first();
-		if (!$response) {
-			throw new PageNotFoundException('Cannot find the response: ' . $responseID . ' and form: ' . $formID);
-			$data['title'] = 'Form Deletion';
-			return view('admin/users/error', $data);
+	public function deleteForm($responseID) {
+		try {
+			// Delete the specified form response
+			$this->formBuilder->deleteResponseFormData($responseID);
 		}
-
-		// TO CHANGE TO MODEL FUNCTION
-		// Delete the specific form entry
-		$this->formBuilder->formResponseModel->delete($response['ResponseID']);
-	
-		// Redirect to success page
-		$data['title'] = 'Form Deletion';
-		return view('admin/users/success', $data);
+		catch(\Exception $e) {
+			// Return exception message
+			return $e->getMessage();
+		}
+		// Return success view
+		return view('admin/success', ['message' => 'Deleted form response ' . $responseID . '!']);
 	}
+	
 }
 
 

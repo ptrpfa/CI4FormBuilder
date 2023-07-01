@@ -11,7 +11,7 @@ class CustomFormLibrary
 
     // Class variables
     private $formModel;
-    public $formResponseModel;      // TO CHANGE TO PRIVATE
+    private $formResponseModel;      
 
     // Class constructor
     public function __construct()
@@ -217,9 +217,23 @@ class CustomFormLibrary
 
     /* User Response CRUD */
 
-    // Something here
-    // ..
-    // ..
+    // Function to delete a specified form in the database
+    public function deleteResponseFormData($responseID) {
+        /* 
+            Arguments:
+            $responseID: Form to be deleted
+        */
+        try {
+            // Delete the specified form template 
+            $this->formResponseModel->deleteFormData($responseID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
 
     /* Form HTML Container Creation */
 

@@ -44,10 +44,24 @@ class FormResponseModel extends Model
     }
 
     //Delete the form data
-    public function deleteFormData($formData, $formID, $user)
-    {
+	public function deleteFormData($responseID)
+	{	
+		// Find the specific form entry with the provided $responseID and $formID
+		$response = $this->where('ResponseID', $responseID)->first();
 
-    }
+		if (!$response) {
+			throw new PageNotFoundException('Cannot find the response: ' . $responseID );
+			$data['title'] = 'Form Deletion';
+			return view('admin/users/error', $data);
+		}
+
+		// Delete the specific form entry
+		$this->delete($response['ResponseID']);
+	
+		// Redirect to success page
+		$data['title'] = 'Form Deletion';
+		return view('admin/users/success', $data);
+	}
 
     //Get All Data
     public function getAllData()
