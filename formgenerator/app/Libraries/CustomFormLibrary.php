@@ -153,9 +153,72 @@ class CustomFormLibrary
     }
 
     // Function to update a specified form template in the database
-    public function updateForm($formID, $data) 
-    {
-        null;
+    public function updateForm($data)
+    {   
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Status' => 1
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' =>  HTML form structure
+                ];
+        */
+        // Initialise form structure variables
+        $formStructure = '';
+        $fields = $data['Structure'];
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $key => $newValue) {
+                    $formStructure .= $newValue;
+                }
+            } else {
+                $formStructure .= $value;
+            }
+        }
+        // Serialise the form structure
+        $data['Structure'] = serialize($formStructure);
+        // Send to model to update
+        try{
+            $this->formModel->update_form($data['FormID'], $data);
+        }catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form update failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
+    // Function to update a form template with a HTML dump 
+    public function updateFormDump($data)
+    {   
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Status' => 1
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' =>  HTML form structure
+                ];
+        */
+        
+        try{
+            // Serialise the form structure (HTML dump)
+            $data['Structure'] = serialize($data['Structure']);
+            // Update form template
+            $this->formModel->update_form($data['FormID'], $data);
+        }catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form update failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
 
     // Function to delete a specified form in the database

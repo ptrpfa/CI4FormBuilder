@@ -86,7 +86,22 @@ class FormModel extends Model
     // Function to update a specified form template
     public function update_form($formID, $data)
     {
-        null;
+        /* 
+            Arguments:
+            $formID: Form template to be updated
+            $data: Associative array of data to update
+        */
+        // Get specified form
+        $form = $this->find($formID);
+        // Check if a valid formID was provided
+        if($form) {     
+            // Update form template's active status
+            $this->update($formID, $data);
+        }
+        else {
+            // Exception handling
+            throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
+        }
     }
 
     // Function to update the status of a specified form template

@@ -2,26 +2,27 @@
 <?= $this->section('content') ?>
 <?= session()->getFlashdata('error') ?>
 <?= validation_list_errors() ?>
-<form class="row g-3 m-3" action="<?=base_url('/template/create')?>" method="post">
+<form class="row g-3 m-3" action="<?=base_url('/template/update/') . $FormID?>" method="post">
     <?= csrf_field() ?>
     <div class="col-12">
         <label for="form_name" class="form-label">Form Name</label>
-        <input class="form-control" type="text" name="form_name">
+        <input class="form-control" type="text" name="form_name" value="<?= $Name ?>">
+        <input class="form-control" type="hidden" name="form_id" value="<?= $FormID ?>">
     </div>
     <div class="col-md-6">
         <label for="form_status" class="form-label">Status</label>
         <select class="form-select" name="form_status">
-            <option value="1" selected>Active</option>
-            <option value="0">Inactive</option>
+            <option value="1" <?php if($Status) echo "selected" ?>>Active</option>
+            <option value="0" <?php if(!$Status) echo "selected" ?>>Inactive</option>
         </select>
     </div>
     <div class="col-md-6">
         <label for="form_version" class="form-label">Version</label>
-        <input class="form-control" type="number" step="0.01" min="0" name="form_version">
+        <input class="form-control" type="number" step="0.01" min="0" name="form_version"  value="<?= $Version ?>">
     </div>
     <div class="col-12">
         <label for="form_description" class="form-label">Description</label>
-        <input class="form-control" type="text" name="form_description">
+        <input class="form-control" type="text" name="form_description"  value="<?= $Description ?>">
     </div>
     <div class="col-12">
         <label for="form_template" class="form-label">Structure (from predefined template)</label>
@@ -34,10 +35,10 @@
     </div>
     <div class="col-12">
         <label for="form_structure" class="form-label">Structure (HTML dump)</label>
-        <textarea  class="form-control" name="form_structure" cols="45" rows="10"></textarea>
+        <textarea  class="form-control" name="form_structure" cols="45" rows="10"><?= htmlspecialchars(unserialize($Structure)) ?></textarea>
     </div>
     <div class="col-12">
-        <input type="submit" name="submit" value="Create Form" class="btn btn-primary">
+        <input type="submit" name="submit" value="Update Form" class="btn btn-warning">
     </div>
 </form>
 
