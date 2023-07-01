@@ -27,16 +27,16 @@ class CustomFormLibrary
     // Function to get all data from the database
     public function getAllData() 
     {
-        // Build joined query using the form response model as the base
-        $builder = $this->formResponseModel->db->table('Response');
-        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
-        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
-
-        // Form query
-        $query = $builder->get();
-        
-        // Return results
-        return $query->getResult();
+        try {
+            // Get all form response and template data from the database
+            return $this->formResponseModel->get_all_data();
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Data retrieval failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
 
     /* Form Template CRUD */
@@ -49,7 +49,6 @@ class CustomFormLibrary
             $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
             $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
         */
-
         try {
             // Retrieve form template(s) from the database based on the arguments passed 
             return $this->formModel->get_form($formID, $structure_only);
@@ -64,7 +63,21 @@ class CustomFormLibrary
     
     // Function to create a new form template and insert it into the database
     public function createForm($data)
-    {
+    {   
+
+
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Version' => 1.0,
+                    'Datetime' => 01/07/2023 13:00,
+                    'Description' => 'Sample format',
+                    'Structure' =>  Serialised HTML form structure
+                ];
+        */
         $formStructure = '';
         $fields = $data['Structure'];
         

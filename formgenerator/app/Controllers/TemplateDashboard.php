@@ -120,13 +120,40 @@ class TemplateDashboard extends BaseController
 
 	// View to create a new form template
 	public function createForm($formID = null) {
+		// Load helper functions in controller
+		helper(['form', 'validation_helper']);
+
+		// Initialise associative array keys and rules
+		$keys = ['form_name', 'form_status', 'form_version', 'form_description', 'form_structure'];
+		$rules = [
+			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_]+$/]',
+			'form_status'  => 'required|max_length[1]|min_length[1]|in_list[0,1]',
+			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
+			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_]+$/]',
+			'form_structure'  => 'required|min_length[1]',
+		];
+
 		// Check request type
 		if($this->request->is('post')) {	 
 			// Get POST data
-			$post = $this->request->getPost(['form_name', 'form_status', 'form_version', 'form_description', 'form_structure']);
-			var_dump($post);
+			$post = $this->request->getPost($keys);
+
+			// Validate data received
+			$encrypted_data = validate($post, $rules, false);
+
+			// Check if data validation failed
+			if(!$encrypted_data) {
+				return view('admin/form_template/createForm', $post);
+			}
+			else {
+				var_dump($post);
+				var_dump($encrypted_data);
+				var_dump(decrypt($encrypted_data));
+			}
+
 		}
-		else { // GET request
+		else { 
+			// GET request
 			return view('admin/form_template/createForm');
 		}
 	}

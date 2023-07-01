@@ -8,7 +8,7 @@ use Exception;
 
 class Survey extends BaseController
 {
-    private $formBuilder;
+    private $form_help_me;
 
     public function __construct()
     {
@@ -73,7 +73,7 @@ class Survey extends BaseController
             'fields' => $fields
         ];
 
-        helper('form');
+        helper(['form', 'validation_helper']);
 
         if (! $this->request->is('post')) {
             return view('templates/header', $data)
@@ -93,8 +93,6 @@ class Survey extends BaseController
             'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
             'message'  => 'required|max_length[5000]|min_length[10]',
         ];
-
-        helper('validation_helper');
 
         $encryptedData = validate($_POST,$rules);
 
