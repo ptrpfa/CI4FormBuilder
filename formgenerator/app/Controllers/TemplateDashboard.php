@@ -165,7 +165,7 @@ class TemplateDashboard extends BaseController
 				// Map validated data keys to their database equivalent
 				$validated_data = array_combine($db_keys, array_values($validated_data));
 				try {
-					// Check type of form structure
+					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
 						// Load form structure
 						$validated_data['Structure'] = include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
@@ -193,7 +193,84 @@ class TemplateDashboard extends BaseController
 
 	// View to update a form template
 	public function updateForm($formID) {
-		null;
+		try {
+			// Fetch form from database
+			$form = $this->formBuilder->getForm($formID, false);
+        }
+		catch(\Exception $e){
+			// Return exception
+            return $e->getMessage();
+        }
+		// Load helper functions in controller
+		helper(['form', 'validation_helper', 'filesystem']);
+		// Initialise associative array keys and rules
+		$keys = ['form_id', 'form_name', 'form_status', 'form_version', 'form_description', 'form_structure', 'form_template'];
+		$db_keys = ['FormID', 'Name', 'Status', 'Version', 'Description', 'Structure'];
+		$rules = [
+			'form_id'  => 'required|max_length[100]|min_length[1]|regex_match[/^[0-9]+$/]',
+			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+			'form_status'  => 'required|max_length[1]|min_length[1]|in_list[0,1]',
+			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
+			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !]+$/]'
+		];
+		// Boolean flag to determine if a predefined form template is used
+		$use_template = false;
+		// Get form template files
+		$form['form_templates'] = directory_map('../app/Config/FormTemplates', 1);
+		// Check request type
+		if($this->request->is('post')) {	 
+			// Get POST data
+			$post = $this->request->getPost($keys);
+			// Check type of form structure provided
+			if($post['form_template'] == null) {
+				// Remove form_template key-value pair
+				unset($post['form_template']);
+				$post['form_structure'] = htmlspecialchars_decode($post['form_structure']);
+			}
+			else {
+				// Remove form_structure key-value pair
+				unset($post['form_structure']);
+				$use_template = true;
+			}
+
+			// Validate data received
+			$validated_data = validate($post, $rules, false);
+
+			// Check if data validation failed
+			if(!$validated_data) {
+				// Combine form and post arrays
+				$form = array_merge($form, $post);
+				// Return validation errors
+				return view('admin/form_template/updateForm', $form);
+			}
+			else {
+				// Map validated data keys to their database equivalent
+				$validated_data = array_combine($db_keys, array_values($validated_data));
+				try {
+					// Check type of form structure used (HTML dump or predefined file template)
+					if($use_template) {
+						// Load form structure
+						$validated_data['Structure'] = include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+						// Update form
+						$this->formBuilder->updateForm($validated_data);
+					}
+					else {
+						// Update form from HTML dump provided
+						$this->formBuilder->updateFormDump($validated_data);
+					}
+				}
+				catch(\Exception $e) {
+					// Return exception
+					return $e->getMessage();
+				}
+				// Return view
+				return view('admin/success', ['message' => 'Updated form ' . $formID . '!']);
+			}
+		}
+		else { 
+			// GET request
+			return view('admin/form_template/updateForm', $form);
+		}
 	}
 
 	// View to delete a form template (set status to inactive)
