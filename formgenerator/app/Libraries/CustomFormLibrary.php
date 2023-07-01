@@ -77,20 +77,21 @@ class CustomFormLibrary
         */
         // Initialise form structure variables
         $formStructure = '';
-        $fields = $data['Structure'];
-        if(!is_string($fields)) {
-            // Create the form tags template
-            foreach ($fields as $key => $value) {
-                if (is_array($value)) {
-                    $formStructure .= $this->createForm($value);
-                } else {
-                    $formStructure .= $value;
-                }
+
+        if (isset($data['Structure'])) {
+            $fields = $data['Structure'];
+        }else{
+            $fields = $data;
+        }
+
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                $formStructure .= $this->createForm($value);
+            } else {
+                $formStructure .= $value;
             }
         }
-        else {
-            $formStructure = $fields;
-        }
+
         // Serialise the form structure
         $data['Structure'] = serialize($formStructure);
         // Send to model to save
@@ -115,7 +116,7 @@ class CustomFormLibrary
 
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
-                $formStructure .= createFormHTML($value);
+                $formStructure .= $this->test($value);
             } else {
                 $formStructure .= $value;
             }
