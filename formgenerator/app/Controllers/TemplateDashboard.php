@@ -152,7 +152,7 @@ class TemplateDashboard extends BaseController
 				$validated_data = array_combine($db_keys, array_values($validated_data));
 				try {
 					// Create form
-					$formID = $this->formBuilder->createForm($validated_data);
+					$formID = $this->formBuilder->createFormDump($validated_data);
 				}
 				catch(\Exception $e) {
 					// Return exception

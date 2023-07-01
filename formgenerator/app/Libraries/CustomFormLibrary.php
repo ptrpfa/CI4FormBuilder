@@ -105,6 +105,35 @@ class CustomFormLibrary
         }
     }
 
+    // Function to create a new form template from a HTML dump and insert it into the database
+    public function createFormDump($data)
+    {   
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Status' => 1
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' =>  HTML form structure
+                ];
+        */
+        
+        try{
+            // Serialise the form structure
+            $data['Structure'] = serialize($data['Structure']);
+            // Create new form template
+            return $this->formModel->create_form($data);
+        }catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form insertion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
     public function test($data){ //For Ryan to buckle boots, dun touch
         $formStructure = '';
 
