@@ -15,25 +15,41 @@
 // You can create a new key with \CodeIgniter\Encryption\Encryption::createKey();
 // Use hex2bin: and bin2hex: to switch switch between readable and non readable keys
 // For use case, check out Survey.php create() function
-function validate($data, $rules){
 
+// Function to validate and encrypt data
+function validate($data, $rules, $encrypt=true){
+    // Initialise service instances
     $validation = \Config\Services::validation();
     $encrypter = \Config\Services::encrypter();
-
+    // Loop through and set each rule
     foreach ($rules as $field => $rule) {
         $validation->setRule($field, ucwords(str_replace('_', ' ', $field)), $rule);
     }
-
+    // Check rules against data
     if (! $validation->run($data)) {
         return false;
     }
-
-    foreach ($data as $key => $value) {
-        $ciphertext = trim($value);
-        $encryptedtext = $encrypter->encrypt($ciphertext);
-        $data[$key] = $encryptedtext;
+    // Check whether to encrypt data or not
+    if($encrypt) {
+        foreach ($data as $key => $value) {
+            $ciphertext = trim($value);
+            $encryptedtext = $encrypter->encrypt($ciphertext);
+            $data[$key] = $encryptedtext;
+        }
     }
-
+    // Return validated and encrypted data
     return $data;
+}
 
+// Function to decrypt data
+function decrypt($data) {
+    // Initialise service instance
+    $encrypter = \Config\Services::encrypter();
+    // Loop through each data to decrypt it
+    foreach($data as $key => $value) {
+        $decryptedtext = $encrypter->decrypt($value);
+        $data[$key] = $decryptedtext;
+    }
+    // Return decrypted data
+    return $data;
 }

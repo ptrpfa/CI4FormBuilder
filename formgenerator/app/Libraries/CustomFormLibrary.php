@@ -48,7 +48,6 @@ class CustomFormLibrary
             $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
             $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
         */
-
         try {
             // Retrieve form template(s) from the database based on the arguments passed 
             return $this->formModel->get_form($formID, $structure_only);
@@ -63,31 +62,44 @@ class CustomFormLibrary
     
     // Function to create a new form template and insert it into the database
     public function createForm($data)
-    {
+    {   
+        /* 
+            Arguments:
+            $data: Associative array of form template column values
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Status' => 1
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' =>  HTML form structure
+                ];
+        */
+        // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
-        
-        //Create the form tags template
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $formStructure .= createFormHTML($value);
-            } else {
-                $formStructure .= $value;
+        if(!is_string($fields)) {
+            // Create the form tags template
+            foreach ($fields as $key => $value) {
+                if (is_array($value)) {
+                    $formStructure .= $this->createForm($value);
+                } else {
+                    $formStructure .= $value;
+                }
             }
         }
-        
-        //Give in the new form
+        else {
+            $formStructure = $fields;
+        }
+        // Serialise the form structure
         $data['Structure'] = serialize($formStructure);
-
-        //Send to model to save
+        // Send to model to save
         try{
-            $result = $this->formModel->create_form($data);
-
-            return $result;
+            return $this->formModel->create_form($data);
         }catch(\Exception $e){
             // Log the error or display a user-friendly error message
             log_message('error', 'Form insertion failed: ' . $e->getMessage());
-            
+            // Throw exception
             throw $e;
         }
     }
@@ -103,7 +115,7 @@ class CustomFormLibrary
 
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
-                $formStructure .= $this->test($value);
+                $formStructure .= createFormHTML($value);
             } else {
                 $formStructure .= $value;
             }
