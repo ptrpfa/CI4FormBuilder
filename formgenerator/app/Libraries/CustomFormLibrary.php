@@ -5,6 +5,7 @@ namespace App\Libraries;
 // Imports
 use App\Models\FormModel;
 use App\Models\FormResponseModel;
+use mikehaertl\wkhtmlto\Pdf;
 
 class CustomFormLibrary
 {
@@ -440,4 +441,32 @@ class CustomFormLibrary
         return $attributeString;
     }
 
+    public function export_to_pdf($formData){
+        $pdf = new Pdf();
+        $html = '<!DOCTYPE html>
+		<html>
+		  <head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+		  </head>
+		  <body>
+			<div class="container">
+                ' . $formData . '
+			</div>
+		  </body>
+		</html>';
+        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+		// $globaloptions = array(
+		// 	'title' => 'Meow',
+		// );
+		// $pdf->setOptions($globaloptions);
+        $pdf->addPage($html);
+		
+        $pdfContent = base64_encode($pdf->toString());
+        
+        $pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . $pdfContent . '" width="100%" height="600px"></iframe>';
+
+        return $pdfIframe;
+    }
 } 

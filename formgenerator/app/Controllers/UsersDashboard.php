@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-
+use mikehaertl\wkhtmlto\Pdf;
 
 class UsersDashboard extends BaseController
 {	
@@ -255,7 +255,36 @@ class UsersDashboard extends BaseController
 	public function readForm($responseID, $formID)
 	{
         $data['title'] = 'View Form';
-		//Fetch data and form send to view 
+		//Fetch data and form send to view
+		//form tag goes below
+		$formData = '			  
+		<div class="row d-flex justify-content-center mx-auto w-75 text-start">
+		<div class="col col-md-4">
+		  <div class="form-floating">
+			<input type="text" class="form-control form-control-sm" id="floatingInput1" placeholder="hello" value="meow">
+			<label for="floatingInput1">Your First name and Middle initial</label>
+		  </div>
+		</div>
+		<div class="col col-md-4">
+		  <div class="form-floating">
+			<input type="text" class="form-control form-control-sm" id="floatingInput2">
+			<label for="floatingInput2">Last Name</label>
+		  </div>
+		</div>
+		<div class="col col-md-4">
+		  <div class="form-floating">
+			<input type="text" class="form-control form-control-sm" id="floatingInput3">
+			<label for="floatingInput3">Your Social Security Number</label>
+		  </div>
+		</div>
+	  </div>
+	  <hr class="mx-auto mt-3">
+	  ';
+
+		$pdfIframe = $this->formBuilder->export_to_pdf($formData);
+
+        $data['pdfContent'] = $pdfIframe;	
+
 		return view('admin/users/ViewForm', $data);
 	}
 
