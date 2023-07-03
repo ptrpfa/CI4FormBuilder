@@ -1029,7 +1029,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-floating">
-                    <div class="form-text">f the IRS sent you an Identity Protection PIN, enter it here</div>
+                    <div class="form-text">If the IRS sent you an Identity Protection PIN, enter it here</div>
                     <input type="text" class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder="">
                 </div>
             </div>
@@ -1056,7 +1056,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-floating">
-                    <div class="form-text">f the IRS sent you an Identity Protection PIN, enter it here</div>
+                    <div class="form-text">If the IRS sent you an Identity Protection PIN, enter it here</div>
                     <input type="text" class="form-control form-control-sm mb-1" id="idenProtectPin" placeholder="">
                 </div>
             </div>
@@ -1081,7 +1081,7 @@
 <!-- Paid Preparer Use Only -->
 <div class="row d-flex justify-content-center mx-auto w-75 text-start">
     <div class="col-md-2">
-        <h5>Paid Preparer Use Only
+        <h5>Paid Preparer Use Only</h5>
     </div>
     <div class="col-md-10">
         <div class="row">

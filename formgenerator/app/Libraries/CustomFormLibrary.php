@@ -328,6 +328,19 @@ class CustomFormLibrary
 
         return $newDIV;
     }
+    public function new_list($data = array(), $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $content = '<ul class="list-group ' . $attributeString . '" >';
+        foreach($data as $item){
+            $content .= '<li class="list-group-item">';
+            $content .= $item;
+            $content .= '</li>';
+        }
+        $content .= '</ul>';
+        return $content;
+    }
 
     /* Form HTML Tags Creation */
 
