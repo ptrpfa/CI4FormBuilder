@@ -296,6 +296,18 @@ class CustomFormLibrary
         }
     }
 
+    public function getResponseFormData($responseID) {
+        try {
+            return $this->formResponseModel->retrieveFormData($responseID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
     public function submitFormData($formID, $user, $formData) {
         /* 
             Arguments:

@@ -182,7 +182,7 @@ class UsersDashboard extends BaseController
 		}
 		
 		// Store the validated encrypted data into the database
-		$formID = 55;
+		$formID = 2;
 		$user = $username;
 		$formData = serialize([
 			'name' => $validatedData['name'],
@@ -290,8 +290,22 @@ class UsersDashboard extends BaseController
 
 	public function updateForm($responseID, $formID)
 	{
-        $data['title'] = 'Edit Form';
-		//Fetch data and form send to view 
+		try {
+			// Fetch form from database
+			$form = $this->formBuilder->getForm($formID, false);
+			$response = $this->formBuilder->getResponseFormData($responseID);
+		} catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		// Load helper functions in controller
+		helper(['form', 'validation_helper', 'filesystem']);
+
+		$data['title'] = 'Edit Form';
+		$data['view'] = unserialize($form["Structure"]);
+		$data['response'] = unserialize($response["Response"]);
+		//var_dump($data['response']);
+		// Fetch data and form send to view
 		return view('admin/users/EditForm', $data);
 	}
 
