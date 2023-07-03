@@ -158,17 +158,18 @@ class UsersDashboard extends BaseController
 		// //Call Library to serialize() and encrypt and sent to model to save
 		// //Sucess
 
-		$keys = ['name', 'message', 'username'];
+		$keys = ['name', 'message', 'username', 'gender'];
 		// // Add input validation rules
 		$rules = [
 			'name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
 			'message' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+			'gender' => 'required'
 		];
 
 		$post = $this->request->getPost($keys);
 
 		// Retrieve the value of 'username'
-		$username = $post['username'];
+		$username = $post['username'] ?? 'default_user';
 
 		// Remove the 'username' key from the array
 		unset($post['username']);
@@ -187,6 +188,7 @@ class UsersDashboard extends BaseController
 		$formData = serialize([
 			'name' => $validatedData['name'],
 			'message' => $validatedData['message'],
+			'gender' => $validatedData['gender']
 		]);
 
 		// Call custom library to insert form data 
@@ -306,6 +308,8 @@ class UsersDashboard extends BaseController
 		$data['response'] = unserialize($response["Response"]);
 
 		$data['view'] = $this->formBuilder->placeFormData($data['response'], $data['view']);
+		
+		//var_dump($response);
 
 		return view('admin/users/EditForm', $data);
 	}

@@ -308,31 +308,72 @@ class CustomFormLibrary
         }
     }
 
-    public function placeFormData($response, $view){
-
+    public function placeFormData($response, $view)
+    {
         $dom = new \DOMDocument;
-		$dom->loadHTML($view);
-		
-		foreach ($response as $key => $value) {
-			$xpath = new \DOMXPath($dom);
-			$elements = $xpath->query("//*[@name='$key']");
-		
-			if (!is_null($elements)) {
-				foreach ($elements as $element) {
-					if($element->tagName === 'input' || $element->tagName === 'select') {
-						$element->setAttribute('value', $value);
-					} else if($element->tagName === 'textarea') {
-						$element->nodeValue = $value;
-					}
-				}
-			}
-		}
-
-		$view = $dom->saveHTML();
-
+        $dom->loadHTML($view);
+    
+        foreach ($response as $key => $value) {
+            $xpath = new \DOMXPath($dom);
+            $elements = $xpath->query("//*[@name='$key']");
+    
+            if (!is_null($elements)) {
+                foreach ($elements as $element) {
+                    if ($element->tagName === 'input') {
+                        if ($element->getAttribute('type') === 'radio') {
+                            // Check if the radio button value matches the response value
+                            if ($element->getAttribute('value') === $value) {
+                                $element->setAttribute('checked', 'checked');
+                            }
+                        } else {
+                            $element->setAttribute('value', $value);
+                        }
+                    } else if ($element->tagName === 'select') {
+                        // Set the selected option based on the response value
+                        $options = $element->getElementsByTagName('option');
+                        foreach ($options as $option) {
+                            if ($option->getAttribute('value') === $value) {
+                                $option->setAttribute('selected', 'selected');
+                            } else {
+                                $option->removeAttribute('selected');
+                            }
+                        }
+                    } else if ($element->tagName === 'textarea') {
+                        $element->nodeValue = $value;
+                    }
+                }
+            }
+        }
+    
+        $view = $dom->saveHTML();
+    
         return $view;
-
     }
+
+    // public function placeFormData($response, $view)
+    // {
+    //     $dom = new \DOMDocument;
+	// 	$dom->loadHTML($view);
+		
+	// 	foreach ($response as $key => $value) {
+	// 		$xpath = new \DOMXPath($dom);
+	// 		$elements = $xpath->query("//*[@name='$key']");
+		
+	// 		if (!is_null($elements)) {
+	// 			foreach ($elements as $element) {
+	// 				if($element->tagName === 'input' || $element->tagName === 'select') {
+	// 					$element->setAttribute('value', $value);
+	// 				} else if($element->tagName === 'textarea') {
+	// 					$element->nodeValue = $value;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+
+    //     $view = $dom->saveHTML();
+    
+    //     return $view;
+    // }
 
     public function submitFormData($formID, $user, $formData) {
         /* 
