@@ -304,8 +304,9 @@ class UsersDashboard extends BaseController
 		$data['title'] = 'Edit Form';
 		$data['view'] = unserialize($form["Structure"]);
 		$data['response'] = unserialize($response["Response"]);
-		//var_dump($data['response']);
-		// Fetch data and form send to view
+
+		$data['view'] = $this->formBuilder->placeFormData($data['response'], $data['view']);
+
 		return view('admin/users/EditForm', $data);
 	}
 

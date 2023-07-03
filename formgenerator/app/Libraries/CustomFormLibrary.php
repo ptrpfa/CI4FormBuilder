@@ -308,6 +308,32 @@ class CustomFormLibrary
         }
     }
 
+    public function placeFormData($response, $view){
+
+        $dom = new \DOMDocument;
+		$dom->loadHTML($view);
+		
+		foreach ($response as $key => $value) {
+			$xpath = new \DOMXPath($dom);
+			$elements = $xpath->query("//*[@name='$key']");
+		
+			if (!is_null($elements)) {
+				foreach ($elements as $element) {
+					if($element->tagName === 'input' || $element->tagName === 'select') {
+						$element->setAttribute('value', $value);
+					} else if($element->tagName === 'textarea') {
+						$element->nodeValue = $value;
+					}
+				}
+			}
+		}
+
+		$view = $dom->saveHTML();
+
+        return $view;
+
+    }
+
     public function submitFormData($formID, $user, $formData) {
         /* 
             Arguments:
