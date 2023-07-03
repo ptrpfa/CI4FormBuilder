@@ -104,7 +104,8 @@ class TemplateDashboard extends BaseController
 	public function readForm($formID) {
         try {
 			// Fetch form from database
-			$form = $this->formBuilder->getForm($formID, false);
+			$form = $this->formBuilder->getForm($formID, false);	
+			$pdfIframe = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
         }
 		catch(\Exception $e){
 			// Return exception
@@ -113,7 +114,7 @@ class TemplateDashboard extends BaseController
         // Prepare data context
         $data = [
             'title' => $form['Name'],
-            'FormView'  => unserialize($form['Structure'])
+            'FormView'  => $pdfIframe
         ];
 		// Return view
         return view('admin/form_template/previewForm', $data);

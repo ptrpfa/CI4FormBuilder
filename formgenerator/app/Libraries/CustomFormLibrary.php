@@ -5,6 +5,7 @@ namespace App\Libraries;
 // Imports
 use App\Models\FormModel;
 use App\Models\FormResponseModel;
+use mikehaertl\wkhtmlto\Pdf;
 
 class CustomFormLibrary
 {
@@ -295,6 +296,85 @@ class CustomFormLibrary
         }
     }
 
+    public function getResponseFormData($responseID) {
+        try {
+            return $this->formResponseModel->retrieveFormData($responseID);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
+    public function placeFormData($response, $view)
+    {
+        $dom = new \DOMDocument;
+        $dom->loadHTML($view);
+    
+        foreach ($response as $key => $value) {
+            $xpath = new \DOMXPath($dom);
+            $elements = $xpath->query("//*[@name='$key']");
+    
+            if (!is_null($elements)) {
+                foreach ($elements as $element) {
+                    if ($element->tagName === 'input') {
+                        if ($element->getAttribute('type') === 'radio') {
+                            // Check if the radio button value matches the response value
+                            if ($element->getAttribute('value') === $value) {
+                                $element->setAttribute('checked', 'checked');
+                            }
+                        } else {
+                            $element->setAttribute('value', $value);
+                        }
+                    } else if ($element->tagName === 'select') {
+                        // Set the selected option based on the response value
+                        $options = $element->getElementsByTagName('option');
+                        foreach ($options as $option) {
+                            if ($option->getAttribute('value') === $value) {
+                                $option->setAttribute('selected', 'selected');
+                            } else {
+                                $option->removeAttribute('selected');
+                            }
+                        }
+                    } else if ($element->tagName === 'textarea') {
+                        $element->nodeValue = $value;
+                    }
+                }
+            }
+        }
+    
+        $view = $dom->saveHTML();
+    
+        return $view;
+    }
+
+    // public function placeFormData($response, $view)
+    // {
+    //     $dom = new \DOMDocument;
+	// 	$dom->loadHTML($view);
+		
+	// 	foreach ($response as $key => $value) {
+	// 		$xpath = new \DOMXPath($dom);
+	// 		$elements = $xpath->query("//*[@name='$key']");
+		
+	// 		if (!is_null($elements)) {
+	// 			foreach ($elements as $element) {
+	// 				if($element->tagName === 'input' || $element->tagName === 'select') {
+	// 					$element->setAttribute('value', $value);
+	// 				} else if($element->tagName === 'textarea') {
+	// 					$element->nodeValue = $value;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+
+    //     $view = $dom->saveHTML();
+    
+    //     return $view;
+    // }
+
     public function submitFormData($formID, $user, $formData) {
         /* 
             Arguments:
@@ -453,4 +533,32 @@ class CustomFormLibrary
         return $attributeString;
     }
 
+    public function export_to_pdf($formData){
+        $pdf = new Pdf();
+        $html = '<!DOCTYPE html>
+		<html>
+		  <head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+		  </head>
+		  <body>
+			<div class="container">
+                ' . $formData . '
+			</div>
+		  </body>
+		</html>';
+        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+		// $globaloptions = array(
+		// 	'title' => 'Meow',
+		// );
+		// $pdf->setOptions($globaloptions);
+        $pdf->addPage($html);
+		
+        $pdfContent = base64_encode($pdf->toString());
+        
+        $pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . $pdfContent . '" width="100%" height="600px"></iframe>';
+
+        return $pdfIframe;
+    }
 } 

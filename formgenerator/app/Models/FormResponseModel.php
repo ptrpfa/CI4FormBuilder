@@ -26,9 +26,18 @@ class FormResponseModel extends Model
     }
 
     //Get the form data
-    public function retrieveFormData($formData, $formID, $user)
+    public function retrieveFormData($responseID)
     {
-
+        try {
+            // $this->where(['ResponseID'=>$responseID])->first();
+            return $this->where(['ResponseID'=>$responseID])->first();
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
     }
     
     //Inserting form data
