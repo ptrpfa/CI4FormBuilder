@@ -404,14 +404,14 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('election_fund', '', 'class="form-check-input" id="you"'),
+                                            $formBuilder->new_checkbox('electionYou', '', 'class="form-check-input" id="you"'),
                                             $formBuilder->new_label('you', 'You', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check form-check-inline pt-3',
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('election_fund', '', 'class="form-check-input" id="spouse"'),
+                                            $formBuilder->new_checkbox('electionSpouse', '', 'class="form-check-input" id="spouse"'),
                                             $formBuilder->new_label('spouse', 'Spouse', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check form-check-inline',
@@ -450,8 +450,8 @@ $fields =
                 [
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="yes"'),
-                            $formBuilder->new_label('yes', 'Yes', 'class="form-check-label"'),
+                            $formBuilder->new_checkbox('rewardYesCheckbox', '', 'class="form-check-input" id="rewardYesCheckbox"'),
+                            $formBuilder->new_label('rewardYesCheckbox', 'Yes', 'class="form-check-label"'),
                         ],
                         '',
                         '',
@@ -460,8 +460,8 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="no"'),
-                            $formBuilder->new_label('no', 'No', 'class="form-check-label"'),
+                            $formBuilder->new_checkbox('rewardNoCheckbox', '', 'class="form-check-input" id="rewardNoCheckbox"'),
+                            $formBuilder->new_label('rewardNoCheckbox', 'No', 'class="form-check-label"'),
                         ],
                         '',
                         '',
@@ -502,22 +502,22 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="dependent"'),
-                            $formBuilder->new_label('dependent', 'You as a dependent', 'class="form-check-label"'),
+                            $formBuilder->new_checkbox('dependentCheckbox', '', 'class="form-check-input" id="dependentCheckbox"'),
+                            $formBuilder->new_label('dependentCheckbox', 'You as a dependent', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="spouse dependent"'),
-                            $formBuilder->new_label('spouse dependent', 'Your spouse as a dependent', 'class="form-check-label"'),
+                            $formBuilder->new_checkbox('spouseDepCheckbox', '', 'class="form-check-input" id="spouseDepCheckbox"'),
+                            $formBuilder->new_label('spouseDepCheckbox', 'Your spouse as a dependent', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="spouse itemizes"'),
-                            $formBuilder->new_label('spouse itemizes', 'Spouse itemizes on a separate return or you were a dual-status alien', 'class="form-check-label"'),
+                            $formBuilder->new_checkbox('spouseItemizesCheckbox', '', 'class="form-check-input" id="spouseItemizesCheckbox"'),
+                            $formBuilder->new_label('spouseItemizesCheckbox', 'Spouse itemizes on a separate return or you were a dual-status alien', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
@@ -549,14 +549,14 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="youBorn"'),
+                            $formBuilder->new_checkbox('youBorn', '', 'class="form-check-input" id="youBorn"'),
                             $formBuilder->new_label('youBorn', 'were born before January 2, 1958', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="youBlind"'),
+                            $formBuilder->new_checkbox('youBlind', '', 'class="form-check-input" id="youBlind"'),
                             $formBuilder->new_label('youBlind', 'Are blind', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
@@ -575,14 +575,14 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="spouseBorn"'),
+                            $formBuilder->new_checkbox('spouseBorn', '', 'class="form-check-input" id="spouseBorn"'),
                             $formBuilder->new_label('spouseBorn', 'was born before January 2, 1958', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="spouseBlind"'),
+                            $formBuilder->new_checkbox('spouseBlind', '', 'class="form-check-input" id="spouseBlind"'),
                             $formBuilder->new_label('spouseBlind', 'Is blind', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
@@ -612,8 +612,8 @@ $fields =
                         [
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="four dependents"'),
-                                    $formBuilder->new_label('four dependents', 'If more than four dependents, see instructions and check here', 'class="form-check-label"'),
+                                    $formBuilder->new_checkbox('fourDependents', '', 'class="form-check-input" id="fourDependents"'),
+                                    $formBuilder->new_label('fourDependents', 'If more than four dependents, see instructions and check here', 'class="form-check-label"'),
                                 ],
                                 '','','','form-check form-check-inline'
                             ),
@@ -635,14 +635,14 @@ $fields =
                             ),
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_input('text', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
+                                    $formBuilder->new_input('FNText1', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
+                                    $formBuilder->new_input('LNText1', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
+                                    $formBuilder->new_input('SSNText1', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
+                                    $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="child tax credit"'),
-                                            $formBuilder->new_label('child tax credit', 'Child tax credit', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox1', '', 'class="form-check-input" id="ChildTaxCheckbox"'),
+                                            $formBuilder->new_label('ChildTaxCheckbox1', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -651,37 +651,8 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="credit other"'),
-                                            $formBuilder->new_label('credit other', 'Credit for other dependents', 'class="form-check-label"'),
-                                        ],
-                                        '',
-                                        '',
-                                        '',
-                                        'form-check form-check-reverse mx-2'
-                                    ),
-                                ],
-                                '','','','input-group pb-1'
-                            ),
-                            $formBuilder->new_div(
-                                [
-                                    $formBuilder->new_input('text', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
-                                    $formBuilder->new_div(
-                                        [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="child tax credit"'),
-                                            $formBuilder->new_label('child tax credit', 'Child tax credit', 'class="form-check-label"'),
-                                        ],
-                                        '',
-                                        '',
-                                        '',
-                                        'form-check form-check-reverse mx-2'
-                                    ),
-                                    $formBuilder->new_div(
-                                        [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="credit other"'),
-                                            $formBuilder->new_label('credit other', 'Credit for other dependents', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox1', '', 'class="form-check-input" id="creditOtherCheckbox1"'),
+                                            $formBuilder->new_label('creditOtherCheckbox1', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -693,14 +664,14 @@ $fields =
                             ),
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_input('text', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
+                                    $formBuilder->new_input('FNText2', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
+                                    $formBuilder->new_input('LNText2', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
+                                    $formBuilder->new_input('SSNText2', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
+                                    $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="child tax credit"'),
-                                            $formBuilder->new_label('child tax credit', 'Child tax credit', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox2', '', 'class="form-check-input" id="ChildTaxCheckbox"'),
+                                            $formBuilder->new_label('ChildTaxCheckbox2', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -709,8 +680,8 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="credit other"'),
-                                            $formBuilder->new_label('credit other', 'Credit for other dependents', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox2', '', 'class="form-check-input" id="creditOtherCheckbox2"'),
+                                            $formBuilder->new_label('creditOtherCheckbox2', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -722,14 +693,14 @@ $fields =
                             ),
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_input('text', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
-                                    $formBuilder->new_input('text', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
+                                    $formBuilder->new_input('FNText3', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
+                                    $formBuilder->new_input('LNText3', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
+                                    $formBuilder->new_input('SSNText3', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
+                                    $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="child tax credit"'),
-                                            $formBuilder->new_label('child tax credit', 'Child tax credit', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox3', '', 'class="form-check-input" id="ChildTaxCheckbox3"'),
+                                            $formBuilder->new_label('ChildTaxCheckbox3', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -738,8 +709,37 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('checkbox', '', 'class="form-check-input" id="credit other"'),
-                                            $formBuilder->new_label('credit other', 'Credit for other dependents', 'class="form-check-label"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox3', '', 'class="form-check-input" id="creditOtherCheckbox"'),
+                                            $formBuilder->new_label('creditOtherCheckbox3', 'Credit for other dependents', 'class="form-check-label"'),
+                                        ],
+                                        '',
+                                        '',
+                                        '',
+                                        'form-check form-check-reverse mx-2'
+                                    ),
+                                ],
+                                '','','','input-group pb-1'
+                            ),
+                            $formBuilder->new_div(
+                                [
+                                    $formBuilder->new_input('FNText4', '', 'aria-label="First name" class="form-control" placeholder="First name"'),
+                                    $formBuilder->new_input('LNText4', '', 'aria-label="Last name" class="form-control" placeholder="Last name"'),
+                                    $formBuilder->new_input('SSNText4', '', 'aria-label="SSN" class="form-control" placeholder="Social Security Number"'),
+                                    $formBuilder->new_input('relationshipText4', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
+                                    $formBuilder->new_div(
+                                        [
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox4', '', 'class="form-check-input" id="ChildTaxCheckbox4"'),
+                                            $formBuilder->new_label('ChildTaxCheckbox4', 'Child tax credit', 'class="form-check-label"'),
+                                        ],
+                                        '',
+                                        '',
+                                        '',
+                                        'form-check form-check-reverse mx-2'
+                                    ),
+                                    $formBuilder->new_div(
+                                        [
+                                            $formBuilder->new_checkbox('creditOtherCheckbox4', '', 'class="form-check-input" id="creditOtherCheckbox4"'),
+                                            $formBuilder->new_label('creditOtherCheckbox4', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
                                         '',
@@ -785,70 +785,70 @@ $fields =
                 [
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1atext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
                             $formBuilder->new_label('floatingInput', '1a. Total amount from Form(s) W-2, box 1 (see instructions)'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1b"'),
+                            $formBuilder->new_input('1btext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1b"'),
                             $formBuilder->new_label('floatingInput', '1b. Household employee wages not reported on Form(s) W-2'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1c"'),
+                            $formBuilder->new_input('1ctext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1c"'),
                             $formBuilder->new_label('floatingInput', '1c. Tip income not reported on line 1a (see instructions)'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1dtext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1d"'),
                             $formBuilder->new_label('floatingInput', '1d. Medicaid waiver payments not reported on Form(s) W-2 (see instructions)'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1etext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1e"'),
                             $formBuilder->new_label('floatingInput', '1e. Taxable dependent care benefits from Form 2441, line 26'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1ftext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1f"'),
                             $formBuilder->new_label('floatingInput', '1f. Employer-provided adoption benefits from Form 8839, line 29'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1gtext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1g"'),
                             $formBuilder->new_label('floatingInput', '1g. Wages from Form 8919, line 6'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1htext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1h"'),
                             $formBuilder->new_label('floatingInput', '1h. Other earned income (see instructions)'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1itext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1i"'),
                             $formBuilder->new_label('floatingInput', '1i. Nontaxable combat pay election (see instructions)'),
                         ],
                         '','','','form-floating'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1a"'),
+                            $formBuilder->new_input('1ztext', '', 'class="form-control form-control-sm mb-1" id="floatingInput" placeholder="1z"'),
                             $formBuilder->new_label('floatingInput', '1z. Add lines 1a through 1h'),
                         ],
                         '','','','form-floating'
@@ -878,7 +878,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="2a" placeholder="2a"'),
+                                            $formBuilder->new_input('2atext', '', 'class="form-control form-control-sm mb-1" id="2a" placeholder="2a"'),
                                             $formBuilder->new_label('2a', '2a. Tax-exempt interest'),
                                         ],
                                         '','','','form-floating'
@@ -890,7 +890,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="2b" placeholder="2b"'),
+                                            $formBuilder->new_input('2btext', '', 'class="form-control form-control-sm mb-1" id="2b" placeholder="2b"'),
                                             $formBuilder->new_label('2b', '2b. Taxable interest'),
                                         ],
                                         '','','','form-floating'
@@ -907,7 +907,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="3a" placeholder="3a"'),
+                                            $formBuilder->new_input('3atext', '', 'class="form-control form-control-sm mb-1" id="3a" placeholder="3a"'),
                                             $formBuilder->new_label('3a', '3a. Qualified dividends'),
                                         ],
                                         '','','','form-floating'
@@ -919,7 +919,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="3b" placeholder="3b"'),
+                                            $formBuilder->new_input('3btext', '', 'class="form-control form-control-sm mb-1" id="3b" placeholder="3b"'),
                                             $formBuilder->new_label('3b', '3b. Ordinary dividends'),
                                         ],
                                         '','','','form-floating'
@@ -936,7 +936,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="4a" placeholder="4a"'),
+                                            $formBuilder->new_input('4atext', '', 'class="form-control form-control-sm mb-1" id="4a" placeholder="4a"'),
                                             $formBuilder->new_label('4a', '4a. IRA distributions'),
                                         ],
                                         '','','','form-floating'
@@ -948,7 +948,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="4b" placeholder="4b"'),
+                                            $formBuilder->new_input('4btext', '', 'class="form-control form-control-sm mb-1" id="4b" placeholder="4b"'),
                                             $formBuilder->new_label('4b', '4b. Taxable amount'),
                                         ],
                                         '','','','form-floating'
@@ -965,7 +965,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="5a" placeholder="5a"'),
+                                            $formBuilder->new_input('5atext', '', 'class="form-control form-control-sm mb-1" id="5a" placeholder="5a"'),
                                             $formBuilder->new_label('5a', '5a. Pensions and annuities'),
                                         ],
                                         '','','','form-floating'
@@ -977,7 +977,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="5b" placeholder="5b"'),
+                                            $formBuilder->new_input('5btext', '', 'class="form-control form-control-sm mb-1" id="5b" placeholder="5b"'),
                                             $formBuilder->new_label('5b', '5b. Taxable amount'),
                                         ],
                                         '','','','form-floating'
@@ -994,7 +994,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="6a" placeholder="6a"'),
+                                            $formBuilder->new_input('6atext', '', 'class="form-control form-control-sm mb-1" id="6a" placeholder="6a"'),
                                             $formBuilder->new_label('6a', '6a. Social security benefits'),
                                         ],
                                         '','','','form-floating'
@@ -1006,7 +1006,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('text', '', 'class="form-control form-control-sm mb-1" id="6b" placeholder="6b"'),
+                                            $formBuilder->new_input('6btext', '', 'class="form-control form-control-sm mb-1" id="6b" placeholder="6b"'),
                                             $formBuilder->new_label('6b', '6b. Taxable amount'),
                                         ],
                                         '','','','form-floating'
@@ -1063,8 +1063,8 @@ $formBuilder->new_div(
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_input('7','','class="form-control form-control-sm mb-1"'),
-                                        $formBuilder->new_label('7','7. Capital gain or (loss). Attach Schedule D if required.'),
+                                        $formBuilder->new_input('7a','','class="form-control form-control-sm mb-1"'),
+                                        $formBuilder->new_label('7a','7. Capital gain or (loss). Attach Schedule D if required.'),
                                     ],
                                     '','','','form-floating'
                                 ),
@@ -1075,8 +1075,8 @@ $formBuilder->new_div(
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_checkbox('7', '', 'class="form-check-input" id="7"'),
-                                        $formBuilder->new_label('7', 'If not required, check here', 'class="form-check-label"')
+                                        $formBuilder->new_checkbox('7b', '', 'class="form-check-input" id="7b"'),
+                                        $formBuilder->new_label('7b', 'If not required, check here', 'class="form-check-label"')
                                     ],
                                     '','','','form-check form-check-reverse'
                                 ),
