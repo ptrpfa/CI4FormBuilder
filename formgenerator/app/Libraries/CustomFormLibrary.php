@@ -548,7 +548,7 @@ class CustomFormLibrary
 			</div>
 		  </body>
 		</html>';
-        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+
         $os = PHP_OS;
         echo $os;
                 // Set the path to the wkhtmltopdf binary based on the operating system
