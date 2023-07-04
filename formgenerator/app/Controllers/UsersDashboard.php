@@ -151,8 +151,6 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		helper(['form', 'validation_helper']);
-
 		// //Remove username from the array
 		// //Call library to validate and sanitize the remaining data 
 		// //Call Library to serialize() and encrypt and sent to model to save
@@ -166,24 +164,39 @@ class UsersDashboard extends BaseController
 			'gender' => 'required'
 		];
 
-		$post = $this->request->getPost($keys);
+		$post = $this->request->getPost();
 
-		// Retrieve the value of 'username'
+		// Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
+		$formID = $post['formid'];
 
-		// Remove the 'username' key from the array
+		// Remove the 'username' and 'formid' key from the array 
 		unset($post['username']);
+		unset($post['formid']);
 	
-		// // Validate the input using the custom validate function
-		$validatedData = validate($post, $rules, false);
-	
-		if (!$validatedData) {
-			// Validation failed, return error view or perform any other actions
-			return view('errors/html/error_404', ['message'=>'Validation error']);
+		// Validate the input using the custom validate function
+		try {
+			$encrpyt = false;
+			$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+		
+			if (!$validatedData) {
+				// Validation failed, return error view or perform any other actions
+				return view('errors/html/error_404', ['message' => 'Validation error']);
+			}
+		
+			// Proceed with the rest of the code
+			// ...
+		} catch (\Exception $e) {
+			// Log the error or display a user-friendly error message
+			log_message('error', 'Form validation failed: ' . $e->getMessage());
+			// Handle the exception as needed
+			// For example, you can return an error view
+			return view('errors/html/error_404', ['message' => 'An error occurred']);
 		}
 		
+		
 		// Store the validated encrypted data into the database
-		$formID = 2;
+		$formID = $formID;
 		$user = $username;
 		$formData = serialize([
 			'name' => $validatedData['name'],
@@ -196,7 +209,8 @@ class UsersDashboard extends BaseController
 
 		// Proceed with any additional actions or redirect as needed
 		$data['title'] = 'Form Submission';
-		return view('admin/users/success', $data);
+		$data['formID'] = $formID;
+		return view('admin/users/create_success', $data);
 	}
 
 	public function createForm($name=null)
@@ -324,7 +338,7 @@ class UsersDashboard extends BaseController
 			return $e->getMessage();
 		}
 		// Return success view
-		return view('admin/success', ['message' => 'Deleted form response ' . $responseID . '!']);
+		return view('admin/users/delete_success');
 	}
 	
 }

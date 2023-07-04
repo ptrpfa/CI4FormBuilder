@@ -394,6 +394,17 @@ class CustomFormLibrary
         }
     }
 
+    public function validateData($post, $rules, $encrpyt){
+        /* 
+            Arguments:
+            $post: filtered response data 
+            $rules: rules for validation 
+            $encrpyt: encrpyt or not (true/false) 
+        */
+        helper(['form', 'validation_helper']);
+        return validate($post, $rules, $encrpyt);
+    }
+
     /* Form HTML Container Creation */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')

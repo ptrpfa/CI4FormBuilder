@@ -73,7 +73,8 @@ class FormResponseModel extends Model
 	
 		// Redirect to success page
 		$data['title'] = 'Form Deletion';
-		return view('admin/users/success', $data);
+        $data['responseID'] = $responseID;
+		return view('admin/users/delete_success', $data);
 	}
 
     //Get All Data
@@ -96,4 +97,25 @@ class FormResponseModel extends Model
         // Return results
         return $query->getResult();
     }
+
+    // Get the username based on the responseID
+    public function getUsernameByResponseID($responseID)
+    {
+        try {
+            $response = $this->where('ResponseID', $responseID)->first();
+            if ($response) {
+                return $response['User'];
+            } else {
+                // Handle the case when the response is not found
+                log_message('error', 'Failed to get username: ' . $e->getMessage());
+                return null; // or throw an exception, display an error message, etc.
+            }
+        } catch (\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Failed to get username: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
 }
