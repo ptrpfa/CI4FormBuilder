@@ -115,6 +115,7 @@ class TemplateDashboard extends BaseController
         $data = [
             'title' => $form['Name'],
             'FormView'  => $pdfIframe
+			// 'FormView'  => unserialize($form['Structure'])
         ];
 		// Return view
         return view('admin/form_template/previewForm', $data);
