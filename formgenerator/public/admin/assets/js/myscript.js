@@ -15,7 +15,7 @@ $(document).ready(function() {
     $('#formSelector').on('change', function() {
       var formID = $(this).val();
       var formValue = $(this).find(":selected").text();
-      console.log(formValue);
+
       if (formID !== '') {
         // Make an AJAX request to fetch the form data
         $.ajax({
@@ -45,10 +45,12 @@ $(document).ready(function() {
 
     $(document).on('submit', '#formContainer form', function(e) {
       var formValue = $('#name-control').val(); // Get the username
-    
+      var formID = $('#formSelector').find(":selected").val();
+
       // Add the value to the form data
       $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
-    
+      $(this).append('<input type="hidden" name="formid" value="' + formID + '">');
+
       // Continue with the default form submission
       return true;
     });
