@@ -308,13 +308,19 @@ class CustomFormLibrary
         }
     }
 
-    public function placeFormData($response, $view)
+    public function placeFormData($responseID, $response, $view)
     {
         $dom = new \DOMDocument;
         $dom->loadHTML($view);
+
+        $xpath = new \DOMXPath($dom);
+        
+        $formElement = $xpath->query("//form")->item(0);
+        if ($formElement) {
+            $formElement->setAttribute('action', '/users/update/' . $responseID);
+        }
     
         foreach ($response as $key => $value) {
-            $xpath = new \DOMXPath($dom);
             $elements = $xpath->query("//*[@name='$key']");
     
             if (!is_null($elements)) {
@@ -392,6 +398,27 @@ class CustomFormLibrary
             // Throw exception
             throw $e;
         }
+    }
+
+    public function submitUpdatedFormData($responseID, $formData){
+
+        /* 
+            Arguments:
+            $formID: Form to be submitted
+            $user: User to be submitted 
+            $formData: User response to be submitted 
+        */
+        try {
+            // Submit the specified form response  
+            $this->formResponseModel->updateFormData($responseID, $formData);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form update failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+
     }
 
     public function validateData($post, $rules, $encrpyt){

@@ -50,6 +50,7 @@ $routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAll
 $routes->get('/users', [UsersDashboard::class, 'index']);
 $routes->match(['get', 'post'], '/users/newUser', [UsersDashboard::class, 'newUser']);
 $routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);
+$routes->post('/users/update/(:segment)', [UsersDashboard::class, 'submitUpdatedForm']);
 $routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);
 $routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);
 $routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);

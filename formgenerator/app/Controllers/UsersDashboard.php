@@ -321,11 +321,53 @@ class UsersDashboard extends BaseController
 		$data['view'] = unserialize($form["Structure"]);
 		$data['response'] = unserialize($response["Response"]);
 
-		$data['view'] = $this->formBuilder->placeFormData($data['response'], $data['view']);
+		$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
 		
 		//var_dump($response);
 
 		return view('admin/users/EditForm', $data);
+	}
+
+	public function submitUpdatedForm($responseID){
+
+		$post = $this->request->getPost();
+		
+		$rules = [
+			'name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+			'message' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
+			'gender' => 'required'
+		];
+
+		// Validate the input using the custom validate function
+		try {
+			$encrpyt = false;
+			$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+		
+			if (!$validatedData) {
+				// Validation failed, return error view or perform any other actions
+				return view('errors/html/error_404', ['message' => 'Validation error']);
+			}
+		
+			// Proceed with the rest of the code
+			// ...
+		} catch (\Exception $e) {
+			// Log the error or display a user-friendly error message
+			log_message('error', 'Form validation failed: ' . $e->getMessage());
+			// Handle the exception as needed
+			// For example, you can return an error view
+			return view('errors/html/error_404', ['message' => 'An error occurred']);
+		}
+
+		$responseData = serialize($post);
+
+		$formData = [
+			'Response' => $responseData
+		];
+
+		$this->formBuilder->submitUpdatedFormData($responseID, $formData);
+
+		$data['title'] = 'Form Update';
+		return view('admin/users/update_success', $data);
 	}
 
 	public function deleteForm($responseID) {

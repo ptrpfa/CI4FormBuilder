@@ -51,9 +51,9 @@ class FormResponseModel extends Model
     }
 
     //Update the form data
-    public function updateFormData($formData, $formID, $user)
+    public function updateFormData($responseID, $formData)
     {
-
+        $this->update($responseID, $formData);
     }
 
     //Delete the form data
