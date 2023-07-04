@@ -549,6 +549,19 @@ class CustomFormLibrary
 		  </body>
 		</html>';
         $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+        $os = PHP_OS;
+        echo $os;
+                // Set the path to the wkhtmltopdf binary based on the operating system
+                if (stripos($os, 'Win') === 0) {
+                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf.exe';
+                } elseif (stripos($os, 'Darwin') === 0) {
+                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf_mac_arm';
+                } elseif (stripos($os, 'Linux') === 0) {
+        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+                } else {
+                    // Unsupported operating system
+                    die('Unsupported operating system.');
+                }
 		// $globaloptions = array(
 		// 	'title' => 'Meow',
 		// );
