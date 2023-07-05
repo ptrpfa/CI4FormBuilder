@@ -360,6 +360,10 @@ class UsersDashboard extends BaseController
 
 		$responseData = serialize($post);
 
+		// $formStructure = $this->formBuilder->getAssociatedFormStructure($responseID);
+
+		// var_dump($formStructure);
+
 		$formData = [
 			'Response' => $responseData
 		];

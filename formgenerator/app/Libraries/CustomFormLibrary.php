@@ -278,6 +278,29 @@ class CustomFormLibrary
 
     /* User Response CRUD */
 
+    public function getAssociatedFormStructure($responseID, $structure_only=true){
+
+        $responseData = $this->getResponseFormData($responseID);
+
+		$formID = $responseData['FormID'];
+
+        /* 
+            Arguments:
+            $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
+            $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
+        */
+        try {
+            // Retrieve form template(s) from the database based on the arguments passed 
+            return $this->formModel->get_form($formID, $structure_only);
+        }
+        catch(\Exception $e) {
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Form retrieval failed: ' . $e->getMessage());
+            // Throw exception
+            throw $e;
+        }
+    }
+
     // Function to delete a specified form in the database
     public function deleteResponseFormData($responseID) {
         /* 
