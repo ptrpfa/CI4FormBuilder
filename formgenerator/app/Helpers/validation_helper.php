@@ -17,7 +17,8 @@
 // For use case, check out Survey.php create() function
 
 // Function to validate and encrypt data
-function validate($data, $rules, $encrypt=true){
+function validate($data, $rules, $encrypt = true)
+{
     // Initialise service instances
     $validation = \Config\Services::validation();
     $encrypter = \Config\Services::encrypter();
@@ -43,13 +44,13 @@ function validate($data, $rules, $encrypt=true){
         // Remove HTML tags from the input
         $sanitizedInput = strip_tags($sanitizedInput);
         // Sanitize special characters
-         $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
+        $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
         // Update the data array with the sanitized value
         $data[$key] = $sanitizedInput;
     }
-    
+
     // Check whether to encrypt data or not
-    if($encrypt) {
+    if ($encrypt) {
         foreach ($data as $key => $value) {
             $ciphertext = trim($value);
             $encryptedtext = $encrypter->encrypt($ciphertext);
@@ -57,10 +58,13 @@ function validate($data, $rules, $encrypt=true){
         }
     }
 
-
     // Return validated and encrypted data
-    return $data;
+    return [
+        'success' => true,
+        'data' => $data
+    ];
 }
+
 
 // Function to sanitize data
 function customSanitize($input)

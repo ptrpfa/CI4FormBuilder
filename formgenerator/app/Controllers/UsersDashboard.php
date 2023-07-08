@@ -151,41 +151,55 @@ class UsersDashboard extends BaseController
 
 	public function submitForm()
 	{
-		// //Remove username from the array
-		// //Call library to validate and sanitize the remaining data 
-		// //Call Library to serialize() and encrypt and sent to model to save
-		// //Sucess
-
-		$keys = ['name', 'message', 'username', 'gender'];
-		// // Add input validation rules
-		$rules = [
-			'name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
-			'message' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
-			'gender' => 'required'
-		];
-
 		$post = $this->request->getPost();
-
+	
 		// Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
-
+	
 		// Remove the 'username' and 'formid' key from the array 
 		unset($post['username']);
 		unset($post['formid']);
 	
+		$keys = array_keys($post);
+	
+		foreach ($keys as $key) {
+			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_ ]+$/]'];
+		}
+	
 		// Validate the input using the custom validate function
 		try {
-			$encrpyt = false;
-			$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
-		
-			if (!$validatedData) {
+			$encrypt = false;
+			$validatedData = $this->formBuilder->validateData($post, $rules, $encrypt);
+	
+			if (!$validatedData['success']) {
 				// Validation failed, return error view or perform any other actions
 				return view('errors/html/error_404', ['message' => 'Validation error']);
 			}
-		
-			// Proceed with the rest of the code
-			// ...
+	
+			// Extract the validated data
+			$validatedData = $validatedData['data'];
+	
+			// Prepare the form data dynamically
+			foreach ($keys as $key) {
+				$formData[$key] = $validatedData[$key];
+			}
+	
+			// Serialize the form data
+			$formData = serialize($formData);
+	
+			// Store the validated encrypted data into the database
+			$formID = $formID;
+			$user = $username;
+	
+			// Call custom library to insert form data 
+			$this->formBuilder->submitFormData($formID, $user, $formData);
+	
+			// Proceed with any additional actions or redirect as needed
+			$data['title'] = 'Form Submission';
+			$data['formID'] = $formID;
+			return view('admin/users/create_success', $data);
+
 		} catch (\Exception $e) {
 			// Log the error or display a user-friendly error message
 			log_message('error', 'Form validation failed: ' . $e->getMessage());
@@ -193,25 +207,8 @@ class UsersDashboard extends BaseController
 			// For example, you can return an error view
 			return view('errors/html/error_404', ['message' => 'An error occurred']);
 		}
-		
-		
-		// Store the validated encrypted data into the database
-		$formID = $formID;
-		$user = $username;
-		$formData = serialize([
-			'name' => $validatedData['name'],
-			'message' => $validatedData['message'],
-			'gender' => $validatedData['gender']
-		]);
-
-		// Call custom library to insert form data 
-		$this->formBuilder->submitFormData($formID, $user, $formData);
-
-		// Proceed with any additional actions or redirect as needed
-		$data['title'] = 'Form Submission';
-		$data['formID'] = $formID;
-		return view('admin/users/create_success', $data);
 	}
+	
 
 	public function createForm($name=null)
 	{
