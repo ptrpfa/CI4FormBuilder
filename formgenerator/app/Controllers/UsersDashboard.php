@@ -161,8 +161,10 @@ class UsersDashboard extends BaseController
 		unset($post['username']);
 		unset($post['formid']);
 	
+		// extract keys from $post output 
 		$keys = array_keys($post);
-	
+		
+		// set minimal rules for each key
 		foreach ($keys as $key) {
 			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_ ]+$/]'];
 		}
@@ -329,11 +331,11 @@ class UsersDashboard extends BaseController
 
 		$post = $this->request->getPost();
 		
-		$rules = [
-			'name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
-			'message' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
-			'gender' => 'required'
-		];
+		$keys = array_keys($post);
+	
+		foreach ($keys as $key) {
+			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_ ]+$/]'];
+		}
 
 		// Validate the input using the custom validate function
 		try {
