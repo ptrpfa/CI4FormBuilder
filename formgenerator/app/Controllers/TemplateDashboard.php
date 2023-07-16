@@ -317,4 +317,41 @@ class TemplateDashboard extends BaseController
 		return view('admin/success', ['message' => 'Deleted all versions of form ' . $formID . '!']);
 	}
 
+
+	public function getFormHTML()
+	{
+		if ($this->request->is('get')) {
+			//Get File name from ajax call
+			$filename = $this->request->getVar('filename');
+			
+			//Pass file name to library to get form html dump
+			$formname = include(APPPATH . 'Config/FormTemplates/' . $filename);
+			$formhtml = $this->formBuilder->getFormHTML($formname);
+			
+			$response = [
+				'status' => 'success',
+				'data' => $formhtml, // Replace with the actual form data
+			];
+		
+			return $this->response->setJSON($response);
+		}
+	}	
+
+	public function printFormHTML()
+	{
+		if ($this->request->is('get')) {
+			//Get File name from ajax call
+			$form = $this->request->getVar('form');
+
+			$pdfContent = $this->formBuilder->export_to_pdf($form);
+
+			$response = [
+				'status' => 'success',
+				'pdfContent' => base64_encode($pdfContent), // Replace with the actual form data
+			];
+		
+			return $this->response->setJSON($response);
+
+		}
+	}
 }

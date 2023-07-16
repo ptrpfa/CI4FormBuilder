@@ -296,7 +296,9 @@ class UsersDashboard extends BaseController
 	  <hr class="mx-auto mt-3">
 	  ';
 
-		$pdfIframe = $this->formBuilder->export_to_pdf($formData);
+		$pdfContent = $this->formBuilder->export_to_pdf($formData);
+
+		$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="600px"></iframe>';
 
         $data['pdfContent'] = $pdfIframe;	
 
@@ -391,41 +393,4 @@ class UsersDashboard extends BaseController
 
 
 
-//Sample Data style, spoil already dun refer this
-// $data = [
-// 	[
-// 		'name' => 'John Doe',
-// 		'id' => 1,
-// 		'Subrows' => [
-// 			[
-// 				'Form Name' => 'Form 1',
-// 				'Version' => '1.0',
-// 				'Datetime' => '2023-06-25 10:00:00',
-// 			],
-// 			[
-// 				'Form Name' => 'Form 2',
-// 				'Version' => '2.1',
-// 				'Datetime' => '2023-06-26 15:30:00',
-// 			],
-// 			// Add more subrows for John Doe
-// 		]
-// 	],
-// 	[
-// 		'name' => 'Jane Smith',
-// 		'id' => 2,
-// 		'Subrows' => [
-// 			[
-// 				'Form Name' => 'Form 3',
-// 				'Version' => '3.2',
-// 				'Datetime' => '2023-06-27 09:45:00',
-// 			],
-// 			[
-// 				'Form Name' => 'Form 4',
-// 				'Version' => '4.0',
-// 				'Datetime' => '2023-06-28 14:15:00',
-// 			],
-// 			// Add more subrows for Jane Smith
-// 		]
-// 	],
-// 	// Add more users with their subrows
-// ];
+

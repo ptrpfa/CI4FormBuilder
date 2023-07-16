@@ -132,6 +132,7 @@ class CustomFormLibrary
         }
     }
 
+
     public function test($data){ //For Ryan to buckle boots, dun touch
         $formStructure = '';
 
@@ -455,7 +456,11 @@ class CustomFormLibrary
         return validate($post, $rules, $encrpyt);
     }
 
-    /* Form HTML Container Creation */
+    /* 
+    * 
+    * Form HTML Container Creation
+    *
+    */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
     {
@@ -483,7 +488,11 @@ class CustomFormLibrary
         return $content;
     }
 
-    /* Form HTML Tags Creation */
+    /*
+    *
+    *  Form HTML Tags Creation 
+    *
+    */
 
     public function form_open($action = '', $attributes = '')
     {
@@ -561,8 +570,6 @@ class CustomFormLibrary
         }
         $dropdown .= '</select>';
         $dropdown .= '<i class="fas fa-caret-down" style="position: absolute; top: 50%; right: 2.5%; transform: translateY(-50%);"></i>';
-        
-        // Modify the dropdown or add additional processing here if needed
 
         return $dropdown;
     }
@@ -574,7 +581,11 @@ class CustomFormLibrary
         return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
     
-    /* Form Creation Helper Class */
+    /* 
+    *
+    * Form Creation Helper Class
+    *
+    */
         
     private function attributes_creator($attributes)
     {
@@ -629,10 +640,26 @@ class CustomFormLibrary
 		// $pdf->setOptions($globaloptions);
         $pdf->addPage($html);
 		
-        $pdfContent = base64_encode($pdf->toString());
-        
-        $pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . $pdfContent . '" width="100%" height="600px"></iframe>';
+        $pdfContent = $pdf->toString();
+    
+        return $pdfContent;
+    }
 
-        return $pdfIframe;
+    public function getFormHTML($filename)
+    {
+        $formStructure = '';
+        $fields = $filename;
+        
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $key => $newValue) {
+                    $formStructure .= $newValue;
+                }
+            } else {
+                $formStructure .= $value;
+            }
+        }
+
+        return $formStructure;
     }
 } 
