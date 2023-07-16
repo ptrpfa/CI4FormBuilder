@@ -495,7 +495,7 @@ class CustomFormLibrary
 
     public function form_close()
     {
-        return '<div style="text-align: center; margin-top: 20px;">
+        return '<div style="text-align: center; padding: 20px 0;">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 </form>';
@@ -611,18 +611,18 @@ class CustomFormLibrary
 		</html>';
 
         $os = PHP_OS;
-        echo $os;
-                // Set the path to the wkhtmltopdf binary based on the operating system
-                if (stripos($os, 'Win') === 0) {
-                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf.exe';
-                } elseif (stripos($os, 'Darwin') === 0) {
-                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf_mac_arm';
-                } elseif (stripos($os, 'Linux') === 0) {
-        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
-                } else {
-                    // Unsupported operating system
-                    die('Unsupported operating system.');
-                }
+   
+        // Set the path to the wkhtmltopdf binary based on the operating system
+        if (stripos($os, 'Win') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf.exe';
+        } elseif (stripos($os, 'Darwin') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf_mac_arm';
+        } elseif (stripos($os, 'Linux') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+        } else {
+            // Unsupported operating system
+            die('Unsupported operating system.');
+        }
 		// $globaloptions = array(
 		// 	'title' => 'Meow',
 		// );

@@ -28,7 +28,8 @@ $(document).ready(function() {
               // Update the form container with the fetched form data
               $('#new-form-title').html(formValue); 
               $('#formContainer').html(response.form);
-              
+              $('.selectedForm').removeClass('hide');
+
             } else {
               console.log('Error fetching form data.');
             }
@@ -54,4 +55,39 @@ $(document).ready(function() {
       // Continue with the default form submission
       return true;
     });
-  });
+    // // Get the button
+    // let mybutton = document.getElementById("scrollbtn");
+
+    // // When the user scrolls down 20px from the top of the document, show the button
+    // window.onscroll = function() {scrollFunction()};
+
+    // function scrollFunction() {
+    //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    //     mybutton.style.display = "block";
+    //   } else {
+    //     mybutton.style.display = "none";
+    //   }
+    // }
+
+    // // When the user clicks on the button, scroll to the top of the document
+    // function ScrollTop() {
+    //   document.body.scrollTop = 0;
+    //   document.documentElement.scrollTop = 0;
+    // }
+    var top = $('#scrollbtn');
+
+    $(window).scroll(function() {
+      if ($(window).scrollTop() > 50) {
+        top.addClass('show');
+      } else {
+        top.removeClass('show');
+      }
+    });
+    
+    top.on('click', function(e) {
+      e.preventDefault();
+      $('html, body').animate({scrollTop:0}, '50');
+    });
+    
+    
+});

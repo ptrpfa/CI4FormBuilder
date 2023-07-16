@@ -249,7 +249,7 @@ class UsersDashboard extends BaseController
 						//new_input($name='', $value='', $attributes='' OR $attributes=[])
 						$this->formBuilder->new_input('username', $name, 'class="form-control" id="name-control" placeholder="Enter your name" disabled'), 
 					),
-					1,'md', 9, 'mt-2'
+					1,'md', 9, 'mt-5'
 				)        
 			],
 			'dropdown' => [

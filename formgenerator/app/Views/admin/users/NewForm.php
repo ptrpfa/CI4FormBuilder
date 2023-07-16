@@ -1,23 +1,14 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
 <?php foreach ($view as $input): ?>
-        <div class="form-floating">
+        <div class="form-floating d-flex justify-content-center align-items-end mx-auto w-95">
             <?= $input['group']; ?>
         </div><br>
     <?php endforeach; ?>
     
-<div class="selectedForm">
+<div class="selectedForm hide">
     <h2 id='new-form-title' style="text-align:center"></h2>
     <div id="formContainer">
     </div>   
 </div>
-<style>
-    .content{
-        margin-left:25%;
-        text-align:center;
-    }
-    #new-form-title{
-        margin-right:22%;
-    }
-</style>
 <?= $this->endSection() ?>
