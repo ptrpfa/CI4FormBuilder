@@ -105,7 +105,9 @@ class TemplateDashboard extends BaseController
         try {
 			// Fetch form from database
 			$form = $this->formBuilder->getForm($formID, false);	
-			$pdfIframe = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
+			$pdfContent = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
+
+			$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="700px"></iframe>';
         }
 		catch(\Exception $e){
 			// Return exception
