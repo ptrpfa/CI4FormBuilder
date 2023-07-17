@@ -166,49 +166,44 @@ class UsersDashboard extends BaseController
 		
 		// set minimal rules for each key
 		foreach ($keys as $key) {
-			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_ ]+$/]'];
+			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
 		}
-	
+		
 		// Validate the input using the custom validate function
-		try {
-			$encrypt = false;
-			$validatedData = $this->formBuilder->validateData($post, $rules, $encrypt);
-	
-			if (!$validatedData['success']) {
-				// Validation failed, return error view or perform any other actions
-				return view('errors/html/error_404', ['message' => 'Validation error']);
-			}
-	
-			// Extract the validated data
-			$validatedData = $validatedData['data'];
-	
-			// Prepare the form data dynamically
-			foreach ($keys as $key) {
-				$formData[$key] = $validatedData[$key];
-			}
-	
-			// Serialize the form data
-			$formData = serialize($formData);
-	
-			// Store the validated encrypted data into the database
-			$formID = $formID;
-			$user = $username;
-	
-			// Call custom library to insert form data 
-			$this->formBuilder->submitFormData($formID, $user, $formData);
-	
-			// Proceed with any additional actions or redirect as needed
-			$data['title'] = 'Form Submission';
-			$data['formID'] = $formID;
-			return view('admin/users/create_success', $data);
+		$encrypt = false;
+		$validatedData = $this->formBuilder->validateData($post, $rules, $encrypt);
 
-		} catch (\Exception $e) {
-			// Log the error or display a user-friendly error message
-			log_message('error', 'Form validation failed: ' . $e->getMessage());
-			// Handle the exception as needed
-			// For example, you can return an error view
-			return view('errors/html/error_404', ['message' => 'An error occurred']);
+		if (!$validatedData['success']) {
+			// Validation failed, return error view or perform any other actions
+			$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
+			$errorMessage = "Validation Error for the following fields: " . $errorFields;
+			return view('errors/html/error_404', ['message' => $errorMessage]);
 		}
+		
+		
+		// Extract the validated data
+		$validatedData = $validatedData['data'];
+
+		// Prepare the form data dynamically
+		foreach ($keys as $key) {
+			$formData[$key] = $validatedData[$key];
+		}
+
+		// Serialize the form data
+		$formData = serialize($formData);
+
+		// Store the validated encrypted data into the database
+		$formID = $formID;
+		$user = $username;
+
+		// Call custom library to insert form data 
+		$this->formBuilder->submitFormData($formID, $user, $formData);
+
+		// Proceed with any additional actions or redirect as needed
+		$data['title'] = 'Form Submission';
+		$data['formID'] = $formID;
+		return view('admin/users/create_success', $data);
+
 	}
 	
 

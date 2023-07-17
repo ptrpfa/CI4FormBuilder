@@ -31,9 +31,16 @@ function validate($data, $rules, $encrypt = true)
     // Check rules against data
     if (!$validation->run($data)) {
         $errors = $validation->getErrors();
+
+
+        $errorFields = [];
+        foreach ($errors as $field => $error) {
+            $errorFields[] = $field;
+        }
+        
         return [
             'success' => false,
-            'errors' => $errors
+            'errors' => $errorFields
         ];
     }
 
