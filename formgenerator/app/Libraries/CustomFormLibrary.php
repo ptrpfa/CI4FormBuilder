@@ -132,6 +132,7 @@ class CustomFormLibrary
         }
     }
 
+
     public function test($data){ //For Ryan to buckle boots, dun touch
         $formStructure = '';
 
@@ -455,7 +456,11 @@ class CustomFormLibrary
         return validate($post, $rules, $encrpyt);
     }
 
-    /* Form HTML Container Creation */
+    /* 
+    * 
+    * Form HTML Container Creation
+    *
+    */
 
     public function new_div($data= array(), $row='', $span='', $column='', $attributes='')
     {
@@ -483,7 +488,11 @@ class CustomFormLibrary
         return $content;
     }
 
-    /* Form HTML Tags Creation */
+    /*
+    *
+    *  Form HTML Tags Creation 
+    *
+    */
 
     public function form_open($action = '', $attributes = '')
     {
@@ -495,7 +504,7 @@ class CustomFormLibrary
 
     public function form_close()
     {
-        return '<div style="text-align: center; margin-top: 20px;">
+        return '<div style="text-align: center; padding: 20px 0;">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 </form>';
@@ -561,8 +570,6 @@ class CustomFormLibrary
         }
         $dropdown .= '</select>';
         $dropdown .= '<i class="fas fa-caret-down" style="position: absolute; top: 50%; right: 2.5%; transform: translateY(-50%);"></i>';
-        
-        // Modify the dropdown or add additional processing here if needed
 
         return $dropdown;
     }
@@ -574,7 +581,11 @@ class CustomFormLibrary
         return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
     
-    /* Form Creation Helper Class */
+    /* 
+    *
+    * Form Creation Helper Class
+    *
+    */
         
     private function attributes_creator($attributes)
     {
@@ -611,28 +622,44 @@ class CustomFormLibrary
 		</html>';
 
         $os = PHP_OS;
-        echo $os;
-                // Set the path to the wkhtmltopdf binary based on the operating system
-                if (stripos($os, 'Win') === 0) {
-                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf.exe';
-                } elseif (stripos($os, 'Darwin') === 0) {
-                    $pdf->binary = FCPATH . 'bin/wkhtmltopdf_mac_arm';
-                } elseif (stripos($os, 'Linux') === 0) {
-        $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
-                } else {
-                    // Unsupported operating system
-                    die('Unsupported operating system.');
-                }
+   
+        // Set the path to the wkhtmltopdf binary based on the operating system
+        if (stripos($os, 'Win') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf.exe';
+        } elseif (stripos($os, 'Darwin') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf_mac_arm';
+        } elseif (stripos($os, 'Linux') === 0) {
+            $pdf->binary = FCPATH . 'bin/wkhtmltopdf';
+        } else {
+            // Unsupported operating system
+            die('Unsupported operating system.');
+        }
 		// $globaloptions = array(
 		// 	'title' => 'Meow',
 		// );
 		// $pdf->setOptions($globaloptions);
         $pdf->addPage($html);
 		
-        $pdfContent = base64_encode($pdf->toString());
-        
-        $pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . $pdfContent . '" width="100%" height="600px"></iframe>';
+        $pdfContent = $pdf->toString();
+    
+        return $pdfContent;
+    }
 
-        return $pdfIframe;
+    public function getFormHTML($filename)
+    {
+        $formStructure = '';
+        $fields = $filename;
+        
+        foreach ($fields as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $key => $newValue) {
+                    $formStructure .= $newValue;
+                }
+            } else {
+                $formStructure .= $value;
+            }
+        }
+
+        return $formStructure;
     }
 } 

@@ -81,6 +81,10 @@
         </footer>
 
     </div>
+
+    <!-- Back to Top -->
+    <a id="scrollbtn"><i class="fa fa-angle-up icon-top"></i></a>
+
     ./wrapper
 
     <!-- jQuery -->

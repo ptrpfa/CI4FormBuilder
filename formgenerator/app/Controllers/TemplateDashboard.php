@@ -105,7 +105,9 @@ class TemplateDashboard extends BaseController
         try {
 			// Fetch form from database
 			$form = $this->formBuilder->getForm($formID, false);	
-			$pdfIframe = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
+			$pdfContent = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
+
+			$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="700px"></iframe>';
         }
 		catch(\Exception $e){
 			// Return exception
@@ -157,7 +159,7 @@ class TemplateDashboard extends BaseController
 			$validated_data = validate($post, $rules, false);
 
 			// Check if data validation failed
-			if(!$validated_data) {
+			if(!$validated_data['success']) {
 				// Append form template files to context data
 				$post['form_templates'] = $form_templates;
 				// Return validation errors
@@ -165,7 +167,7 @@ class TemplateDashboard extends BaseController
 			}
 			else {
 				// Map validated data keys to their database equivalent
-				$validated_data = array_combine($db_keys, array_values($validated_data));
+				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
@@ -239,7 +241,7 @@ class TemplateDashboard extends BaseController
 			$validated_data = validate($post, $rules, false);
 
 			// Check if data validation failed
-			if(!$validated_data) {
+			if(!$validated_data['success']) {
 				// Combine form and post arrays
 				$form = array_merge($form, $post);
 				// Return validation errors
@@ -247,7 +249,7 @@ class TemplateDashboard extends BaseController
 			}
 			else {
 				// Map validated data keys to their database equivalent
-				$validated_data = array_combine($db_keys, array_values($validated_data));
+				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
@@ -317,4 +319,41 @@ class TemplateDashboard extends BaseController
 		return view('admin/success', ['message' => 'Deleted all versions of form ' . $formID . '!']);
 	}
 
+
+	public function getFormHTML()
+	{
+		if ($this->request->is('get')) {
+			//Get File name from ajax call
+			$filename = $this->request->getVar('filename');
+			
+			//Pass file name to library to get form html dump
+			$formname = include(APPPATH . 'Config/FormTemplates/' . $filename);
+			$formhtml = $this->formBuilder->getFormHTML($formname);
+			
+			$response = [
+				'status' => 'success',
+				'data' => $formhtml, // Replace with the actual form data
+			];
+		
+			return $this->response->setJSON($response);
+		}
+	}	
+
+	public function printFormHTML()
+	{
+		if ($this->request->is('get')) {
+			//Get File name from ajax call
+			$form = $this->request->getVar('form');
+
+			$pdfContent = $this->formBuilder->export_to_pdf($form);
+
+			$response = [
+				'status' => 'success',
+				'pdfContent' => base64_encode($pdfContent), // Replace with the actual form data
+			];
+		
+			return $this->response->setJSON($response);
+
+		}
+	}
 }
