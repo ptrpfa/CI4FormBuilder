@@ -157,7 +157,7 @@ class TemplateDashboard extends BaseController
 			$validated_data = validate($post, $rules, false);
 
 			// Check if data validation failed
-			if(!$validated_data) {
+			if(!$validated_data['success']) {
 				// Append form template files to context data
 				$post['form_templates'] = $form_templates;
 				// Return validation errors
@@ -165,7 +165,7 @@ class TemplateDashboard extends BaseController
 			}
 			else {
 				// Map validated data keys to their database equivalent
-				$validated_data = array_combine($db_keys, array_values($validated_data));
+				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
@@ -239,7 +239,7 @@ class TemplateDashboard extends BaseController
 			$validated_data = validate($post, $rules, false);
 
 			// Check if data validation failed
-			if(!$validated_data) {
+			if(!$validated_data['success']) {
 				// Combine form and post arrays
 				$form = array_merge($form, $post);
 				// Return validation errors
@@ -247,7 +247,7 @@ class TemplateDashboard extends BaseController
 			}
 			else {
 				// Map validated data keys to their database equivalent
-				$validated_data = array_combine($db_keys, array_values($validated_data));
+				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
