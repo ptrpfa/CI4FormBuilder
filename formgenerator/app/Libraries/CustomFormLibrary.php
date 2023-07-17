@@ -494,11 +494,11 @@ class CustomFormLibrary
     *
     */
 
-    public function form_open($action = '', $attributes = '')
+    public function form_open($action = '', $attributes = '', $method='post')
     {
         $attributeString = $this->attributes_creator($attributes);
 
-        $form = '<form action="' . $action . '" method="post" ' . $attributeString .  '>';
+        $form = '<form action="' . $action . '"' . $method . ' ' . $attributeString .  '>';
         return $form;
     }
 
