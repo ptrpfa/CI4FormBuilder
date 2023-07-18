@@ -6,7 +6,7 @@ $formBuilder = service('CustomFormLibrary');
 
 $fields = [
     'head' => [
-        'group' => $formBuilder->form_open('/users/submit')
+        'group' => $formBuilder->form_open('/users/submit', 'enctype="multipart/form-data"')
     ],
     'name' => [
         //new_div($label, $input, $row, $span, $column, $attributes)
@@ -34,6 +34,16 @@ $fields = [
             2,'md', 9
         )
     ],
+    // 'signature' => [
+    //     'group' => $formBuilder->new_div(
+    //         array(
+    //             $formBuilder->new_label('signature', 'Signature'), 
+
+    //             $formBuilder->new_upload_file_input('signature', 'class="form-control" id="signature-control"'), 
+    //         ),
+    //         1,'md', 9, 'mt-4'
+    //     )        
+    // ],
     'sex-help' => [
         'group' => $formBuilder->new_div(
             [
