@@ -84,5 +84,3 @@ $fields = [
     ],
     
 ];
-
-return $fields;

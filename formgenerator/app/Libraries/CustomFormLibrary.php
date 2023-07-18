@@ -578,9 +578,6 @@ class CustomFormLibrary
 
             // set rule based on input type
             switch ($type) {
-                case 'email':
-                    $rules[$name] = 'required|valid_email';
-                    break;
                 case 'checkbox':
                     $rules[$name] = 'required';
                     break;

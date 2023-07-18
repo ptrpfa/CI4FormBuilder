@@ -833,4 +833,3 @@ $fields =
 
         'tail' => $formBuilder->form_close(),
 ];
-return $fields;
