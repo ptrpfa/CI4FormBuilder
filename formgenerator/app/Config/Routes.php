@@ -61,7 +61,7 @@ $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteF
 /* Testing Routes  */
 $routes->get('/form', 'FormController::index');
 $routes->get('/new', 'AdminController::index');
-$routes->get('/test', 'Sample::index');
+$routes->get('/test', 'Sample::index');                                                                         // Currently referencing to f1040sa form
 use App\Controllers\Survey;
 
 $routes->get('/page', 'Survey::retrieve');
