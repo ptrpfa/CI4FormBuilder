@@ -177,7 +177,7 @@ class UsersDashboard extends BaseController
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
-		
+
 		// Validate the input using the custom validate function
 		$encrypt = false;
 		$validatedData = $this->formBuilder->validateData($post, $rules, $encrypt);

@@ -335,7 +335,7 @@ class CustomFormLibrary
     public function placeFormData($responseID, $response, $view)
     {
         $dom = new \DOMDocument;
-        $dom->loadHTML($view);
+        @$dom->loadHTML($view);
 
         $xpath = new \DOMXPath($dom);
         
@@ -585,7 +585,7 @@ class CustomFormLibrary
                     $rules[$name] = 'required|integer';
                     break;
                 case 'text':
-                    $rules[$name] = 'required';
+                    $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
                     break;
                 default:
                     $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
