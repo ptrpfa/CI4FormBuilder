@@ -163,10 +163,11 @@ class UsersDashboard extends BaseController
 	
 		// extract keys from $post output 
 		$keys = array_keys($post);
-		
-		// set minimal rules for each key
-		foreach ($keys as $key) {
-			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
+		$html = $this->formBuilder->getForm($formID);
+		try{
+			$rules = $this->formBuilder->generateRulesFromHTML($html);
+		} catch (\Exception $e){
+			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
 		
 		// Validate the input using the custom validate function
@@ -318,8 +319,6 @@ class UsersDashboard extends BaseController
 		$data['response'] = unserialize($response["Response"]);
 
 		$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
-		
-		//var_dump($response);
 
 		return view('admin/users/EditForm', $data);
 	}
@@ -327,38 +326,37 @@ class UsersDashboard extends BaseController
 	public function submitUpdatedForm($responseID){
 
 		$post = $this->request->getPost();
-		
-		$keys = array_keys($post);
-	
-		foreach ($keys as $key) {
-			$rules[$key] = ['required', 'max_length[500]', 'min_length[3]', 'regex_match[/^[a-zA-Z0-9_ ]+$/]'];
-		}
+
+		$html = $this->formBuilder->getAssociatedFormStructure($responseID);
+
+		$rules = $this->formBuilder->generateRulesFromHTML($html);
 
 		// Validate the input using the custom validate function
-		try {
-			$encrpyt = false;
-			$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
-		
-			if (!$validatedData) {
-				// Validation failed, return error view or perform any other actions
-				return view('errors/html/error_404', ['message' => 'Validation error']);
-			}
-		
-			// Proceed with the rest of the code
-			// ...
-		} catch (\Exception $e) {
-			// Log the error or display a user-friendly error message
-			log_message('error', 'Form validation failed: ' . $e->getMessage());
-			// Handle the exception as needed
-			// For example, you can return an error view
-			return view('errors/html/error_404', ['message' => 'An error occurred']);
+		// try {
+		// 	$encrpyt = false;
+		// 	$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+		// 	if (!$validatedData['success']) {
+		// 		// Validation failed, return error view or perform any other actions
+		// 		return view('errors/html/error_404', ['message' => 'Validation error']);
+		// 	}
+		// } catch (\Exception $e) {
+		// 	// Validation failed, return error view or perform any other actions
+		// 	$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
+		// 	$errorMessage = "Validation Error for the following fields: " . $errorFields;
+		// 	return view('errors/html/error_404', ['message' => $errorMessage]);
+		// }
+
+		$encrpyt = false;
+		$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+
+		if (!$validatedData['success']) {
+			// Validation failed, return error view or perform any other actions
+			$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
+			$errorMessage = "Validation Error for the following fields: " . $errorFields;
+			return view('errors/html/error_404', ['message' => $errorMessage]);
 		}
 
 		$responseData = serialize($post);
-
-		// $formStructure = $this->formBuilder->getAssociatedFormStructure($responseID);
-
-		// var_dump($formStructure);
 
 		$formData = [
 			'Response' => $responseData

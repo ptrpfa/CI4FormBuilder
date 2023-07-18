@@ -457,6 +457,180 @@ class CustomFormLibrary
     }
 
     /* 
+    *
+    * Rules functions 
+    *
+    */
+
+    public function getRules($fileName){
+
+        // Sanitize input
+        $fileName = basename($fileName);
+
+        // Define file path
+        $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
+
+        // Initialize $rules
+        $rules = null;
+
+        try{
+            if (file_exists($filePath)){
+                include($filePath);
+            }
+            else{
+                throw new \Exception("Cannot locate rule file");
+            }
+        } catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
+            throw $e;
+        }
+
+        return $rules;
+
+    }
+
+    public function getAssociatedRules($formID){
+
+        /*
+        Passes in the formID from the controller
+        Allows rules to be retrieved from the config folder dynamically
+        File name must follow a specific format formid_rule.php
+        e.g. 23_rule.php
+        */
+
+        $fileName = $formID . '_rule';
+
+        // Sanitize input
+        $fileName = basename($fileName);
+
+        // Define file path
+        $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
+
+        // Initialize $rules
+        $rules = null;
+
+        try{
+            if (file_exists($filePath)){
+                include($filePath);
+            }
+            else{
+                throw new \Exception("Cannot locate rule file");
+            }
+        } catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
+            throw $e;
+        }
+
+        return $rules;
+
+    }
+
+    // Generate rules from HTML
+    public function generateRulesFromHTML($html,$ignore = true){
+
+        /*
+        Passes in the html structure from the controller
+        Allows rules to be generated based on html structure, html input type
+        $ignore set to true to ignore malformed html structures, will attempt to generate a ruleset despite bugged html structure
+        Pass in $ignore = false to flag an exception if the html structure is malformed
+        */
+
+        $dom = new \DOMDocument;
+
+        $rules = [];
+
+        if ($ignore === true){
+            @$dom->loadHTML($html);
+        }
+        else{
+            try{
+                $dom->loadHTML($html);
+            } catch(\Exception $e){
+                // Log the error or display a user-friendly error message
+                log_message('error', 'Rule generation failed: ' . $e->getMessage());
+                throw $e;
+            }
+        }
+
+        // find all input elements
+        $inputs = $dom->getElementsByTagName('input');
+        $textareas = $dom->getElementsByTagName('textarea');
+        $selects = $dom->getElementsByTagName('select');
+
+        foreach ($inputs as $input) {
+
+            // get the name attribute 
+            $name = $input->getAttribute('name');
+
+            // get the type attribute
+            $type = $input->getAttribute('type');
+
+            // set rule based on input type
+            switch ($type) {
+                case 'email':
+                    $rules[$name] = 'required|valid_email';
+                    break;
+                case 'checkbox':
+                    $rules[$name] = 'required';
+                    break;
+                case 'radio':
+                    $rules[$name] = 'required';
+                    break;
+                case 'date':
+                    $rules[$name] = 'required';
+                    break;
+                case 'number':
+                    $rules[$name] = 'required|integer';
+                    break;
+                case 'text':
+                    $rules[$name] = 'required';
+                    break;
+                default:
+                    $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                    break;
+            }
+        }
+
+        foreach ($textareas as $textarea) {
+
+            $name = $textarea->getAttribute('name');
+
+            $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+
+        }
+
+        foreach ($selects as $select) {
+
+            $name = $select->getAttribute('name');
+
+            $rules[$name] = 'required';
+
+        }
+
+        return $rules;
+    }
+
+    //Generates a basic set of rules from $post data
+    public function generateRulesFromPOST($post){
+
+        //Initialize $rules
+        $rules = [];
+
+        //Get keys from $post data
+		$keys = array_keys($post);
+	
+        //Assign each key as a key in rules, assign each key with a standard set of rules
+		foreach ($keys as $key) {
+			$rules[$key] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+		}
+
+        return $rules;
+
+    }
+
+    /* 
     * 
     * Form HTML Container Creation
     *
