@@ -11,7 +11,7 @@ class Sample extends BaseController
         $formBuilder = service('CustomFormLibrary');
         //Get the Form Fields
         // $fields = include(APPPATH . 'Config/FormTemplates/sample.php');
-        $fields = include(APPPATH . 'Config/FormTemplates/f1040sa.php');
+        $fields = include(APPPATH . 'Config/FormTemplates/f1040sb.php');
 
 
         $data  = [

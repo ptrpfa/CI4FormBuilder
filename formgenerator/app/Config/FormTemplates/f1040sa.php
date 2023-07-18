@@ -94,7 +94,7 @@ $fields =
                         $formBuilder->new_div(
                             [
                                 $formBuilder->new_input('name', '', 'class="form-control form-control-sm" id="name" placeholder="name"'),
-                                $formBuilder->new_label('name', 'Name(s) shown on return', 'for="name"'),
+                                $formBuilder->new_label('name', 'Name(s) shown on Form 1040 or 1040-SR', 'for="name"'),
                             ],
                             '','','','form-floating'
                         ),
@@ -111,11 +111,10 @@ $fields =
                             '','','','form-floating'
                         ),
                     ],
-                    '','','','col-md-2 '
+                    '','','','col-md-2'
                 ),
-                'seperator' => $formBuilder->new_html('hr','', 'mx-auto mt-2 w-80'),
             ],
-            '','','','row d-flex justify-content-center align-items-end mx-auto w-75 text-start'
+            '','','','row d-flex justify-content-center align-items-end mx-auto w-75 text-start pb-3'
         ),
     ],
     // Medical and Dental Expenses
@@ -775,33 +774,6 @@ $fields =
             '','','','row d-flex justify-content-center mx-auto w-75 text-start'
         ),
     ],
-
-
-
-    // Name
-    // 'medicalAndDental' =>
-    // [
-    //     $formBuilder->new_div(
-    //         [
-    //             $formBuilder->new_div(
-    //                 [
-    //                     $formBuilder->new_html('h5','Medical and Dental Expenses'),
-    //                 ],
-    //                 '','','','col-md-2 text-start'
-    //             ),
-    //             $formBuilder->new_div(
-    //                 [
-                        
-    //                 ],
-    //                 '','','','col-md-10'
-    //             ),
-    //             'seperator' => $formBuilder->new_html('hr','', 'class="mt-3"'),
-    //         ],
-    //         '','','','row d-flex justify-content-center mx-auto w-75 text-start'
-    //     ),
-    // ],
-
-
 
     // footer
     'footer' =>

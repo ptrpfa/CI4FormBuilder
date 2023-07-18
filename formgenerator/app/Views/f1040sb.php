@@ -189,6 +189,6 @@
         <h7>Cat. No. 17146N</h7>
     </div>
     <div class="col-auto">
-        <h7>Schedule A (Form 1040) 2022</h7>
+        <h7>Schedule B (Form 1040) 2022</h7>
     </div>
 </div>
