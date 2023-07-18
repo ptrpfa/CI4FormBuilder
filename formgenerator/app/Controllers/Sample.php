@@ -10,8 +10,9 @@ class Sample extends BaseController
         //Get the library instance
         $formBuilder = service('CustomFormLibrary');
         //Get the Form Fields
-        // $fields = include(APPPATH . 'Config/FormTemplates/sample.php');
-        $fields = include(APPPATH . 'Config/FormTemplates/f1040sb.php');
+        // $fields = include(APPPATH . 'Config/FormTemplates/sample.php'); // Show f1040
+        $fields = include(APPPATH . 'Config/FormTemplates/f1040sa.php'); // Show f1040sa
+        $fields = include(APPPATH . 'Config/FormTemplates/f1040sb.php'); // Show f1040sb
 
 
         $data  = [
