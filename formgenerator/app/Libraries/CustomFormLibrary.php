@@ -527,6 +527,15 @@ class CustomFormLibrary
         return $input; 
     }
 
+    public function new_upload_file_input($name='', $attributes='')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $input = '<input type="file" name="' . $name . '" ' . $attributeString . '>';
+            
+        return $input; 
+    }
+
     public function new_textarea($name='', $value='', $attributes='')
     {
         $attributeString = $this->attributes_creator($attributes);

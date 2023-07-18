@@ -152,6 +152,14 @@ class UsersDashboard extends BaseController
 	public function submitForm()
 	{
 		$post = $this->request->getPost();
+
+		// Additional logic to handle file upload IF exists
+		$uploadFile = $this->request->getFile('signature');
+		if($uploadFile && $uploadFile->isValid() && ! $uploadFile -> hasMoved()) {
+			$newName = $uploadFile -> getRandomName(); //This is to avoid duplicated file names
+			$uploadFile->move(WRITEPATH . 'uploads', $newName); //Creates a folder in the writable folder called 'uploads'
+			$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
+		}
 	
 		// Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
@@ -180,7 +188,6 @@ class UsersDashboard extends BaseController
 			return view('errors/html/error_404', ['message' => $errorMessage]);
 		}
 		
-		
 		// Extract the validated data
 		$validatedData = $validatedData['data'];
 
@@ -203,7 +210,6 @@ class UsersDashboard extends BaseController
 		$data['title'] = 'Form Submission';
 		$data['formID'] = $formID;
 		return view('admin/users/create_success', $data);
-
 	}
 	
 
