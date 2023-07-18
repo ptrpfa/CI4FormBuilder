@@ -100,7 +100,12 @@ class FormBuilder extends Migration
             'Response' => [
                 'type'              => 'BLOB',
                 'null'              => false
-            ]
+            ],
+            // 'File' => [
+            //     'type'       => 'VARCHAR',
+            //     'constraint' => 255,
+            //     'null' => true,
+            // ]
         ];
         // Add Response table fields
         $this->forge->addField($response_fields);
