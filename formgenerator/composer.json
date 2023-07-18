@@ -8,7 +8,6 @@
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
         "mikehaertl/phpwkhtmltopdf": "^2.5",
-	"mpdf/mpdf": "^8.1",
         "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {

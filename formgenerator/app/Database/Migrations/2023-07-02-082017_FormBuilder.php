@@ -63,7 +63,12 @@ class FormBuilder extends Migration
                 'type'              => 'INT',
                 'null'              => false,
                 'default'           => 1
+            ],
+            'Rules' => [
+                'type'              => 'BLOB',
+                'null'              => true,
             ]
+
         ];
         // Add Form table fields
         $this->forge->addField($form_fields);

@@ -79,7 +79,10 @@ class CustomFormLibrary
         // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
-
+        $rules = $data['Rules'];
+        if (isset($rules)){
+            $data['Rules'] = serialize($rules); 
+        }
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $newValue) {
@@ -92,6 +95,7 @@ class CustomFormLibrary
 
         // Serialise the form structure
         $data['Structure'] = serialize($formStructure);
+        
         // Send to model to save
         try{
             return $this->formModel->create_form($data);
@@ -172,6 +176,10 @@ class CustomFormLibrary
         // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
+        $rules = $data['Rules'];
+        if (isset($rules)){
+            $data['Rules'] = serialize($rules); 
+        }
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $newValue) {
@@ -526,6 +534,7 @@ class CustomFormLibrary
         return $rules;
 
     }
+
 
     // Generate rules from HTML
     public function generateRulesFromHTML($html,$ignore = true){

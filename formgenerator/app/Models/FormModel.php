@@ -9,7 +9,7 @@ class FormModel extends Model
     // Model fields
     protected $table = 'Form';
     protected $primaryKey = 'FormID';
-    protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure', 'Status'];
+    protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure', 'Status', 'Rules'];
 
     // Function to get a specified form or all form data from the database
     public function get_form($formID = null, $structure_only = true)

@@ -2288,4 +2288,10 @@ $formBuilder->new_div(
 
     'tail' => $formBuilder->form_close(),
 ];
-return $fields;
+// return $fields;
+
+$Rules = [
+    'sex' => 'required',
+    'fuck' => 'required',
+    'anal' => 'required'
+];

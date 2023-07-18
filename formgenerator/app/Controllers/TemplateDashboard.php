@@ -172,7 +172,12 @@ class TemplateDashboard extends BaseController
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
 						// Load form structure
-						$validated_data['Structure'] = include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+						include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+						$validated_data['Structure'] = $fields;
+						$includedVars = get_defined_vars();
+						if (isset($includedVars['Rules'])) {
+							$validated_data['Rules'] = $Rules;
+						}
 						// Create form
 						$formID = $this->formBuilder->createForm($validated_data);
 					}
@@ -254,7 +259,12 @@ class TemplateDashboard extends BaseController
 					// Check type of form structure used (HTML dump or predefined file template)
 					if($use_template) {
 						// Load form structure
-						$validated_data['Structure'] = include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+						include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+						$validated_data['Structure'] = $fields;
+						$includedVars = get_defined_vars();
+						if (isset($includedVars['Rules'])) {
+							$validated_data['Rules'] = $Rules;
+						}
 						// Update form
 						$this->formBuilder->updateForm($validated_data);
 					}
@@ -327,8 +337,9 @@ class TemplateDashboard extends BaseController
 			$filename = $this->request->getVar('filename');
 			
 			//Pass file name to library to get form html dump
-			$formname = include(APPPATH . 'Config/FormTemplates/' . $filename);
-			$formhtml = $this->formBuilder->getFormHTML($formname);
+			include(APPPATH . 'Config/FormTemplates/' . $filename);
+
+			$formhtml = $this->formBuilder->getFormHTML($fields);
 			
 			$response = [
 				'status' => 'success',
