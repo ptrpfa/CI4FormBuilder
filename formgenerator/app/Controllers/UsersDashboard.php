@@ -95,6 +95,7 @@ class UsersDashboard extends BaseController
 	***/
 	public function newUser()
 	{
+		
         // Checks whether the form is requested by ajax call.
 		//This gets the form at the bottom of the screen dynamically
         if ($this->request->is('post')) {
@@ -146,6 +147,7 @@ class UsersDashboard extends BaseController
 
         $data['title'] = 'New User';
 		$data['view'] =  $form;
+
 		return view('admin/users/NewUser', $data);
 	}
 

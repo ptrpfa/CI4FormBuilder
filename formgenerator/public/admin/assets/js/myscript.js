@@ -15,13 +15,18 @@ $(document).ready(function() {
     $('#formSelector').on('change', function() {
       var formID = $(this).val();
       var formValue = $(this).find(":selected").text();
+      var csrfName = $('#csrfToken').attr('name'); // CSRF Token name
+      var csrfHash = $('#csrfToken').val(); // CSRF hash
 
       if (formID !== '') {
         // Make an AJAX request to fetch the form data
         $.ajax({
           url: '/users/newUser', 
           type: 'POST',
-          data: { formID: formID },
+          data: { 
+            formID: formID,
+            [csrfName]: csrfHash 
+          },
           dataType: 'json',
           success: function(response) {
             if (response.status === 'success') {
