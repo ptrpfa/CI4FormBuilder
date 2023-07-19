@@ -5,7 +5,7 @@ $formBuilder = service('CustomFormLibrary');
 
 $fields = 
 [
-    'head' =>  $formBuilder->form_open('/users/submit'),
+    'head' =>  $formBuilder->form_open('/users/submit', 'enctype="multipart/form-data" accept-charset="utf-8"'),
     'title' =>
     [
         $formBuilder->new_div(
@@ -1983,8 +1983,9 @@ $formBuilder->new_div(
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('inputGroupFile02','Your Signature','class="form-control"'),
+                                            //$formBuilder->new_input('inputGroupFile02','Your Signature','class="form-control"'),
                                             $formBuilder->new_label('inputGroupFile02','Upload','class="input-group-text"'),
+                                            $formBuilder->new_upload_file_input('user_file', 'class="form-control" id="user_file" multiple'), 
                                         ],
                                         '','','','input-group mb-3'
                                     ),
@@ -2036,8 +2037,9 @@ $formBuilder->new_div(
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_input('spouseInputGroupFile02','Spouse Signature','class="form-control"'),
+                                            //$formBuilder->new_input('spouseInputGroupFile02','Spouse Signature','class="form-control"'),
                                             $formBuilder->new_label('spouseInputGroupFile02','Upload','class="input-group-text"'),
+                                            $formBuilder->new_upload_file_input('user_file', 'class="form-control" id="user_file" multiple'), 
                                         ],
                                         '','','','input-group mb-3'
                                     ),
