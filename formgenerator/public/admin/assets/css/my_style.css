@@ -3,17 +3,33 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.content{
+    padding: 10px !important;
+    color: floralwhite;
+}
 
+.errors{
+    background-color:red;
+    font-weight: bolder;
+}
+.card-body{
+    color: black;
+}
 .table-container{
-  background: #34495E;
+  background: floralwhite;
   padding: 2%;
   overflow: hidden;
   border-radius: 15px;
-  color: #FFFAFA;
+  margin: 10px 0;
+  box-shadow: 0 0 10px #ccc;
+  color: black;
 }
 
-.subrows tr{
-  color:#FFC107;
+.table-container tr:hover{
+    border: 3px solid;
+}
+.table-container tbody{
+    font-weight: 500;
 }
 .hide{
     display:none;
@@ -24,24 +40,36 @@
 }
 
 #new-form-title{
-    padding-top:3%;
-    padding-bottom:3%;
-    text-align: center;
+    padding-top:2%;
+    padding-bottom:2%;
+    margin-bottom: 0;
     background-color: #334155;
     border-radius: 10px;
     color: #ffffff;
 }
 
+.form-creation{
+    background-color:floralwhite; 
+    padding:2%; 
+    border-radius: 15px;
+    color: black;
+}
+
+.user-description{
+    text-align: center;
+    color:royalblue;
+}
 #formContainer {
     background-color: white;
     margin-bottom: 5%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
     padding: 20px;
+    color: black;
 }
 
 #scrollbtn {
     display: inline-block;
-    background-color: #34495E;
+    background-color: #007bff;
     width: 50px;
     height: 50px;
     text-align: center;

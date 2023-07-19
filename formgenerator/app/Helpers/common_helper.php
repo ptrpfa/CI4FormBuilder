@@ -16,7 +16,7 @@
         */
 
         // Set table base 
-        $table = '<div class="table-container" style="margin:3%;">';
+        $table = '<div class="table-container">';
         $table .= '<div class="d-flex justify-content-between align-items-center">';
         $table .= '<h3>' . $tableTitle . '</h3>';
 

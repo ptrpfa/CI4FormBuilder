@@ -51,7 +51,20 @@ class CustomFormLibrary
         */
         try {
             // Retrieve form template(s) from the database based on the arguments passed 
-            return $this->formModel->get_form($formID, $structure_only);
+
+            if($formID != null){
+                // Get the CSRF token and hash
+                $csrfToken = csrf_token();
+                $csrfHash = csrf_hash();
+
+                $formStructure =  $this->formModel->get_form($formID, $structure_only);
+       
+                $formStructure = preg_replace('/<\/form>/', '<input type="hidden" name="' . $csrfToken . '" value="' . $csrfHash . '"></form>', $formStructure);
+            }else{
+                $formStructure =  $this->formModel->get_form($formID, $structure_only);
+            }
+
+            return $formStructure;
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
@@ -677,7 +690,9 @@ class CustomFormLibrary
     {
         $attributeString = $this->attributes_creator($attributes);
 
-        $form = '<form action="' . $action . '" method="' . $method . '" ' . $attributeString .  '>';
+        $form = '<form action="' . $action . '" method="' . $method . '" ' . $attributeString . '>';
+
+
         return $form;
     }
 
