@@ -53,7 +53,7 @@ class Filters extends BaseConfig
      * with a method you don’t expect could bypass the filter.
      */
     public array $methods = [
-        // 'post' => ['csrf'],  // Enable CSRF for POST requests
+        'post' => ['csrf'],  // Enable CSRF for POST requests
     ];
 
     /**
