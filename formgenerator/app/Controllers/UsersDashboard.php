@@ -397,7 +397,7 @@ class UsersDashboard extends BaseController
 
 		$post = $this->request->getPost();
 		$formID = $post['formid'];
-		$html = $this->formBuilder->getAssociatedFormStructure($responseID);
+		$html = $this->formBuilder->getAssociatedFormData($responseID);
 
 		try{
 			// $rules = $this->formBuilder->getAssociatedRules($formID);
