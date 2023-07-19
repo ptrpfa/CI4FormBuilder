@@ -76,6 +76,12 @@ use App\Controllers\Survey;
 $routes->get('/page', 'Survey::retrieve');
 $routes->match(['get', 'post'], 'survey', [Survey::class, 'create']);
 
+
+//All invalid route, route to here
+$routes->group('', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function ($routes) {
+    $routes->get('(:any)', 'LoginController::loginView');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
