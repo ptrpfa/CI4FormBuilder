@@ -238,7 +238,7 @@ $fields =
                                     [
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('5a', '', 'class="form-check-input"', false),
+                                                $formBuilder->new_checkbox('5a', '5a', 'class="form-check-input"', false),
                                                 $formBuilder->new_label('5a', '5a. State and local income taxes or general sales taxes. You may include either income taxes or general sales taxes on line 5a, but not both. If you elect to include general sales taxes instead of income taxes, check this box', 'class="form-check-label"'),
                                             ],
                                             '',
@@ -392,7 +392,7 @@ $fields =
                                     [
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('8', '', 'class="form-check-input"', false),
+                                                $formBuilder->new_checkbox('8', '8', 'class="form-check-input"', false),
                                                 $formBuilder->new_label('8', "Home mortgage interest and points. If you didn't use all of your homemortgage loan(s) to buy, build, or improve your home, see instructions and check this box", 'class="form-check-label"'),
                                             ],
                                             '',
@@ -758,7 +758,7 @@ $fields =
                         ),
                         $formBuilder->new_div(
                             [
-                                $formBuilder->new_checkbox('18', '', 'class="form-check-input"', false),
+                                $formBuilder->new_checkbox('18', '18', 'class="form-check-input"', false),
                                 $formBuilder->new_label('18', '18. If you elect to itemize deductions even though they are less than your standard deduction, check this box', 'class="form-check-label"'),
                             ],
                             '',
