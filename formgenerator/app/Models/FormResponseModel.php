@@ -118,4 +118,16 @@ class FormResponseModel extends Model
         }
     }
 
+    public function get_next_id()
+    {
+        // Build query
+        $builder = $this->db->table('Response');
+        $builder->selectMax('ResponseID');
+        $query = $builder->get();
+        
+        // Return results
+        return intval($query->getFirstRow()->ResponseID) + 1;
+    
+    }
+
 }

@@ -6,7 +6,7 @@ $formBuilder = service('CustomFormLibrary');
 
 $fields = [
     'head' => [
-        'group' => $formBuilder->form_open('/users/submit', 'enctype="multipart/form-data"')
+        'group' => $formBuilder->form_open('/users/submit', 'enctype="multipart/form-data" accept-charset="utf-8"')
     ],
     'name' => [
         //new_div($label, $input, $row, $span, $column, $attributes)
@@ -34,16 +34,17 @@ $fields = [
             2,'md', 9
         )
     ],
-    // 'signature' => [
-    //     'group' => $formBuilder->new_div(
-    //         array(
-    //             $formBuilder->new_label('signature', 'Signature'), 
+    'signature' => [
+        'group' => $formBuilder->new_div(
+            array(
+                $formBuilder->new_label('signature', 'Signature'), 
 
-    //             $formBuilder->new_upload_file_input('signature', 'class="form-control" id="signature-control"'), 
-    //         ),
-    //         1,'md', 9, 'mt-4'
-    //     )        
-    // ],
+                $formBuilder->new_upload_file_input('user_file[]', 'class="form-control" id="user_file" multiple'), 
+
+            ),
+            1,'md', 9, 'mt-4'
+        )        
+    ],
     'sex-help' => [
         'group' => $formBuilder->new_div(
             [
@@ -83,4 +84,8 @@ $fields = [
         'group' => $formBuilder->form_close()
     ],
     
+];
+
+$Rules = [
+    'name' => 'required'
 ];
