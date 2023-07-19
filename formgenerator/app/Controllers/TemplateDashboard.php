@@ -39,14 +39,7 @@ class TemplateDashboard extends BaseController
 			$datetime = $form['Datetime'];
 			$description = $form['Description'];
 			$status = $form['Status'] ? 'Active' : 'Inactive';
-
-			// Set subrow actions
-			$subrow_actions = [	
-				'Read' => base_url('template/') . $formID,
-				'Update' => base_url('template/update/') . $formID,
-				'Delete' => base_url('template/delete/'). $formID, 
-				'Activate' => base_url('template/activate/'). $formID 
-			];
+			$deactivate_at = $form['deletedAt'] ? $form['deletedAt'] : '-';
 
 			// Set subrow information
 			$subrow = [	
@@ -54,39 +47,44 @@ class TemplateDashboard extends BaseController
 				'Description' => $description, 
 				'Datetime' => $datetime, 
 				'Status' => $status,
-				'actions' => $subrow_actions
-			];
-		
-			// Set row information
-			$rowData = [
-				'id' => $formID,
-				'name' => $name,
-				'Subrows' => [
-					$subrow
+				'Deactivate At' => $deactivate_at, 
+				'actions' => [	
+					'Read' => base_url('template/') . $formID,
+					'Update' => base_url('template/update/') . $formID,
+					'Deactivate' => base_url('template/delete/'). $formID, 
+					'Activate' => base_url('template/activate/'). $formID 
 				]
 			];
 		
-			// Append row to data array
-			$data[] = $rowData;
-
-			// Loop through each data entry
-			foreach ($data as $rowData) {
-				// Find the row in $data based on the 'id' field
-				if ($rowData['id'] === $formID) {
-					// Append current subrow to 
+			$foundMatch = false;
+			// Find the row in $data based on the 'id' field
+			foreach ($data as  &$rowData) {
+				if ($rowData['name'] == $name) {
 					$rowData['Subrows'][] = $subrow;
+					$foundMatch = true;
+					unset($rowData);
 					break;
 				}
+			}
+			
+			if (!$foundMatch) {
+				$data[] = [
+					'id' => $formID,
+					'name' => $name,
+					'Subrows' => [
+						$subrow
+					]
+				];
 			}
 
 		}
 
 		// Set table values
 		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
+		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status', 'Deactivated At'];
 		$actions = [									
-			'New' => base_url('template/create'),  				// Whole New Form Template
-			'DeleteAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
+			'New' => base_url('template/create'),  					// Whole New Form Template
+			'DeactivateAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
 		];
 
         // Generate the table
@@ -298,7 +296,7 @@ class TemplateDashboard extends BaseController
 			return $e->getMessage();
 		}
 		// Return view
-		return view('admin/success', ['message' => 'Deleted form ' . $formID . '!']);
+		return view('admin/success', ['message' => 'Deactivated form ' . $formID . '!']);
 	}
 
 	// View to activate a form template (set status to active)
@@ -326,7 +324,7 @@ class TemplateDashboard extends BaseController
 			return $e->getMessage();
 		}
 		// Return view
-		return view('admin/success', ['message' => 'Deleted all versions of form ' . $formID . '!']);
+		return view('admin/success', ['message' => 'Deactivated all versions of form ' . $formID . '!']);
 	}
 
 
