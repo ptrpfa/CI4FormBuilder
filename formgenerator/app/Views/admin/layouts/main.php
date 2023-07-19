@@ -36,7 +36,7 @@
 
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    
+   
     <div class="wrapper">
 
         <!-- Main Sidebar Container -->
@@ -79,6 +79,8 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer" style="background-color:floralwhite;">
             <strong>Copyright &copy; 2023 CSC1106 Group 7 🤑</strong>
+            <audio id="myAudio" src="/admin/assets/rowing-boat-rowboat-01.mp3"></audio>
+<button onclick="document.getElementById('myAudio').play()">Play</button>
         </footer>
 
     </div>
