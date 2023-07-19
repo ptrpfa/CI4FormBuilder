@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\FormResponseModel;
+use App\Models\FormModel;
 
 class UsersDashboard extends BaseController
 {	
@@ -166,6 +167,12 @@ class UsersDashboard extends BaseController
 		// Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
+
+		$formModel = new FormModel();
+
+		if(!$formModel -> isActive($formID)) {
+		return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
+		}
 	
 		// Remove the 'username' and 'formid' key from the array 
 		unset($post['username']);

@@ -221,5 +221,10 @@ class FormModel extends Model
     
     //     return $rules;
     // }
+    
+    public function isActive($formID){
+        $form = $this->find($formID);
+        return $form['Status'] == 1;
+    }
 
 }
