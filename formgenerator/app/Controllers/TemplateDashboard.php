@@ -51,7 +51,7 @@ class TemplateDashboard extends BaseController
 				'actions' => [	
 					'Read' => base_url('template/') . $formID,
 					'Update' => base_url('template/update/') . $formID,
-					'Deactivate' => base_url('template/delete/'). $formID, 
+					'Delete' => base_url('template/delete/'). $formID, 
 					'Activate' => base_url('template/activate/'). $formID 
 				]
 			];
@@ -84,7 +84,7 @@ class TemplateDashboard extends BaseController
 		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status', 'Deactivated At'];
 		$actions = [									
 			'New' => base_url('template/create'),  					// Whole New Form Template
-			'DeactivateAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
+			'DeleteAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
 		];
 
         // Generate the table
