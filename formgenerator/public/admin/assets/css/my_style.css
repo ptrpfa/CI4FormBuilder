@@ -1,5 +1,5 @@
 .content-wrapper{
-  background-image: url('admin/assets/img/bg.jpg') !important;
+  background-image: url('../img/photo4.jpg') !important;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -11,6 +11,7 @@
   border-radius: 15px;
   color: #FFFAFA;
 }
+
 .subrows tr{
   color:#FFC107;
 }

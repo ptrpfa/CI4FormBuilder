@@ -58,11 +58,12 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-        <div class="content-header" style="background-color: #f8f9fa; padding: 20px;">
+      
+        <div class="content-header" style="padding: 30px;">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark" style="font-size: 24px; font-weight: bold; color: #333;"> <i class="fas fa-paper-plane" style="color:#888"></i>  <?= @$title ?></h1>
+                        <h1 class="m-0" style="font-size: 30px; font-weight: bolder;color:floralwhite; "> <i class="fas fa-paper-plane" style="color:floralwhite;"></i>  <?= @$title ?></h1>
                     </div>
                 </div>
             </div>
@@ -76,7 +77,7 @@
         <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
+        <footer class="main-footer" style="background-color:floralwhite;">
             <strong>Copyright &copy; 2023 CSC1106 Group 7 🤑</strong>
         </footer>
 
