@@ -286,12 +286,8 @@ class CustomFormLibrary
 
     /* User Response CRUD */
 
-    public function getAssociatedFormStructure($responseID, $structure_only=true){
-        /* 
-            Arguments:
-            $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
-            $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
-        */
+    public function getAssociatedFormData($responseID, $structure_only=true){
+
         $responseData = $this->getResponseFormData($responseID);
 
 		$formID = $responseData['FormID'];
@@ -339,76 +335,80 @@ class CustomFormLibrary
 
     public function placeFormData($responseID, $response, $view)
     {
+        // create new DOM document object
         $dom = new \DOMDocument;
+        // ignore malformed html and load html view
         @$dom->loadHTML($view);
 
+        // create new xpath object
         $xpath = new \DOMXPath($dom);
         
+        // find the form action element
         $formElement = $xpath->query("//form")->item(0);
         if ($formElement) {
+            // set the form action element to update
             $formElement->setAttribute('action', '/users/update/' . $responseID);
         }
     
+        // for each user response data
         foreach ($response as $key => $value) {
+            // use the query object to query the html to find the elements with name = key
             $elements = $xpath->query("//*[@name='$key']");
     
-            if (!is_null($elements)) {
-                foreach ($elements as $element) {
-                    if ($element->tagName === 'input') {
-                        if ($element->getAttribute('type') === 'radio') {
+            // check if there are elements found
+            if (!is_null($elements))
+            {
+                // iterate through each element found with the name = key
+                foreach ($elements as $element)
+                {
+                    /*
+                        Set value according the html input types
+                        html input
+                        html textarea
+                        html select
+                    */
+
+                    if ($element->tagName === 'input')
+                    {
+                        if ($element->getAttribute('type') === 'radio')
+                        {
                             // Check if the radio button value matches the response value
-                            if ($element->getAttribute('value') === $value) {
+                            if ($element->getAttribute('value') === $value)
+                            {
                                 $element->setAttribute('checked', 'checked');
                             }
-                        } else {
+                        } else
+                        {
                             $element->setAttribute('value', $value);
                         }
-                    } else if ($element->tagName === 'select') {
+                    } else if ($element->tagName === 'select')
+                    {
                         // Set the selected option based on the response value
                         $options = $element->getElementsByTagName('option');
-                        foreach ($options as $option) {
-                            if ($option->getAttribute('value') === $value) {
+                        foreach ($options as $option)
+                        {
+                            if ($option->getAttribute('value') === $value)
+                            {
                                 $option->setAttribute('selected', 'selected');
-                            } else {
+                            } else
+                            {
                                 $option->removeAttribute('selected');
                             }
                         }
-                    } else if ($element->tagName === 'textarea') {
+                    } else if ($element->tagName === 'textarea')
+                    {
                         $element->nodeValue = $value;
                     }
                 }
             }
         }
     
+        // Save the edited html structure back to $view
         $view = $dom->saveHTML();
     
+        // return the view
         return $view;
     }
-
-    // public function placeFormData($response, $view)
-    // {
-    //     $dom = new \DOMDocument;
-	// 	$dom->loadHTML($view);
-		
-	// 	foreach ($response as $key => $value) {
-	// 		$xpath = new \DOMXPath($dom);
-	// 		$elements = $xpath->query("//*[@name='$key']");
-		
-	// 		if (!is_null($elements)) {
-	// 			foreach ($elements as $element) {
-	// 				if($element->tagName === 'input' || $element->tagName === 'select') {
-	// 					$element->setAttribute('value', $value);
-	// 				} else if($element->tagName === 'textarea') {
-	// 					$element->nodeValue = $value;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-
-    //     $view = $dom->saveHTML();
-    
-    //     return $view;
-    // }
 
     public function submitFormData($formID, $user, $formData) {
         /* 
@@ -473,10 +473,10 @@ class CustomFormLibrary
         $fileName = basename($fileName);
 
         // Define file path
-        $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
+        $filePath = APPPATH . 'Config/FormTemplates/' . $fileName . '.php';
 
         // Initialize $rules
-        $rules = null;
+        $rules = [];
 
         try{
             if (file_exists($filePath)){
@@ -495,44 +495,32 @@ class CustomFormLibrary
 
     }
 
-    // public function getAssociatedRules($formID){
+    public function getAssociatedRules($responseID){
 
-    //     /*
-    //     Passes in the formID from the controller
-    //     Allows rules to be retrieved from the config folder dynamically
-    //     File name must follow a specific format formid_rule.php
-    //     e.g. 23_rule.php
-    //     */
+        /*
+        Passes in the responseID from the controller
+        Allows rules to be retrieved from the database based on associated form structure
+        */
 
-    //     // $fileName = $formID . '_rule';
+        $rules = [];
 
-    //     // // Sanitize input
-    //     // $fileName = basename($fileName);
+        try{
+            $responseData = $this->getResponseFormData($responseID);
 
-    //     // // Define file path
-    //     // $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
+            $formID = $responseData['FormID'];
+    
+            $formData = $this->getAssociatedFormData($formID,false);
+    
+            $rules = unserialize($formData['Rules']);
+        } catch(\Exception $e){
+            // Log the error or display a user-friendly error message
+            log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
+            throw $e;
+        }
 
-    //     // // Initialize $rules
-    //     // $rules = null;
+        return $rules;
 
-    //     // try{
-    //     //     if (file_exists($filePath)){
-    //     //         include($filePath);
-    //     //     }
-    //     //     else{
-    //     //         throw new \Exception("Cannot locate rule file");
-    //     //     }
-    //     // } catch(\Exception $e){
-    //     //     // Log the error or display a user-friendly error message
-    //     //     log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
-    //     //     throw $e;
-    //     // }
-
-    //     // return $rules;
-
-    //     // $rules = $this->formModel->getRules($formID);
-    //     // return $rules;
-    // }
+    }
 
 
     // Generate rules from HTML
@@ -567,51 +555,63 @@ class CustomFormLibrary
         $textareas = $dom->getElementsByTagName('textarea');
         $selects = $dom->getElementsByTagName('select');
 
-        foreach ($inputs as $input) {
+        // check for any input elements
+        if (!is_null($inputs)){
+            // iterate through each element
+            foreach ($inputs as $input) {
 
-            // get the name attribute 
-            $name = $input->getAttribute('name');
+                // get the name attribute 
+                $name = $input->getAttribute('name');
 
-            // get the type attribute
-            $type = $input->getAttribute('type');
+                // get the type attribute
+                $type = $input->getAttribute('type');
 
-            // set rule based on input type
-            switch ($type) {
-                case 'checkbox':
-                    $rules[$name] = 'required';
-                    break;
-                case 'radio':
-                    $rules[$name] = 'required';
-                    break;
-                case 'date':
-                    $rules[$name] = 'required';
-                    break;
-                case 'number':
-                    $rules[$name] = 'required|integer';
-                    break;
-                case 'text':
-                    $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
-                    break;
-                default:
-                    $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
-                    break;
+                // set rule based on input type
+                switch ($type) {
+                    case 'checkbox':
+                        $rules[$name] = 'required';
+                        break;
+                    case 'radio':
+                        $rules[$name] = 'required';
+                        break;
+                    case 'date':
+                        $rules[$name] = 'required';
+                        break;
+                    case 'number':
+                        $rules[$name] = 'required|integer';
+                        break;
+                    case 'text':
+                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        break;
+                    default:
+                        $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        break;
+                }
             }
         }
 
-        foreach ($textareas as $textarea) {
+        // check for any textarea elements
+        if (!is_null($textareas)){
+            // iterate through each element
+            foreach ($textareas as $textarea) {
 
-            $name = $textarea->getAttribute('name');
+                $name = $textarea->getAttribute('name');
 
-            $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
 
+            }
         }
 
-        foreach ($selects as $select) {
+        // check for any select elements
+        if (!is_null($selects)){
+            // iterate through each element
+            foreach ($selects as $select) {
 
-            $name = $select->getAttribute('name');
+                $name = $select->getAttribute('name');
 
-            $rules[$name] = 'required';
+                $rules[$name] = 'required';
 
+            }
         }
 
         return $rules;
