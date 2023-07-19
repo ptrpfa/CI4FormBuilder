@@ -520,7 +520,7 @@ class CustomFormLibrary
                 // get the name attribute 
                 $name = $input->getAttribute('name');
 
-                if ($name === 'csrf_token_name'){
+                if ($name === 'csrf_token_name' || $name === 'csrf_test_name' ||strpos($name, 'user_file') !== false ){
                     continue;
                 }
 

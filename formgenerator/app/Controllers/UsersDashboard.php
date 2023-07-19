@@ -197,7 +197,7 @@ class UsersDashboard extends BaseController
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
 		// Remove auto-generated rule for file uploads
-		unset($rules['user_file[]']);
+		// unset($rules['user_file[]']);
 
 		// Validate the input using the custom validate function
 		$encrypt = false;
