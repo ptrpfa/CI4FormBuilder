@@ -172,8 +172,13 @@ class UsersDashboard extends BaseController
 		// extract keys from $post output 
 		$keys = array_keys($post);
 		$html = $this->formBuilder->getForm($formID);
+
+		//Getting the rules
 		try{
-			$rules = $this->formBuilder->generateRulesFromHTML($html);
+			$rules = $this->formBuilder->getAssociatedRules($formID);
+			if($rules == null){
+				$rules = $this->formBuilder->generateRulesFromHTML($html);
+			}
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
@@ -325,6 +330,8 @@ class UsersDashboard extends BaseController
 		$data['response'] = unserialize($response["Response"]);
 
 		$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
+		$data['form_name']  = $form['Name'];
+		$data['formID']  = $formID;
 
 		return view('admin/users/EditForm', $data);
 	}
@@ -332,10 +339,17 @@ class UsersDashboard extends BaseController
 	public function submitUpdatedForm($responseID){
 
 		$post = $this->request->getPost();
-
+		$formID = $post['formid'];
 		$html = $this->formBuilder->getAssociatedFormStructure($responseID);
 
-		$rules = $this->formBuilder->generateRulesFromHTML($html);
+		try{
+			$rules = $this->formBuilder->getAssociatedRules($formID);
+			if($rules == null){
+				$rules = $this->formBuilder->generateRulesFromHTML($html);
+			}
+		} catch (\Exception $e){
+			return view('errors/html/error_404', ['message' => $e->getMessage()]);
+		}
 
 		// Validate the input using the custom validate function
 		// try {

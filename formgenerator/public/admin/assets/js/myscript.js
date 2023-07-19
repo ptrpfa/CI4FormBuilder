@@ -48,6 +48,10 @@ $(document).ready(function() {
       var formValue = $('#name-control').val(); // Get the username
       var formID = $('#formSelector').find(":selected").val();
 
+      if (formID === null || formID === "") {
+        formID = $('#edit_formid').val();
+      }
+
       // Add the value to the form data
       $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
       $(this).append('<input type="hidden" name="formid" value="' + formID + '">');

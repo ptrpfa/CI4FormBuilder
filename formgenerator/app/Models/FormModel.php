@@ -148,4 +148,16 @@ class FormModel extends Model
         }
     }
 
+    public function getRules($formID)
+    {
+        $form = $this->find($formID);
+        $rules = null;
+
+        if ($form && $form->Rule !== null) {
+            $rules = $form->rule;
+        }
+    
+        return $rules;
+    }
+
 }
