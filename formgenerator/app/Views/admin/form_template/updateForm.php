@@ -35,7 +35,7 @@
     </div>
     <div class="col-12">
         <label for="form_structure" class="form-label">Structure (HTML dump)</label>
-        <textarea  id="formHMTL" class="form-control" name="form_structure" cols="45" rows="10" disabled><?= htmlspecialchars(unserialize($Structure)) ?></textarea>
+        <textarea  id="formHMTL" class="form-control" name="form_structure" cols="45" rows="10" disabled><?= htmlspecialchars($Structure) ?></textarea>
     </div>
     <div class="col-12" style="display:flex; justify-content:space-between;">
         <input type="submit" name="submit" value="Update Form" class="btn btn-warning"></input>

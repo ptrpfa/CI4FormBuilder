@@ -175,10 +175,15 @@ class UsersDashboard extends BaseController
 
 		//Getting the rules
 		try{
-			$rules = $this->formBuilder->getAssociatedRules($formID);
-			if($rules == null){
+			$form = $this->formBuilder->getForm($formID, false);
+			$rules = null;
+			
+			if( !isset($form['Rules']) ){
 				$rules = $this->formBuilder->generateRulesFromHTML($html);
+			}else{
+				$rules = $form['Rules'];
 			}
+
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
@@ -369,7 +374,7 @@ class UsersDashboard extends BaseController
 		helper(['form', 'validation_helper', 'filesystem']);
 
 		$data['title'] = 'Edit Form';
-		$data['view'] = unserialize($form["Structure"]);
+		$data['view'] = $form["Structure"];
 		$data['response'] = unserialize($response["Response"]);
 
 		$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
@@ -386,10 +391,16 @@ class UsersDashboard extends BaseController
 		$html = $this->formBuilder->getAssociatedFormStructure($responseID);
 
 		try{
-			$rules = $this->formBuilder->getAssociatedRules($formID);
-			if($rules == null){
+			// $rules = $this->formBuilder->getAssociatedRules($formID);
+			$form = $this->formBuilder->getForm($formID, false);
+			$rules = null;
+			
+			if( !isset($form['Rules']) ){
 				$rules = $this->formBuilder->generateRulesFromHTML($html);
+			}else{
+				$rules = $form['Rules'];
 			}
+		
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}

@@ -20,39 +20,99 @@ class FormModel extends Model
             $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
         */
 
-        // Check if a formID was not provided
-        if(!$formID) {
-            // Check if only the structure of forms are to be returned
-            if($structure_only) {
-                // Initialise empty array
-                $form_structures = [];
-                // Loop through each form
-                foreach($this->findAll() as $form) {
-                    // Append unserialised form structure into array
-                    array_push($form_structures, unserialize($form['Structure']));
-                }
-                // Return array of unserialised form structures
-                return $form_structures;
-            }
-            else {
-                // Return all form data
-                return $this->findAll();
-            }
-        }
-        // A valid formID was provided
-        else {
-            // Get specified form
+        // // Check if a formID was not provided
+        // if(!$formID) {
+        //     // Check if only the structure of forms are to be returned
+        //     if($structure_only) {
+        //         // Initialise empty array
+        //         $form_structures = [];
+        //         // Loop through each form
+        //         foreach($this->findAll() as $form) {
+        //             // Append unserialised form structure into array
+        //             array_push($form_structures, unserialize($form['Structure']));
+        //         }
+        //         // Return array of unserialised form structures
+        //         return $form_structures;
+        //     }
+        //     else {
+        //         // Return all form data
+        //         $forms = $this->findAll();
+
+        //         foreach ($forms as &$form) {
+        //             // Unserialize form structure and rules
+        //             $form['Structure'] = unserialize($form['Structure']);
+        //             $form['Rules'] = unserialize($form['Rules']);
+        //         }
+                
+        //         return $forms;
+        //     }
+            
+        // }
+        // // A valid formID was provided
+        // else {
+        //     // Get specified form
+        //     $form = $this->find($formID);
+        //     // Check if a valid form was obtained
+        //     if($form) {     
+        //         // Return all form data or the unserialised form structure only, depending on the value of the boolean flag
+        //         $form['Structure'] = unserialize($form['Structure']);
+        //         $form['Rules'] = unserialize($form['Rules']);
+
+        //         return $structure_only ? $form['Structure'] : $form;
+        //     }
+        //     else {
+        //         // Exception handling
+        //         throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
+        //     }
+        // }
+
+        $forms = null;
+        $form_structures = [];
+        
+        if ($formID !== null) {
+            // Retrieve the specified form
             $form = $this->find($formID);
-            // Check if a valid form was obtained
-            if($form) {     
-                // Return all form data or the unserialised form structure only, depending on the value of the boolean flag
-                return $structure_only ? unserialize($form['Structure']) : $form;
-            }
-            else {
-                // Exception handling
+        
+            if ($form) {
+                // Unserialize form structure and rules
+                $form['Structure'] = unserialize($form['Structure']);
+                $form['Rules'] = unserialize($form['Rules']);
+        
+                // Remove unnecessary keys if returning structure only
+                if ($structure_only) {
+                    $form_structures[] = $form['Structure'];
+                } else {
+                    $forms = $form;
+                }
+            } else {
+                // Throw an exception if the form is not found
                 throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
             }
+        } else {
+            // Retrieve the form data
+            $forms = $this->findAll();
+        
+            foreach ($forms as &$form) {
+                // Unserialize form structure and rules
+                $form['Structure'] = unserialize($form['Structure']);
+                $form['Rules'] = unserialize($form['Rules']);
+        
+                // Remove unnecessary keys if returning structure only
+                if ($structure_only) {
+                    $form_structures[] = $form['Structure'];
+                    unset($form['Rules']);
+                }
+            }
         }
+
+        // Return the form data
+        /* 
+         * formID = null, structure = true => returns $form_structure
+         * formID = null, structure = false => returns all $forms
+         * formID = 1, structure = true => returns all $form_structure
+         * forId = 1, structure = false => returns $forms (single)
+        */
+        return $structure_only ? $form_structures : $forms;
     }
 
     // Function to create a new form template and insert it into the database
@@ -148,16 +208,16 @@ class FormModel extends Model
         }
     }
 
-    public function getRules($formID)
-    {
-        $form = $this->find($formID);
-        $rules = null;
+    // public function getRules($formID)
+    // {
+    //     $form = $this->find($formID);
+    //     $rules = null;
 
-        if ($form && $form->Rule !== null) {
-            $rules = $form->rule;
-        }
+    //     if ($form && $form->Rule !== null) {
+    //         $rules = $form->rule;
+    //     }
     
-        return $rules;
-    }
+    //     return $rules;
+    // }
 
 }

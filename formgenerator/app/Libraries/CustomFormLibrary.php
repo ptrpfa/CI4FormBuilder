@@ -79,9 +79,8 @@ class CustomFormLibrary
         // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
-        $rules = $data['Rules'];
-        if (isset($rules)){
-            $data['Rules'] = serialize($rules); 
+        if (isset($data['Rules'])){
+            $data['Rules'] = serialize($data['Rules']); 
         }
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
@@ -176,10 +175,10 @@ class CustomFormLibrary
         // Initialise form structure variables
         $formStructure = '';
         $fields = $data['Structure'];
-        $rules = $data['Rules'];
-        if (isset($rules)){
-            $data['Rules'] = serialize($rules); 
+        if (isset( $data['Rules'])){
+            $data['Rules'] = serialize( $data['Rules']); 
         }
+
         foreach ($fields as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $newValue) {
@@ -496,44 +495,44 @@ class CustomFormLibrary
 
     }
 
-    public function getAssociatedRules($formID){
+    // public function getAssociatedRules($formID){
 
-        /*
-        Passes in the formID from the controller
-        Allows rules to be retrieved from the config folder dynamically
-        File name must follow a specific format formid_rule.php
-        e.g. 23_rule.php
-        */
+    //     /*
+    //     Passes in the formID from the controller
+    //     Allows rules to be retrieved from the config folder dynamically
+    //     File name must follow a specific format formid_rule.php
+    //     e.g. 23_rule.php
+    //     */
 
-        // $fileName = $formID . '_rule';
+    //     // $fileName = $formID . '_rule';
 
-        // // Sanitize input
-        // $fileName = basename($fileName);
+    //     // // Sanitize input
+    //     // $fileName = basename($fileName);
 
-        // // Define file path
-        // $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
+    //     // // Define file path
+    //     // $filePath = APPPATH . 'Config/FormTemplatesRules/' . $fileName . '.php';
 
-        // // Initialize $rules
-        // $rules = null;
+    //     // // Initialize $rules
+    //     // $rules = null;
 
-        // try{
-        //     if (file_exists($filePath)){
-        //         include($filePath);
-        //     }
-        //     else{
-        //         throw new \Exception("Cannot locate rule file");
-        //     }
-        // } catch(\Exception $e){
-        //     // Log the error or display a user-friendly error message
-        //     log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
-        //     throw $e;
-        // }
+    //     // try{
+    //     //     if (file_exists($filePath)){
+    //     //         include($filePath);
+    //     //     }
+    //     //     else{
+    //     //         throw new \Exception("Cannot locate rule file");
+    //     //     }
+    //     // } catch(\Exception $e){
+    //     //     // Log the error or display a user-friendly error message
+    //     //     log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
+    //     //     throw $e;
+    //     // }
 
-        // return $rules;
+    //     // return $rules;
 
-        $rules = $this->formModel->getRules($formID);
-        return $rules;
-    }
+    //     // $rules = $this->formModel->getRules($formID);
+    //     // return $rules;
+    // }
 
 
     // Generate rules from HTML

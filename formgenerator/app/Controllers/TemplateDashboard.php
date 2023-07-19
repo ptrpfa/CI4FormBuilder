@@ -105,7 +105,7 @@ class TemplateDashboard extends BaseController
         try {
 			// Fetch form from database
 			$form = $this->formBuilder->getForm($formID, false);	
-			$pdfContent = $this->formBuilder->export_to_pdf(unserialize($form['Structure']));
+			$pdfContent = $this->formBuilder->export_to_pdf($form['Structure']);
 
 			$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="700px"></iframe>';
         }
@@ -176,7 +176,7 @@ class TemplateDashboard extends BaseController
 						$validated_data['Structure'] = $fields;
 						$includedVars = get_defined_vars();
 						if (isset($includedVars['Rules'])) {
-							$validated_data['Rules'] = $Rules;
+							$validated_data['Rules'] = $includedVars['Rules'];
 						}
 						// Create form
 						$formID = $this->formBuilder->createForm($validated_data);
@@ -263,7 +263,7 @@ class TemplateDashboard extends BaseController
 						$validated_data['Structure'] = $fields;
 						$includedVars = get_defined_vars();
 						if (isset($includedVars['Rules'])) {
-							$validated_data['Rules'] = $Rules;
+							$validated_data['Rules'] = $includedVars['Rules'];
 						}
 						// Update form
 						$this->formBuilder->updateForm($validated_data);
