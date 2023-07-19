@@ -520,6 +520,10 @@ class CustomFormLibrary
                 // get the name attribute 
                 $name = $input->getAttribute('name');
 
+                if ($name === 'csrf_token_name'){
+                    continue;
+                }
+
                 // get the type attribute
                 $type = $input->getAttribute('type');
 

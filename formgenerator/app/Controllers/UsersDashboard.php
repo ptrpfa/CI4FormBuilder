@@ -187,7 +187,7 @@ class UsersDashboard extends BaseController
 			$form = $this->formBuilder->getForm($formID, false);
 			$rules = null;
 			
-			if( !isset($form['Rules']) ){
+			if( !is_null($form['Rules']) ){
 				$rules = $this->formBuilder->generateRulesFromHTML($html);
 			}else{
 				$rules = $form['Rules'];
@@ -403,7 +403,7 @@ class UsersDashboard extends BaseController
 			$form = $this->formBuilder->getForm($formID, false);
 			$rules = null;
 			
-			if( !isset($form['Rules']) ){
+			if( !is_null($form['Rules']) ){
 				$rules = $this->formBuilder->generateRulesFromHTML($html);
 			}else{
 				$rules = $form['Rules'];
