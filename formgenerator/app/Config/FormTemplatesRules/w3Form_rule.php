@@ -1,5 +1,0 @@
-<?php
-
-$rules = [
-    'name' => 'required'
-];

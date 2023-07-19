@@ -9,7 +9,7 @@ class FormModel extends Model
     // Model fields
     protected $table = 'Form';
     protected $primaryKey = 'FormID';
-    protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure', 'Status', 'Rules'];
+    protected $allowedFields = ['Name', 'Version', 'Datetime', 'Description', 'Structure', 'Status', 'deletedAt', 'Rules'];
 
     // Function to get a specified form or all form data from the database
     public function get_form($formID = null, $structure_only = true)
@@ -175,8 +175,10 @@ class FormModel extends Model
         $form = $this->find($formID);
         // Check if a valid formID was provided
         if($form) {     
+            $data = ['Status' => $new_status];
+            $data['deletedAt'] = ($new_status == 0) ? date('Y-m-d H:i:s') : null;
             // Update form template's active status
-            $this->update($formID, ['Status' => $new_status]);
+            $this->update($formID, $data);
         }
         else {
             // Exception handling
@@ -199,7 +201,7 @@ class FormModel extends Model
             $forms = $this->where('Name', $form['Name'])->findAll();
             // Loop through each form and update its status
             foreach($forms as $target) {
-                $this->update($target['FormID'], ['Status' => 0]);
+                $this->update($target['FormID'], ['Status' => 0, 'deletedAt' => date('Y-m-d H:i:s')]);
             }
         }
         else {

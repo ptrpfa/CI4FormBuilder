@@ -64,6 +64,10 @@ class FormBuilder extends Migration
                 'null'              => false,
                 'default'           => 1
             ],
+            'deletedAt' => [
+                'type'              => 'DATETIME',
+                'null'              => true,
+            ],
             'Rules' => [
                 'type'              => 'BLOB',
                 'null'              => true,
@@ -106,11 +110,6 @@ class FormBuilder extends Migration
                 'type'              => 'BLOB',
                 'null'              => false
             ],
-            // 'File' => [
-            //     'type'       => 'VARCHAR',
-            //     'constraint' => 255,
-            //     'null' => true,
-            // ]
         ];
         // Add Response table fields
         $this->forge->addField($response_fields);
