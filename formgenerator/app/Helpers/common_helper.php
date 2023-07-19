@@ -82,7 +82,7 @@
             if (isset($row['Subrows']) && is_array($row['Subrows'])) {
                 $table .= '<tbody class="subrows hide" id="subrows_' . $row['id'] . '" >';
                 foreach ($row['Subrows'] as $subrow) {
-                    $table .= '<tr style="background-color:#f0f0f0;" >';
+                    $table .= '<tr >';
                     $table .= '<td></td>';
                     foreach($subrow as $key=>$value){
                         if($key != 'actions'){
