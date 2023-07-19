@@ -1,7 +1,10 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
-<?= session()->getFlashdata('error') ?>
-<?= validation_list_errors() ?>
+<div class="alert alert-danger">
+    <?= session()->getFlashdata('error') ?>
+    <?= validation_list_errors() ?>
+</div>
+
 <form class="row g-3 m-3 form-creation" action="<?=base_url('/template/create')?>" method="post">
     <?= csrf_field() ?>
     <div class="col-12">

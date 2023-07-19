@@ -42,9 +42,9 @@ $routes->set404Override();
 service('auth')->routes($routes);
 
 // Home routes
-$routes->get('/', [Home::class, 'index']);                                                         // Base view
-$routes->match(['get', 'post'], 'set-password', [Home::class, 'setPassword']);                                  // Set password upon magic login
-$routes->match(['get', 'post'], 'reset-password', [Home::class, 'resetPassword']);                              // Reset password
+$routes->get('/', [Home::class, 'index']);                                                                      // Base view
+$routes->match(['get', 'post'], 'change-password', [Home::class, 'changePassword'], ['as' => 'changePassword']);         // Change Password
+$routes->match(['get', 'post'], 'reset-password', [Home::class, 'resetPassword'], ['as' => 'resetPassword']);   // Reset password
 
 /* Template Dashboard */
 $routes->get('/dashboard', [TemplateDashboard::class, 'index']);                                                // Base view

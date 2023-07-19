@@ -16,7 +16,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="<?= base_url('reset-password') ?>" class="nav-link">
+            <a href="<?= base_url('change-password') ?>" class="nav-link">
                 <i class="nav-icon far fa-circle text-warning"></i>
                 <p>Reset Password</p>
             </a>
