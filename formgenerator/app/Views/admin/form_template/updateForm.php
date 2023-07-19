@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <?= session()->getFlashdata('error') ?>
 <?= validation_list_errors() ?>
-<form class="row g-3 m-3" action="<?=base_url('/template/update/') . $FormID?>" method="post">
+<form class="row g-3 m-3 form-creation" action="<?=base_url('/template/update/') . $FormID?>" method="post">
     <?= csrf_field() ?>
     <div class="col-12">
         <label for="form_name" class="form-label">Form Name</label>

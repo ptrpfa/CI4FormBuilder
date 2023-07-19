@@ -59,7 +59,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
       
-        <div class="content-header" style="padding: 30px;">
+        <div class="content-header" style="padding: 30px 20px 0;">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
@@ -87,8 +87,6 @@
 
     <!-- Back to Top -->
     <a id="scrollbtn"><i class="fa fa-angle-up icon-top"></i></a>
-
-    ./wrapper
 
     <!-- jQuery -->
     <script src="/admin/assets/plugins/jquery/jquery.min.js"></script>

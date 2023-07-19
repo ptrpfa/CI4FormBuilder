@@ -38,8 +38,7 @@ class TemplateDashboard extends BaseController
 			$version = $form['Version'];
 			$datetime = $form['Datetime'];
 			$description = $form['Description'];
-			$status = $form['Status'] ? 'Active' : 'Inactive';
-			$deactivate_at = $form['deletedAt'] ? $form['deletedAt'] : '-';
+			$status = ($form['Status'] ? 'Active' : 'Inactive') . ' - ' .  ($form['deletedAt'] ? $form['deletedAt'] : 'NIL') ;
 
 			// Set subrow information
 			$subrow = [	
@@ -47,7 +46,6 @@ class TemplateDashboard extends BaseController
 				'Description' => $description, 
 				'Datetime' => $datetime, 
 				'Status' => $status,
-				'Deactivate At' => $deactivate_at, 
 				'actions' => [	
 					'Read' => base_url('template/') . $formID,
 					'Update' => base_url('template/update/') . $formID,
@@ -81,7 +79,7 @@ class TemplateDashboard extends BaseController
 
 		// Set table values
 		$tableTitle = 'Web Form Templates';
-		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status', 'Deactivated At'];
+		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
 		$actions = [									
 			'New' => base_url('template/create'),  					// Whole New Form Template
 			'DeleteAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms

@@ -1,7 +1,7 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
 <?php foreach ($view as $input): ?>
-        <div class="form-floating d-flex justify-content-center align-items-end mx-auto w-95">
+        <div class="form-floating d-flex justify-content-center align-items-end mx-auto w-95 user-description">
             <?= $input['group']; ?>
         </div><br>
     <?php endforeach; ?>

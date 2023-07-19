@@ -67,7 +67,7 @@ class FormModel extends Model
         // }
 
         $forms = null;
-        $form_structures = [];
+        $form_structures = null;
         
         if ($formID !== null) {
             // Retrieve the specified form
@@ -80,7 +80,7 @@ class FormModel extends Model
         
                 // Remove unnecessary keys if returning structure only
                 if ($structure_only) {
-                    $form_structures[] = $form['Structure'];
+                    $form_structures = $form['Structure'];
                 } else {
                     $forms = $form;
                 }
