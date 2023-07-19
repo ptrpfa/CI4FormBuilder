@@ -28,20 +28,27 @@ function validate($data, $rules, $encrypt = true)
         $validation->setRule($field, ucwords(str_replace('_', ' ', $field)), $rule);
     }
 
+    // print_r($data);
+
     // Check rules against data
     if (!$validation->run($data)) {
         $errors = $validation->getErrors();
 
-
         $errorFields = [];
         foreach ($errors as $field => $error) {
-            $errorFields[] = $field;
+            // Check if the field exists in the original $data array
+            if (array_key_exists($field, $data)) {
+                $errorFields[] = $field;
+            }
         }
         
-        return [
-            'success' => false,
-            'errors' => $errorFields
-        ];
+        if (empty($errorFields)) {
+        } else {
+            return [
+                'success' => false,
+                'errors' => $errorFields
+            ];
+        }
     }
 
     // Sanitize each field in the data array

@@ -345,15 +345,15 @@ $fields =
                                         $formBuilder->new_html('p','a. At any time during 2022, did you have a financial interest in or signature authority over a financialaccount (such as a bank account, securities account, or brokerage account) located in a foreigncountry? See instructions'),
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('7aYes', '', 'class="form-check-input"', false),
-                                                $formBuilder->new_label('7aYes', 'Yes', 'class="form-check-label"'),
+                                                $formBuilder->new_radio('7a_radio', 'Yes', 'class="form-check-input"', false),
+                                                $formBuilder->new_label('7a_radio', 'Yes', 'class="form-check-label"'),
                                             ],
                                             '','','','form-check form-check-inline'
                                         ),
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('7aNo', '', 'class="form-check-input"', false),
-                                                $formBuilder->new_label('7aNo', 'No', 'class="form-check-label"'),
+                                                $formBuilder->new_radio('7a_radio', 'No', 'class="form-check-input"', false),
+                                                $formBuilder->new_label('7a_radio', 'No', 'class="form-check-label"'),
                                             ],
                                             '','','','form-check form-check-inline'
                                         ),
@@ -398,15 +398,15 @@ $fields =
                                         $formBuilder->new_html('p','If “Yes,” are you required to file FinCEN Form 114, Report of Foreign Bank and FinancialAccounts (FBAR), to report that financial interest or signature authority? See FinCEN Form 114 and its instructions for filing requirements and exceptions to those requirements.'),
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('8Yes', '', 'class="form-check-input"', false),
-                                                $formBuilder->new_label('8Yes', 'Yes', 'class="form-check-label"'),
+                                                $formBuilder->new_radio('8_radio', 'Yes', 'class="form-check-input"', false),
+                                                $formBuilder->new_label('8_radio', 'Yes', 'class="form-check-label"'),
                                             ],
                                             '','','','form-check form-check-inline'
                                         ),
                                         $formBuilder->new_div(
                                             [
-                                                $formBuilder->new_checkbox('8No', '', 'class="form-check-input"', false),
-                                                $formBuilder->new_label('8No', 'No', 'class="form-check-label"'),
+                                                $formBuilder->new_radio('8_radio', 'No', 'class="form-check-input"', false),
+                                                $formBuilder->new_label('8_radio', 'No', 'class="form-check-label"'),
                                             ],
                                             '','','','form-check form-check-inline'
                                         ),

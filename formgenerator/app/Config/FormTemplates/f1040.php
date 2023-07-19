@@ -450,8 +450,8 @@ $fields =
                 [
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_radio('rewardYesCheckbox', 'Yes', 'class="form-check-input" id="rewardYesCheckbox"'),
-                            $formBuilder->new_label('rewardYesCheckbox', 'Yes', 'class="form-check-label"'),
+                            $formBuilder->new_radio('rewardCheckbox', 'Yes', 'class="form-check-input" id="rewardCheckbox"'),
+                            $formBuilder->new_label('rewardCheckbox', 'Yes', 'class="form-check-label"'),
                         ],
                         '',
                         '',
@@ -460,8 +460,8 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_radio('rewardNoCheckbox', 'No', 'class="form-check-input" id="rewardNoCheckbox"'),
-                            $formBuilder->new_label('rewardNoCheckbox', 'No', 'class="form-check-label"'),
+                            $formBuilder->new_radio('rewardCheckbox', 'No', 'class="form-check-input" id="rewardCheckbox"'),
+                            $formBuilder->new_label('rewardCheckbox', 'No', 'class="form-check-label"'),
                         ],
                         '',
                         '',
