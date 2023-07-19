@@ -400,7 +400,6 @@ class UsersDashboard extends BaseController
 		$html = $this->formBuilder->getAssociatedFormData($responseID);
 
 		try{
-			// $rules = $this->formBuilder->getAssociatedRules($formID);
 			$form = $this->formBuilder->getForm($formID, false);
 			$rules = null;
 			
@@ -413,21 +412,6 @@ class UsersDashboard extends BaseController
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
-
-		// Validate the input using the custom validate function
-		// try {
-		// 	$encrpyt = false;
-		// 	$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
-		// 	if (!$validatedData['success']) {
-		// 		// Validation failed, return error view or perform any other actions
-		// 		return view('errors/html/error_404', ['message' => 'Validation error']);
-		// 	}
-		// } catch (\Exception $e) {
-		// 	// Validation failed, return error view or perform any other actions
-		// 	$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
-		// 	$errorMessage = "Validation Error for the following fields: " . $errorFields;
-		// 	return view('errors/html/error_404', ['message' => $errorMessage]);
-		// }
 
 		$encrpyt = false;
 		$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);

@@ -467,62 +467,6 @@ class CustomFormLibrary
     *
     */
 
-    public function getRules($fileName){
-
-        // Sanitize input
-        $fileName = basename($fileName);
-
-        // Define file path
-        $filePath = APPPATH . 'Config/FormTemplates/' . $fileName . '.php';
-
-        // Initialize $rules
-        $rules = [];
-
-        try{
-            if (file_exists($filePath)){
-                include($filePath);
-            }
-            else{
-                throw new \Exception("Cannot locate rule file");
-            }
-        } catch(\Exception $e){
-            // Log the error or display a user-friendly error message
-            log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
-            throw $e;
-        }
-
-        return $rules;
-
-    }
-
-    public function getAssociatedRules($responseID){
-
-        /*
-        Passes in the responseID from the controller
-        Allows rules to be retrieved from the database based on associated form structure
-        */
-
-        $rules = [];
-
-        try{
-            $responseData = $this->getResponseFormData($responseID);
-
-            $formID = $responseData['FormID'];
-    
-            $formData = $this->getAssociatedFormData($formID,false);
-    
-            $rules = unserialize($formData['Rules']);
-        } catch(\Exception $e){
-            // Log the error or display a user-friendly error message
-            log_message('error', 'Rule retrieval failed: ' . $e->getMessage());
-            throw $e;
-        }
-
-        return $rules;
-
-    }
-
-
     // Generate rules from HTML
     public function generateRulesFromHTML($html,$ignore = true){
 
