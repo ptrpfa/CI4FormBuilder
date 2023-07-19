@@ -15,5 +15,17 @@
                 <p>Users</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="<?= base_url('reset-password') ?>" class="nav-link">
+                <i class="nav-icon far fa-circle text-warning"></i>
+                <p>Reset Password</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="<?= base_url('logout') ?>" class="nav-link">
+                <i class="nav-icon far fa-circle text-danger"></i>
+                <p>Logout</p>
+            </a>
+        </li>
     </ul>
 </nav>

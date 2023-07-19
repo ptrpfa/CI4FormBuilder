@@ -5,6 +5,7 @@ namespace Config;
 // Imports
 use App\Controllers\TemplateDashboard;
 use App\Controllers\UsersDashboard;
+use App\Controllers\Home;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -37,8 +38,16 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+// CI4 Shield package
+service('auth')->routes($routes);
+
+// Home routes
+$routes->get('/', [Home::class, 'index']);                                                         // Base view
+$routes->match(['get', 'post'], 'set-password', [Home::class, 'setPassword']);                                  // Set password upon magic login
+$routes->match(['get', 'post'], 'reset-password', [Home::class, 'resetPassword']);                              // Reset password
+
 /* Template Dashboard */
-$routes->get('/', [TemplateDashboard::class, 'index']);                                                         // Base view
+$routes->get('/dashboard', [TemplateDashboard::class, 'index']);                                                // Base view
 $routes->match(['get', 'post'], '/template/create', [TemplateDashboard::class, 'createForm']);                  // View to create a new form template
 $routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                                       // View to read a specified form template
 $routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);           // View to update a specified form template
@@ -66,7 +75,6 @@ use App\Controllers\Survey;
 
 $routes->get('/page', 'Survey::retrieve');
 $routes->match(['get', 'post'], 'survey', [Survey::class, 'create']);
-
 
 /*
  * --------------------------------------------------------------------

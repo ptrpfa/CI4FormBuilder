@@ -29,6 +29,7 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
+            'session' => ['except' => ['login*', 'register', 'auth/a/*']],  // Enable CI4 Shield to protect all routes
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
@@ -51,7 +52,9 @@ class Filters extends BaseConfig
      * permits any HTTP method to access a controller. Accessing the controller
      * with a method you don’t expect could bypass the filter.
      */
-    public array $methods = [];
+    public array $methods = [
+        // 'post' => ['csrf'],  // Enable CSRF for POST requests
+    ];
 
     /**
      * List of filter aliases that should run on any
@@ -60,5 +63,11 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth-rates' => [
+            'before' => [
+                'login*', 'register', 'auth/*'  // CI4 Shield rate limiting
+            ]
+        ]
+    ];
 }
