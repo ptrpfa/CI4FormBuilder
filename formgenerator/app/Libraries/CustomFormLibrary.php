@@ -288,16 +288,15 @@ class CustomFormLibrary
     /* User Response CRUD */
 
     public function getAssociatedFormStructure($responseID, $structure_only=true){
-
-        $responseData = $this->getResponseFormData($responseID);
-
-		$formID = $responseData['FormID'];
-
         /* 
             Arguments:
             $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
             $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
         */
+        $responseData = $this->getResponseFormData($responseID);
+
+		$formID = $responseData['FormID'];
+
         try {
             // Retrieve form template(s) from the database based on the arguments passed 
             return $this->formModel->get_form($formID, $structure_only);
@@ -327,7 +326,6 @@ class CustomFormLibrary
             throw $e;
         }
     }
-
     public function getResponseFormData($responseID) {
         try {
             return $this->formResponseModel->retrieveFormData($responseID);
@@ -680,7 +678,7 @@ class CustomFormLibrary
     {
         $attributeString = $this->attributes_creator($attributes);
 
-        $form = '<form action="' . $action . '"' . $method . ' ' . $attributeString .  '>';
+        $form = '<form action="' . $action . '" method="' . $method . '" ' . $attributeString .  '>';
         return $form;
     }
 

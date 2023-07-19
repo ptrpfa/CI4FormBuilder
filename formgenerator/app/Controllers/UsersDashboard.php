@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use mikehaertl\wkhtmlto\Pdf;
+use App\Models\FormResponseModel;
 
 class UsersDashboard extends BaseController
 {	
@@ -154,12 +154,12 @@ class UsersDashboard extends BaseController
 		$post = $this->request->getPost();
 
 		// Additional logic to handle file upload IF exists
-		$uploadFile = $this->request->getFile('signature');
-		if($uploadFile && $uploadFile->isValid() && ! $uploadFile -> hasMoved()) {
-			$newName = $uploadFile -> getRandomName(); //This is to avoid duplicated file names
-			$uploadFile->move(WRITEPATH . 'uploads', $newName); //Creates a folder in the writable folder called 'uploads'
-			$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
-		}
+		// $uploadFile = $this->request->getFile('signature');
+		// if($uploadFile && $uploadFile->isValid() && ! $uploadFile -> hasMoved()) {
+		// 	$newName = $uploadFile -> getRandomName(); //This is to avoid duplicated file names
+		// 	$uploadFile->move(WRITEPATH . 'uploads', $newName); //Creates a folder in the writable folder called 'uploads'
+		// 	$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
+		// }
 	
 		// Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
@@ -182,6 +182,8 @@ class UsersDashboard extends BaseController
 		} catch (\Exception $e){
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
+		// Remove auto-generated rule for file uploads
+		unset($rules['user_file[]']);
 
 		// Validate the input using the custom validate function
 		$encrypt = false;
@@ -200,6 +202,47 @@ class UsersDashboard extends BaseController
 		// Prepare the form data dynamically
 		foreach ($keys as $key) {
 			$formData[$key] = $validatedData[$key];
+		}
+
+		// Check for uploaded files, if any
+		$uploaded_files = $this->request->getFiles();
+		if ($uploaded_files) {
+			// Label used for files in form
+			$file_label = "user_file";
+			// Array of rules for uploaded files
+			$file_rules = [
+				// Uploaded file validation rules
+				'user_file' => [
+					'label' => 'Uploaded File',
+					'rules' => [
+						sprintf('max_size[%s,2048]', $file_label),                                                          // Max file size (in KB)
+						sprintf('mime_in[%s,image/bmp,image/jpg,image/jpeg,image/gif,image/png,image/webp]', $file_label)   // Restricted file MIME types
+					],
+				],
+			];
+
+			// Check for file upload rules
+			if (!$this->validate($file_rules)) {
+				// Return view
+				return view('errors/html/error_404', ['message' => "File Upload Error!"]);
+			} else {
+				// Loop through each file
+				foreach ($uploaded_files['user_file'] as $current_file) {
+					// Check if file is uploaded via HTTP with no errors, and if file has been moved
+					if ($current_file->isValid() && !$current_file->hasMoved()) {
+						// Set folder name (id)
+						$folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
+						// Store file on server (id/<filename>)
+						$file_path = $current_file->store($folder, $current_file->getRandomName());
+						// Set filepath to POST data, if a file is successfully uploaded
+						$formData['files'] = 'uploads/' . $folder;
+					}
+				}
+			}
+
+		}
+		else {
+			$formData['files'] = '';
 		}
 
 		// Serialize the form data
@@ -402,8 +445,3 @@ class UsersDashboard extends BaseController
 	}
 	
 }
-
-
-
-
-
