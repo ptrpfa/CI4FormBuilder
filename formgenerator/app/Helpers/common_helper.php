@@ -57,7 +57,7 @@
                 $table .= '<td>' . ($row[$columnTitle] ?? '') . '</td>';
             }
             
-            if(array_key_exists('Create', $actions) || array_key_exists('DeleteAll', $actions)){
+            if(array_key_exists('Create', $actions) || array_key_exists('DeactivateAll', $actions)){
                 $table .= '<td>';
                 $table .= '<div class="btn-group dropleft">';
                 $table .= '<button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -67,8 +67,8 @@
                 if (array_key_exists('Create', $actions)) {
                     $table .= '<button onclick="location.href=\''. $actions['Create'] .'\'" class="dropdown-item" type="button">New Form</button>';
                 }
-                if (array_key_exists('DeleteAll', $actions)) {
-                    $table .= '<button onclick="location.href=\''. $actions['DeleteAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:red;">Delete</button>';
+                if (array_key_exists('DeactivateAll', $actions)) {
+                    $table .= '<button onclick="location.href=\''. $actions['DeactivateAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:red;">Deactivate All</button>';
                 }
                 $table .= '</div>';
                 $table .= '</div>';
@@ -94,7 +94,7 @@
                     $table .= '<td>';
                     $table .= '<button onclick="location.href=\''. $rowAction['Read'] .'\'" class="btn btn-sm btn-info mr-2 mt-1 edit-button">View</button>';
                     $table .= '<button onclick="location.href=\''. $rowAction['Update'] .'\'" class="btn btn-sm btn-primary mr-2 mt-1 edit-button">Edit</button>';
-                    $table .= '<button onclick="location.href=\''. $rowAction['Delete'] .'\'" class="btn btn-sm btn-danger mr-2 mt-1 delete-button">Delete</button>';
+                    $table .= '<button onclick="location.href=\''. $rowAction['Deactivate'] .'\'" class="btn btn-sm btn-danger mr-2 mt-1 delete-button">Deactivate</button>';
                     if (array_key_exists('Activate', $rowAction)) {
                         $table .= '<button onclick="location.href=\''. $rowAction['Activate'] .'\'" class="btn btn-sm btn-success mt-1 activate-button">Activate</button>';
                     }
