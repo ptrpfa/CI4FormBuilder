@@ -94,7 +94,7 @@ $fields =
                         [
                             'single'=> $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', true),
+                                    $formBuilder->new_radio('filing_status', 'Single', 'class="form-check-input"', true),
                                     $formBuilder->new_label('filing_status', 'Single', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -104,7 +104,7 @@ $fields =
                             ),
                             'marriedJointly' => $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', false),
+                                    $formBuilder->new_radio('filing_status', 'Married filing jointly', 'class="form-check-input"', false),
                                     $formBuilder->new_label('filing_status', 'Married filing jointly', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -114,7 +114,7 @@ $fields =
                             ),
                             'marriedSeperately' => $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', false),
+                                    $formBuilder->new_radio('filing_status', 'Married filing separately', 'class="form-check-input"', false),
                                     $formBuilder->new_label('filing_status', 'Married filing separately (MFS)', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -124,7 +124,7 @@ $fields =
                             ),
                             'headOfHousehold' => $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', false),
+                                    $formBuilder->new_radio('filing_status', 'Head of Household', 'class="form-check-input"', false),
                                     $formBuilder->new_label('filing_status', 'Head of Household (HOH)', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -134,7 +134,7 @@ $fields =
                             ),
                             'qualifyingSurvivingSpouse' => $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', false),
+                                    $formBuilder->new_radio('filing_status', 'Qualifying surviving spouse', 'class="form-check-input"', false),
                                     $formBuilder->new_label('filing_status', 'Qualifying surviving spouse (QSS)', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -144,7 +144,7 @@ $fields =
                             ),
                             'qualifyingSurvivingSpouse' => $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('filing_status', '', 'class="form-check-input"', false),
+                                    $formBuilder->new_radio('filing_status', 'Qualifying surviving spouse', 'class="form-check-input"', false),
                                     $formBuilder->new_label('filing_status', 'Qualifying surviving spouse (QSS)', 'class="form-check-label"'),
                                 ],
                                 '',
@@ -404,14 +404,14 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('electionYou', '', 'class="form-check-input" id="you"'),
+                                            $formBuilder->new_checkbox('electionYou', 'You', 'class="form-check-input" id="you"'),
                                             $formBuilder->new_label('you', 'You', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check form-check-inline pt-3',
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('electionSpouse', '', 'class="form-check-input" id="spouse"'),
+                                            $formBuilder->new_checkbox('electionSpouse', 'Spouse', 'class="form-check-input" id="spouse"'),
                                             $formBuilder->new_label('spouse', 'Spouse', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check form-check-inline',
@@ -450,7 +450,7 @@ $fields =
                 [
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('rewardYesCheckbox', '', 'class="form-check-input" id="rewardYesCheckbox"'),
+                            $formBuilder->new_radio('rewardYesCheckbox', 'Yes', 'class="form-check-input" id="rewardYesCheckbox"'),
                             $formBuilder->new_label('rewardYesCheckbox', 'Yes', 'class="form-check-label"'),
                         ],
                         '',
@@ -460,7 +460,7 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('rewardNoCheckbox', '', 'class="form-check-input" id="rewardNoCheckbox"'),
+                            $formBuilder->new_radio('rewardNoCheckbox', 'No', 'class="form-check-input" id="rewardNoCheckbox"'),
                             $formBuilder->new_label('rewardNoCheckbox', 'No', 'class="form-check-label"'),
                         ],
                         '',
@@ -502,21 +502,21 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('dependentCheckbox', '', 'class="form-check-input" id="dependentCheckbox"'),
+                            $formBuilder->new_checkbox('dependentCheckbox', 'You as a dependent', 'class="form-check-input" id="dependentCheckbox"'),
                             $formBuilder->new_label('dependentCheckbox', 'You as a dependent', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('spouseDepCheckbox', '', 'class="form-check-input" id="spouseDepCheckbox"'),
+                            $formBuilder->new_checkbox('spouseDepCheckbox', 'Your spouse as a dependent', 'class="form-check-input" id="spouseDepCheckbox"'),
                             $formBuilder->new_label('spouseDepCheckbox', 'Your spouse as a dependent', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('spouseItemizesCheckbox', '', 'class="form-check-input" id="spouseItemizesCheckbox"'),
+                            $formBuilder->new_checkbox('spouseItemizesCheckbox', 'Spouse itemizes on a separate return or you were a dual-status alien', 'class="form-check-input" id="spouseItemizesCheckbox"'),
                             $formBuilder->new_label('spouseItemizesCheckbox', 'Spouse itemizes on a separate return or you were a dual-status alien', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
@@ -549,14 +549,14 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('youBorn', '', 'class="form-check-input" id="youBorn"'),
+                            $formBuilder->new_checkbox('youBorn', 'were born before January 2 1958', 'class="form-check-input" id="youBorn"'),
                             $formBuilder->new_label('youBorn', 'were born before January 2, 1958', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('youBlind', '', 'class="form-check-input" id="youBlind"'),
+                            $formBuilder->new_checkbox('youBlind', 'Are blind', 'class="form-check-input" id="youBlind"'),
                             $formBuilder->new_label('youBlind', 'Are blind', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
@@ -575,14 +575,14 @@ $fields =
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('spouseBorn', '', 'class="form-check-input" id="spouseBorn"'),
+                            $formBuilder->new_checkbox('spouseBorn', 'was born before January 2 1958', 'class="form-check-input" id="spouseBorn"'),
                             $formBuilder->new_label('spouseBorn', 'was born before January 2, 1958', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
                     ),
                     $formBuilder->new_div(
                         [
-                            $formBuilder->new_checkbox('spouseBlind', '', 'class="form-check-input" id="spouseBlind"'),
+                            $formBuilder->new_checkbox('spouseBlind', 'Is blind', 'class="form-check-input" id="spouseBlind"'),
                             $formBuilder->new_label('spouseBlind', 'Is blind', 'class="form-check-label"'),
                         ],
                         '','','','form-check form-check-inline'
@@ -612,7 +612,7 @@ $fields =
                         [
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('fourDependents', '', 'class="form-check-input" id="fourDependents"'),
+                                    $formBuilder->new_checkbox('fourDependents', 'If more than four dependents see instructions and check here', 'class="form-check-input" id="fourDependents"'),
                                     $formBuilder->new_label('fourDependents', 'If more than four dependents, see instructions and check here', 'class="form-check-label"'),
                                 ],
                                 '','','','form-check form-check-inline'
@@ -641,7 +641,7 @@ $fields =
                                     $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('ChildTaxCheckbox1', '', 'class="form-check-input" id="ChildTaxCheckbox"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox1', 'Child tax credit', 'class="form-check-input" id="ChildTaxCheckbox"'),
                                             $formBuilder->new_label('ChildTaxCheckbox1', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -651,7 +651,7 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('creditOtherCheckbox1', '', 'class="form-check-input" id="creditOtherCheckbox1"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox1', 'Credit for other dependents', 'class="form-check-input" id="creditOtherCheckbox1"'),
                                             $formBuilder->new_label('creditOtherCheckbox1', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -670,7 +670,7 @@ $fields =
                                     $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('ChildTaxCheckbox2', '', 'class="form-check-input" id="ChildTaxCheckbox"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox2', 'Child tax credit', 'class="form-check-input" id="ChildTaxCheckbox"'),
                                             $formBuilder->new_label('ChildTaxCheckbox2', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -680,7 +680,7 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('creditOtherCheckbox2', '', 'class="form-check-input" id="creditOtherCheckbox2"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox2', 'Credit for other dependents', 'class="form-check-input" id="creditOtherCheckbox2"'),
                                             $formBuilder->new_label('creditOtherCheckbox2', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -699,7 +699,7 @@ $fields =
                                     $formBuilder->new_input('relationshipText1', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('ChildTaxCheckbox3', '', 'class="form-check-input" id="ChildTaxCheckbox3"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox3', 'Child tax credit', 'class="form-check-input" id="ChildTaxCheckbox3"'),
                                             $formBuilder->new_label('ChildTaxCheckbox3', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -709,7 +709,7 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('creditOtherCheckbox3', '', 'class="form-check-input" id="creditOtherCheckbox"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox3', 'Credit for other dependents', 'class="form-check-input" id="creditOtherCheckbox"'),
                                             $formBuilder->new_label('creditOtherCheckbox3', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -728,7 +728,7 @@ $fields =
                                     $formBuilder->new_input('relationshipText4', '', 'aria-label="relationship" class="form-control" placeholder="Relationship to you"'),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('ChildTaxCheckbox4', '', 'class="form-check-input" id="ChildTaxCheckbox4"'),
+                                            $formBuilder->new_checkbox('ChildTaxCheckbox4', 'Child tax credit', 'class="form-check-input" id="ChildTaxCheckbox4"'),
                                             $formBuilder->new_label('ChildTaxCheckbox4', 'Child tax credit', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -738,7 +738,7 @@ $fields =
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('creditOtherCheckbox4', '', 'class="form-check-input" id="creditOtherCheckbox4"'),
+                                            $formBuilder->new_checkbox('creditOtherCheckbox4', 'Credit for other dependents', 'class="form-check-input" id="creditOtherCheckbox4"'),
                                             $formBuilder->new_label('creditOtherCheckbox4', 'Credit for other dependents', 'class="form-check-label"'),
                                         ],
                                         '',
@@ -879,7 +879,7 @@ $fields =
                                     $formBuilder->new_div(
                                         [
                                             $formBuilder->new_input('2atext', '', 'class="form-control form-control-sm mb-1" id="2a" placeholder="2a"'),
-                                            $formBuilder->new_label('2a', '2a. Tax-exempt interest'),
+                                            $formBuilder->new_label('2a', '2a Taxexempt interest'),
                                         ],
                                         '','','','form-floating'
                                     ),
@@ -891,7 +891,7 @@ $fields =
                                     $formBuilder->new_div(
                                         [
                                             $formBuilder->new_input('2btext', '', 'class="form-control form-control-sm mb-1" id="2b" placeholder="2b"'),
-                                            $formBuilder->new_label('2b', '2b. Taxable interest'),
+                                            $formBuilder->new_label('2b', '2b Taxable interest'),
                                         ],
                                         '','','','form-floating'
                                     ),
@@ -1018,7 +1018,7 @@ $fields =
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('6c', '', 'class="form-check-input" id="6c"'),
+                                            $formBuilder->new_checkbox('6c', '6c If you elect to use the lump-sum election method check here', 'class="form-check-input" id="6c"'),
                                             $formBuilder->new_label('6c', '6c. If you elect to use the lump-sum election method, check here', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check form-check-reverse'
@@ -1075,7 +1075,7 @@ $formBuilder->new_div(
                             [
                                 $formBuilder->new_div(
                                     [
-                                        $formBuilder->new_checkbox('7b', '', 'class="form-check-input" id="7b"'),
+                                        $formBuilder->new_checkbox('7b', 'If not required check here', 'class="form-check-input" id="7b"'),
                                         $formBuilder->new_label('7b', 'If not required, check here', 'class="form-check-label"')
                                     ],
                                     '','','','form-check form-check-reverse'
@@ -1260,14 +1260,14 @@ $formBuilder->new_div(
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('8814', '', 'class="form-check-input" id="8814"'),
+                                            $formBuilder->new_checkbox('8814', '8814', 'class="form-check-input" id="8814"'),
                                             $formBuilder->new_label('8814', '8814', 'class="form-check-label"')
                                         ],
                                         '','','','form-check form-check-inline'
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('4972', '', 'class="form-check-input" id="4972"'),
+                                            $formBuilder->new_checkbox('4972', '4972', 'class="form-check-input" id="4972"'),
                                             $formBuilder->new_label('4972', '4972', 'class="form-check-label"')
                                         ],
                                         '','','','form-check form-check-inline'
@@ -1276,7 +1276,7 @@ $formBuilder->new_div(
                                         [
                                             $formBuilder->new_div(
                                                 [
-                                                    $formBuilder->new_checkbox('others', '', 'class="form-check-input" id="others"'),
+                                                    $formBuilder->new_checkbox('others', 'Others', 'class="form-check-input" id="others"'),
                                                     $formBuilder->new_label('others', 'Others', 'class="form-check-label"')
                                                 ],
                                                 '','','','form-check form-check-inline'
@@ -1738,7 +1738,7 @@ $formBuilder->new_div(
                                         [
                                             $formBuilder->new_div(
                                                 [
-                                                    $formBuilder->new_checkbox('35aCheckbox', '', 'class="form-check-input" id="35aCheckbox"'),
+                                                    $formBuilder->new_checkbox('35aCheckbox', 'If Form 8888 is attached check here', 'class="form-check-input" id="35aCheckbox"'),
                                                     $formBuilder->new_label('35aCheckbox', 'If Form 8888 is attached, check here', 'class="form-check-label"')
                                                 ],
                                                 '','','','form-check form-check-reverse'
@@ -1770,14 +1770,14 @@ $formBuilder->new_div(
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('35bChecking', '', 'class="form-check-input" id="35bChecking"'),
+                                            $formBuilder->new_checkbox('35bChecking', 'Checking', 'class="form-check-input" id="35bChecking"'),
                                             $formBuilder->new_label('35bChecking', 'Checking', 'class="form-check-label"')
                                         ],
                                         '','','','form-check form-check-inline'
                                     ),
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('35bSavings', '', 'class="form-check-input" id="35bSavings"'),
+                                            $formBuilder->new_checkbox('35bSavings', 'Savings', 'class="form-check-input" id="35bSavings"'),
                                             $formBuilder->new_label('35bSavings', 'Savings', 'class="form-check-label"')
                                         ],
                                         '','','','form-check form-check-inline'
@@ -1883,14 +1883,14 @@ $formBuilder->new_div(
                             $formBuilder->new_html('p','Do you want to allow another person to discuss this return with the IRS? See instructions'),
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('thirdPartyYes', '', 'class="form-check-input" id="thirdPartyYes"'),
+                                    $formBuilder->new_checkbox('thirdPartyYes', 'Yes Complete below', 'class="form-check-input" id="thirdPartyYes"'),
                                     $formBuilder->new_label('thirdPartyYes', 'Yes. Complete below', 'class="form-check-label"')
                                 ],
                                 '','','','form-check form-check-inline'
                             ),
                             $formBuilder->new_div(
                                 [
-                                    $formBuilder->new_checkbox('thirdPartyNo', '', 'class="form-check-input" id="thirdPartyNo"'),
+                                    $formBuilder->new_checkbox('thirdPartyNo', 'No', 'class="form-check-input" id="thirdPartyNo"'),
                                     $formBuilder->new_label('thirdPartyNo', 'No', 'class="form-check-label"')
                                 ],
                                 '','','','form-check form-check-inline'
@@ -2187,7 +2187,7 @@ $formBuilder->new_div(
                                 [
                                     $formBuilder->new_div(
                                         [
-                                            $formBuilder->new_checkbox('selfEmployedCheckbox', '', 'class="form-check-input"', true),
+                                            $formBuilder->new_checkbox('selfEmployedCheckbox', 'Check if Self Employed', 'class="form-check-input"', true),
                                             $formBuilder->new_label('selfEmployedCheckbox', 'Check if Self-Employed', 'class="form-check-label"'),
                                         ],
                                         '','','','form-check'

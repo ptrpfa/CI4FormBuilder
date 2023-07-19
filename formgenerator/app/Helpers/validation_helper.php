@@ -46,14 +46,21 @@ function validate($data, $rules, $encrypt = true)
 
     // Sanitize each field in the data array
     foreach ($data as $key => $value) {
-        // Trim whitespace from the input
-        $sanitizedInput = trim($value);
-        // Remove HTML tags from the input
-        $sanitizedInput = strip_tags($sanitizedInput);
-        // Sanitize special characters
-        $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
-        // Update the data array with the sanitized value
-        $data[$key] = $sanitizedInput;
+        if (is_array($value)) {
+            // If the value is an array, sanitize each element
+            $sanitizedArray = [];
+            foreach ($value as $index => $element) {
+                $sanitizedElement = sanitizeInput($element);
+                $sanitizedArray[$index] = $sanitizedElement;
+            }
+            // Update the data array with the sanitized array
+            $data[$key] = $sanitizedArray;
+        } else {
+            // For non-array values, sanitize as before
+            $sanitizedInput = sanitizeInput($value);
+            // Update the data array with the sanitized value
+            $data[$key] = $sanitizedInput;
+        }
     }
 
     // Check whether to encrypt data or not
@@ -73,13 +80,16 @@ function validate($data, $rules, $encrypt = true)
 }
 
 
-// Function to sanitize data
-function customSanitize($input)
+// Function to sanitize input
+function sanitizeInput($input)
 {
-    $sanitizedInput = trim($input); // Trim whitespace from the input
-    
-    $sanitizedInput = strip_tags($sanitizedInput); // Remove HTML tags from the input
-        
+    // Trim whitespace from the input
+    $sanitizedInput = trim($input);
+    // Remove HTML tags from the input
+    $sanitizedInput = strip_tags($sanitizedInput);
+    // Sanitize special characters
+    $sanitizedInput = htmlspecialchars($sanitizedInput, ENT_QUOTES, 'UTF-8');
+    // Return the sanitized input
     return $sanitizedInput;
 }
 
