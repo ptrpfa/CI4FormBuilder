@@ -14,17 +14,14 @@ $(document).ready(function() {
     $('#formSelector').on('change', function() {
       var formID = $(this).val();
       var formValue = $(this).find(":selected").text();
-      var csrfName = $('#csrfToken').attr('name'); // CSRF Token name
-      var csrfHash = $('#csrfToken').val(); // CSRF hash
 
       if (formID !== '') {
         // Make an AJAX request to fetch the form data
         $.ajax({
-          url: '/users/newUser', 
-          type: 'POST',
+          url: '/users/getForm', 
+          type: 'GET',
           data: { 
-            formID: formID,
-            [csrfName]: csrfHash 
+            formID: formID
           },
           dataType: 'json',
           success: function(response) {
@@ -48,22 +45,51 @@ $(document).ready(function() {
       }
     });
 
-    $(document).on('submit', '#formContainer form', function(e) {
-      var formValue = $('#name-control').val(); // Get the username
-      var formID = $('#formSelector').find(":selected").val();
+    // $(document).on('submit', '#formContainer form', function(e) {
+    //   e.preventDefault();
 
-      if (formID === null || formID === "") {
-        formID = $('#edit_formid').val();
-      }
+    //   var formValue = $('#name-control').val(); // Get the username
+    //   var formID = $('#formSelector').find(":selected").val();
 
-      // Add the value to the form data
-      $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
-      $(this).append('<input type="hidden" name="formid" value="' + formID + '">');
+    //   if (formID === null || formID === "") {
+    //     formID = $('#edit_formid').val();
+    //     // Get the form's action URL
+    //     var actionUrl = $('#formContainer form').attr("action");
+    //     console.log(actionUrl);
 
-      // Continue with the default form submission
-      return true;
+    //     // Split the action URL using '/' as the separator
+    //     var segments = actionUrl.split('/');
+
+    //     //Get Response ID
+    //     var responseID = segments[segments.length - 1];
+
+    //     $(this).attr("action") = '/users/' + responseID + '/update/' + formID;
+        
+    //     return false;
+    //   }
+
+    //   // Add the value to the form data
+    //   $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
+    //   $(this).append('<input type="hidden" name="formid" value="' + formID + '">');
+
+    //   // Continue with the default form submission
+    //   return true;
+    // });
+
+    $('#formContainer form').submit(function(e) {
+      e.preventDefault();
+      var formID = $('#edit_formid').val();
+      var actionUrl = $(this).attr("action");
+      var segments = actionUrl.split('/');
+      var responseID = segments[segments.length - 1];
+      var newAction = '/users/' + responseID + '/update/' + formID;
+      $(this).attr("action", newAction);
+      console.log('New action:', $(this).attr("action"));
+      
+      //Submit the form with new route
+      this.submit();
     });
-
+  
     var top = $('#scrollbtn');
 
     $(window).scroll(function() {

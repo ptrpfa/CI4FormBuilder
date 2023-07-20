@@ -2,9 +2,9 @@
 <?= $this->section('content') ?>
 <?php foreach ($view as $input): ?>
         <div class="form-floating d-flex justify-content-center align-items-end mx-auto w-95 user-description">
-            <?= $input['group']; ?>
+            <?= $input; ?>
         </div><br>
-    <?php endforeach; ?>
+<?php endforeach; ?>
     
 <div class="selectedForm hide">
     <h2 id='new-form-title' style="text-align:center"></h2>

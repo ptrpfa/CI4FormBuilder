@@ -94,35 +94,37 @@ class UsersDashboard extends BaseController
 	/***
 		CRUD PORTION
 	***/
-	public function newUser()
-	{
-		
-        // Checks whether the form is requested by ajax call.
-		//This gets the form at the bottom of the screen dynamically
-        if ($this->request->is('post')) {
-			
-			$post = $this->request->getPost(); 
-			$formID = $post['formID'];
-			$formData = $this->formBuilder->getForm($formID); //Call the library to call the model to get the form
 
-			$response = [
-				'status' => 'success',
-				'form' => $formData, 
-			];
-			
-			// Return the JSON-encoded response
-			return $this->response->setJSON($response);
-        }
+	//Get the Form HTML 
+	public function getForm()
+	{		
+		$formID = $this->request->getVar('formID');
+		$formData = $this->formBuilder->getForm($formID); //Call the library to call the model to get the form
+
+		$response = [
+			'status' => 'success',
+			'form' => $formData, 
+		];
 		
-		//Get all the data, currently library's model does not support to get all. Can add if you want
+		// Return the JSON-encoded response
+		return $this->response->setJSON($response);
+	}
+
+	//Returns the base tempalte for user to create a new form 
+	//If old user then pass in $name, else it is empty
+	public function createForm($name='')
+	{
+		//Get all the data from library's model
 		$formData = $this->formBuilder->getForm(null, false);
 
+		//Get all the form name and put inside a dropdown selector 
 		$options = [];
 		foreach ($formData as $form) {
 			$options[$form['FormID']] = $form['Name'];
 		}
-		//Using our library to create a input to create a text input for username 
-		//and a select type html tag
+
+
+		//Using the custom library to create a form to catch what form the user want to create 
 		$form = [
 			'username' => 
 				//new_div($label, $input, $row, $span, $column, $attributes)
@@ -131,7 +133,10 @@ class UsersDashboard extends BaseController
 						//new_label($name='', $value='', $attributes='')
 						$this->formBuilder->new_label('username', 'User Name'), 
 						//new_input($name='', $value='', $attributes='' OR $attributes=[])
-						$this->formBuilder->new_input('username', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'), 
+						($name ? 
+							$this->formBuilder->new_input('username', $name, 'class="form-control" id="name-control" placeholder="Enter your name" disabled') :
+							$this->formBuilder->new_input('username', '', 'class="form-control" id="name-control" placeholder="Enter your name" required')  
+						),
 					),
 					1,'md', 9, 'mt-2'
 				)        
@@ -146,12 +151,13 @@ class UsersDashboard extends BaseController
 			,
 		];
 
-        $data['title'] = 'New User';
+		
+		$data['title'] = $name ? 'New User' : 'New Form';
 		$data['view'] =  $form;
-
-		return view('admin/users/NewUser', $data);
+		return view('admin/users/NewForm', $data);
 	}
-
+	
+	//Submit new form
 	public function submitForm()
 	{
 		$post = $this->request->getPost();
@@ -274,165 +280,89 @@ class UsersDashboard extends BaseController
 		$data['formID'] = $formID;
 		return view('admin/users/create_success', $data);
 	}
-	
-
-	public function createForm($name=null)
-	{
-		// Checks whether the form is requested by ajax call.
-		//This gets the form at the bottom of the screen dynamically
-        if ($this->request->is('post')) {
-			
-			$post = $this->request->getPost(); 
-			$formID = $post['formID'];
-			$formData = $this->formBuilder->getForm($formID); //Call the library to call the model to get the form
-
-			$response = [
-				'status' => 'success',
-				'form' => $formData, 
-			];
-			
-			// Return the JSON-encoded response
-			return $this->response->setJSON($response);
-        }
-
-		//Get all the data, currently library's model does not support to get all. Can add if you want
-		$formData = $this->formBuilder->getForm(null, false);
-		$options = [];
-		foreach ($formData as $form) {
-			$options[$form['FormID']] = $form['Name'];
-		}
-		//Using our library to create a input to create a text input for username 
-		//and a select type html tag
-		$form = [
-			'username' => [
-				//new_div($label, $input, $row, $span, $column, $attributes)
-				'group' => $this->formBuilder->new_div(
-					array(
-						//new_label($name='', $value='', $attributes='')
-						$this->formBuilder->new_label('username', 'User Name'), 
-						//new_input($name='', $value='', $attributes='' OR $attributes=[])
-						$this->formBuilder->new_input('username', $name, 'class="form-control" id="name-control" placeholder="Enter your name" disabled'), 
-					),
-					1,'md', 9, 'mt-5'
-				)        
-			],
-			'dropdown' => [
-				'group' => $this->formBuilder->new_div(
-					array(
-						$this->formBuilder->new_dropdown('form-names',  $options, '', 'class="form-control" id="formSelector"')
-					),
-					2,'md', 9
-				)
-			],
-		];
-
-		$data['title'] = 'New Form';
-		$data['view'] =  $form;
-		return view('admin/users/NewForm', $data);
-	}
 
 	public function readForm($responseID, $formID)
 	{
         $data['title'] = 'View Form';
 		//Fetch data and form send to view
-		//form tag goes below
-		$formData = '			  
-		<div class="row d-flex justify-content-center mx-auto w-75 text-start">
-		<div class="col col-md-4">
-		  <div class="form-floating">
-			<input type="text" class="form-control form-control-sm" id="floatingInput1" placeholder="hello" value="meow">
-			<label for="floatingInput1">Your First name and Middle initial</label>
-		  </div>
-		</div>
-		<div class="col col-md-4">
-		  <div class="form-floating">
-			<input type="text" class="form-control form-control-sm" id="floatingInput2">
-			<label for="floatingInput2">Last Name</label>
-		  </div>
-		</div>
-		<div class="col col-md-4">
-		  <div class="form-floating">
-			<input type="text" class="form-control form-control-sm" id="floatingInput3">
-			<label for="floatingInput3">Your Social Security Number</label>
-		  </div>
-		</div>
-	  </div>
-	  <hr class="mx-auto mt-3">
-	  ';
+		$formData = $this->formBuilder->getForm($formID);
 
 		$pdfContent = $this->formBuilder->export_to_pdf($formData);
 
-		$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="600px"></iframe>';
+		$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="800px"></iframe>';
 
         $data['pdfContent'] = $pdfIframe;	
 
 		return view('admin/users/ViewForm', $data);
 	}
 
-	public function updateForm($responseID, $formID)
+	public function updateForm($responseID, $formID=null)
 	{
-		try {
-			// Fetch form from database
-			$form = $this->formBuilder->getForm($formID, false);
-			$response = $this->formBuilder->getResponseFormData($responseID);
-		} catch(\Exception $e) {
-			// Return exception
-			return $e->getMessage();
-		}
-		// Load helper functions in controller
-		helper(['form', 'validation_helper', 'filesystem']);
+		//Edit Form Submitted
+		if($this->request->getPost()){
+			$post = $this->request->getPost();
+			$html = $this->formBuilder->getAssociatedFormData($responseID);
 
-		$data['title'] = 'Edit Form';
-		$data['view'] = $form["Structure"];
-		$data['response'] = unserialize($response["Response"]);
+			try{
+				$form = $this->formBuilder->getForm($formID, false);
+				$rules = null;
+				
+				//Get Rules from model
+				if( !is_null($form['Rules']) ){
+					$rules = $this->formBuilder->generateRulesFromHTML($html);
+				}else{
+					$rules = $form['Rules'];
+				}
 
-		$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
-		$data['form_name']  = $form['Name'];
-		$data['formID']  = $formID;
-
-		return view('admin/users/EditForm', $data);
-	}
-
-	public function submitUpdatedForm($responseID){
-
-		$post = $this->request->getPost();
-		$formID = $post['formid'];
-		$html = $this->formBuilder->getAssociatedFormData($responseID);
-
-		try{
-			$form = $this->formBuilder->getForm($formID, false);
-			$rules = null;
-			
-			if( !is_null($form['Rules']) ){
-				$rules = $this->formBuilder->generateRulesFromHTML($html);
-			}else{
-				$rules = $form['Rules'];
+			} catch (\Exception $e){
+				return view('errors/html/error_404', ['message' => $e->getMessage()]);
 			}
+
+			$encrpyt = false;
+			$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+
+			if (!$validatedData['success']) {
+				// Validation failed, return error view or perform any other actions
+				$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
+				$errorMessage = "Validation Error for the following fields: " . $errorFields;
+				return view('errors/html/error_404', ['message' => $errorMessage]);
+			}
+
+			$responseData = serialize($post);
+
+			$formData = [
+				'Response' => $responseData
+			];
+
+			$this->formBuilder->submitUpdatedFormData($responseID, $formData);
+
+			$data['title'] = 'Form Update';
+			return view('admin/users/update_success', $data);
+		}	
+		else{
+			//Get the form structure for user to update their form data
+			try {
+				// Fetch form from database
+				$form = $this->formBuilder->getForm($formID, false);
+				$response = $this->formBuilder->getResponseFormData($responseID);
+			} catch(\Exception $e) {
+				// Return exception
+				return $e->getMessage();
+			}
+			// Load helper functions in controller
+			helper(['form', 'validation_helper', 'filesystem']);
+	
+			$data['title'] = 'Edit Form';
+			$data['view'] = $form["Structure"];
+			$data['response'] = unserialize($response["Response"]);
+	
+			$data['view'] = $this->formBuilder->placeFormData($responseID, $data['response'], $data['view']);
+			$data['form_name']  = $form['Name'];
+			$data['formID']  = $formID;
+	
+			return view('admin/users/EditForm', $data);
+		}
 		
-		} catch (\Exception $e){
-			return view('errors/html/error_404', ['message' => $e->getMessage()]);
-		}
-
-		$encrpyt = false;
-		$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
-
-		if (!$validatedData['success']) {
-			// Validation failed, return error view or perform any other actions
-			$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
-			$errorMessage = "Validation Error for the following fields: " . $errorFields;
-			return view('errors/html/error_404', ['message' => $errorMessage]);
-		}
-
-		$responseData = serialize($post);
-
-		$formData = [
-			'Response' => $responseData
-		];
-
-		$this->formBuilder->submitUpdatedFormData($responseID, $formData);
-
-		$data['title'] = 'Form Update';
-		return view('admin/users/update_success', $data);
 	}
 
 	public function deleteForm($responseID) {
@@ -449,3 +379,128 @@ class UsersDashboard extends BaseController
 	}
 	
 }
+
+//ARCHIVE FUNCTION
+
+	// public function submitUpdatedForm($responseID){
+
+	// 	$post = $this->request->getPost();
+	// 	$formID = $post['formid'];
+	// 	$html = $this->formBuilder->getAssociatedFormData($responseID);
+
+	// 	try{
+	// 		$form = $this->formBuilder->getForm($formID, false);
+	// 		$rules = null;
+			
+	// 		if( !is_null($form['Rules']) ){
+	// 			$rules = $this->formBuilder->generateRulesFromHTML($html);
+	// 		}else{
+	// 			$rules = $form['Rules'];
+	// 		}
+		
+	// 	} catch (\Exception $e){
+	// 		return view('errors/html/error_404', ['message' => $e->getMessage()]);
+	// 	}
+
+	// 	$encrpyt = false;
+	// 	$validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
+
+	// 	if (!$validatedData['success']) {
+	// 		// Validation failed, return error view or perform any other actions
+	// 		$errorFields = implode(", ", $validatedData['errors']); // Combine all error fields into a comma-separated string
+	// 		$errorMessage = "Validation Error for the following fields: " . $errorFields;
+	// 		return view('errors/html/error_404', ['message' => $errorMessage]);
+	// 	}
+
+	// 	$responseData = serialize($post);
+
+	// 	$formData = [
+	// 		'Response' => $responseData
+	// 	];
+
+	// 	$this->formBuilder->submitUpdatedFormData($responseID, $formData);
+
+	// 	$data['title'] = 'Form Update';
+	// 	return view('admin/users/update_success', $data);
+	// }
+
+		// //When New User create a New form
+	// public function newUser()
+	// {
+		
+	// 	//Get all the data, currently library's model does not support to get all. Can add if you want
+	// 	$formData = $this->formBuilder->getForm(null, false);
+
+	// 	$options = [];
+	// 	foreach ($formData as $form) {
+	// 		$options[$form['FormID']] = $form['Name'];
+	// 	}
+	// 	//Using our library to create a input to create a text input for username 
+	// 	//and a select type html tag
+	// 	$form = [
+	// 		'username' => 
+	// 			//new_div($label, $input, $row, $span, $column, $attributes)
+	// 			$this->formBuilder->new_div(
+	// 				array(
+	// 					//new_label($name='', $value='', $attributes='')
+	// 					$this->formBuilder->new_label('username', 'User Name'), 
+	// 					//new_input($name='', $value='', $attributes='' OR $attributes=[])
+	// 					$this->formBuilder->new_input('username', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'), 
+	// 				),
+	// 				1,'md', 9, 'mt-2'
+	// 			)        
+	// 		,
+	// 		'dropdown' => 
+	// 			 $this->formBuilder->new_div(
+	// 				array(
+	// 					$this->formBuilder->new_dropdown('form-names',  $options, '', 'class="form-control" id="formSelector"')
+	// 				),
+	// 				2,'md', 9
+	// 			)
+	// 		,
+	// 	];
+
+    //     $data['title'] = 'New User';
+	// 	$data['view'] =  $form;
+
+	// 	return view('admin/users/NewUser', $data);
+	// }
+
+	// //When old user create a new form 
+	// public function createForm($name=null)
+	// {
+	// 	//Get all the data, currently library's model does not support to get all. Can add if you want
+	// 	$formData = $this->formBuilder->getForm(null, false);
+	// 	$options = [];
+	// 	foreach ($formData as $form) {
+	// 		$options[$form['FormID']] = $form['Name'];
+	// 	}
+	// 	//Using our library to create a input to create a text input for username 
+	// 	//and a select type html tag
+	// 	$form = [
+	// 		'username' => [
+	// 			//new_div($label, $input, $row, $span, $column, $attributes)
+	// 			'group' => $this->formBuilder->new_div(
+	// 				array(
+	// 					//new_label($name='', $value='', $attributes='')
+	// 					$this->formBuilder->new_label('username', 'User Name'), 
+	// 					//new_input($name='', $value='', $attributes='' OR $attributes=[])
+	// 					$this->formBuilder->new_input('username', $name, 'class="form-control" id="name-control" placeholder="Enter your name" disabled'), 
+	// 				),
+	// 				1,'md', 9, 'mt-5'
+	// 			)        
+	// 		],
+	// 		'dropdown' => [
+	// 			'group' => $this->formBuilder->new_div(
+	// 				array(
+	// 					$this->formBuilder->new_dropdown('form-names',  $options, '', 'class="form-control" id="formSelector"')
+	// 				),
+	// 				2,'md', 9
+	// 			)
+	// 		],
+	// 	];
+
+	// 	$data['title'] = 'New Form';
+	// 	$data['view'] =  $form;
+	// 	return view('admin/users/NewForm', $data);
+	// }

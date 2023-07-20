@@ -59,13 +59,17 @@ $routes->get('/template/print', [TemplateDashboard::class, 'printFormHTML']);   
 
 /* User Dashboard */
 $routes->get('/users', [UsersDashboard::class, 'index']);
-$routes->match(['get', 'post'], '/users/newUser', [UsersDashboard::class, 'newUser']);
-$routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);
-$routes->post('/users/update/(:segment)', [UsersDashboard::class, 'submitUpdatedForm']);
-$routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);
-$routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);
-$routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);
-$routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);
+$routes->get('/users/getForm', [UsersDashboard::class, 'getForm']);                                             //Get the Form HTML
+$routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);                            //Old User
+$routes->get('/users/newUser', [UsersDashboard::class, 'createForm']);                                          //New User
+$routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);                                          //Submitting Form
+
+$routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);                         //Get UpdateForm template
+$routes->post('/users/(:num)/update/(:num)', [UsersDashboard::class, 'updateForm']);                            //Submit form to update
+
+
+$routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);                             //View Form
+$routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);                         //Delete Form
 
 /* Testing Routes  */
 $routes->get('/form', 'FormController::index');

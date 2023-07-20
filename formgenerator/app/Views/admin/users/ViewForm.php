@@ -4,7 +4,7 @@
 
 <style>
     #pdf-view{
-        margin-top:5%;
+        margin-top:2%;
     }
 </style>
 <?= $this->endSection() ?>
