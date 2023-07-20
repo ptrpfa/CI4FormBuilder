@@ -45,49 +45,31 @@ $(document).ready(function() {
       }
     });
 
-    // $(document).on('submit', '#formContainer form', function(e) {
-    //   e.preventDefault();
-
-    //   var formValue = $('#name-control').val(); // Get the username
-    //   var formID = $('#formSelector').find(":selected").val();
-
-    //   if (formID === null || formID === "") {
-    //     formID = $('#edit_formid').val();
-    //     // Get the form's action URL
-    //     var actionUrl = $('#formContainer form').attr("action");
-    //     console.log(actionUrl);
-
-    //     // Split the action URL using '/' as the separator
-    //     var segments = actionUrl.split('/');
-
-    //     //Get Response ID
-    //     var responseID = segments[segments.length - 1];
-
-    //     $(this).attr("action") = '/users/' + responseID + '/update/' + formID;
-        
-    //     return false;
-    //   }
-
-    //   // Add the value to the form data
-    //   $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
-    //   $(this).append('<input type="hidden" name="formid" value="' + formID + '">');
-
-    //   // Continue with the default form submission
-    //   return true;
-    // });
-
-    $('#formContainer form').submit(function(e) {
-      e.preventDefault();
-      var formID = $('#edit_formid').val();
-      var actionUrl = $(this).attr("action");
-      var segments = actionUrl.split('/');
-      var responseID = segments[segments.length - 1];
-      var newAction = '/users/' + responseID + '/update/' + formID;
-      $(this).attr("action", newAction);
-      console.log('New action:', $(this).attr("action"));
+    $(document).on('submit', '#formContainer form', function(e) {
       
-      //Submit the form with new route
-      this.submit();
+        var formID = $('#formSelector').find(":selected").val();
+
+        if (formID === null || formID === "") {
+          e.preventDefault();
+          var formID = $('#edit_formid').val();
+          var actionUrl = $(this).attr("action");
+          var segments = actionUrl.split('/');
+          var responseID = segments[segments.length - 1];
+          var newAction = '/users/' + responseID + '/update/' + formID;
+          $(this).attr("action", newAction);
+          
+          //Submit the form with new route
+          this.submit();
+        }else{
+          var formValue = $('#name-control').val(); // Get the username
+          // Add the value to the form data
+          $(this).append('<input type="hidden" name="username" value="' + formValue + '">');
+          $(this).append('<input type="hidden" name="formid" value="' + formID + '">');
+
+          // Continue with the default form submission
+          return true;
+
+        }
     });
   
     var top = $('#scrollbtn');
@@ -172,3 +154,31 @@ $(document).ready(function() {
     });
 
 });
+
+//ARCHIVE
+
+// $(document).on('submit', '#formContainer form', function(e) {
+//   e.preventDefault();
+
+//   var formValue = $('#name-control').val(); // Get the username
+//   var formID = $('#formSelector').find(":selected").val();
+
+//   if (formID === null || formID === "") {
+//     formID = $('#edit_formid').val();
+//     // Get the form's action URL
+//     var actionUrl = $('#formContainer form').attr("action");
+//     console.log(actionUrl);
+
+//     // Split the action URL using '/' as the separator
+//     var segments = actionUrl.split('/');
+
+//     //Get Response ID
+//     var responseID = segments[segments.length - 1];
+
+//     $(this).attr("action") = '/users/' + responseID + '/update/' + formID;
+    
+//     return false;
+//   }
+
+
+// });

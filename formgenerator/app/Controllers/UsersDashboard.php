@@ -118,7 +118,7 @@ class UsersDashboard extends BaseController
 		$formData = $this->formBuilder->getForm(null, false);
 
 		//Get all the form name and put inside a dropdown selector 
-		$options = [];
+		$options['default'] = 'Select Form';
 		foreach ($formData as $form) {
 			$options[$form['FormID']] = $form['Name'];
 		}
@@ -144,7 +144,7 @@ class UsersDashboard extends BaseController
 			'dropdown' => 
 				 $this->formBuilder->new_div(
 					array(
-						$this->formBuilder->new_dropdown('form-names',  $options, '', 'class="form-control" id="formSelector"')
+						$this->formBuilder->new_dropdown('form-names',  $options, 'default', 'class="form-control" id="formSelector"')
 					),
 					2,'md', 9
 				)
@@ -169,15 +169,15 @@ class UsersDashboard extends BaseController
 		// 	$uploadFile->move(WRITEPATH . 'uploads', $newName); //Creates a folder in the writable folder called 'uploads'
 		// 	$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
 		// }
-	
-		// Retrieve the value of 'username' and 'formid'
+
+		//Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
 
 		$formModel = new FormModel();
 
 		if(!$formModel -> isActive($formID)) {
-		return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
+			return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
 		}
 	
 		// Remove the 'username' and 'formid' key from the array 
