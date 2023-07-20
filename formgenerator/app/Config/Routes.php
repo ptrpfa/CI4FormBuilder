@@ -71,9 +71,7 @@ $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteF
 
 /* Testing Routes  */
 $routes->match(['get', 'post'], '/form/create', [FormController::class, 'create']);
-$routes->get('/index', [FormController::class, 'index']);
-$routes->get('/new', 'AdminController::index');
-$routes->get('/test', 'Sample::index');                                                                         // Currently referencing to f1040sa form
+$routes->get('/index', [FormController::class, 'index']);                                                                        // Currently referencing to f1040sa form
 
 
 //All invalid route, route to here
