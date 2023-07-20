@@ -12,6 +12,4 @@
     </div>   
 </div>
 
-
-<input type="hidden" id="csrfToken" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 <?= $this->endSection() ?>
