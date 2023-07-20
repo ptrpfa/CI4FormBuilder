@@ -42,34 +42,31 @@ $routes->set404Override();
 service('auth')->routes($routes);
 
 // Home routes
-$routes->get('/', [Home::class, 'index']);                                                                      // Base view
-$routes->match(['get', 'post'], 'change-password', [Home::class, 'changePassword'], ['as' => 'changePassword']);         // Change Password
-$routes->match(['get', 'post'], 'reset-password', [Home::class, 'resetPassword'], ['as' => 'resetPassword']);   // Reset password
+$routes->get('/', [Home::class, 'index']);                                                                          // Base view
+$routes->match(['get', 'post'], 'change-password', [Home::class, 'changePassword'], ['as' => 'changePassword']);    // Change Password
+$routes->match(['get', 'post'], 'reset-password', [Home::class, 'resetPassword'], ['as' => 'resetPassword']);       // Reset password
 
 /* Template Dashboard */
-$routes->get('/dashboard', [TemplateDashboard::class, 'index']);                                                // Base view
-$routes->match(['get', 'post'], '/template/create', [TemplateDashboard::class, 'createForm']);                  // View to create a new form template
-$routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                                       // View to read a specified form template
-$routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);           // View to update a specified form template
-$routes->get('/template/activate/(:num)', [TemplateDashboard::class, 'activateForm']);                          // View to activate a specified form template
-$routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                              // View to delete a specified form template
-$routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                        // View to delete all versions of a specified form template
-$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                               // For HTMl dump                 
-$routes->get('/template/print', [TemplateDashboard::class, 'printFormHTML']);                                   // For previewing the form
+$routes->get('/dashboard', [TemplateDashboard::class, 'index']);                                                    // Base view
+$routes->match(['get', 'post'], '/template/create', [TemplateDashboard::class, 'createForm']);                      // View to create a new form template
+$routes->get('/template/(:num)', [TemplateDashboard::class, 'readForm']);                                           // View to read a specified form template
+$routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::class, 'updateForm']);               // View to update a specified form template
+$routes->get('/template/activate/(:num)', [TemplateDashboard::class, 'activateForm']);                              // View to activate a specified form template
+$routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                                  // View to delete a specified form template
+$routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                            // View to delete all versions of a specified form template
+$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                                   // For HTMl dump                 
+$routes->get('/template/print', [TemplateDashboard::class, 'printFormHTML']);                                       // For previewing the form
 
 /* User Dashboard */
 $routes->get('/users', [UsersDashboard::class, 'index']);
-$routes->get('/users/getForm', [UsersDashboard::class, 'getForm']);                                             //Get the Form HTML
-$routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);                            //Old User
-$routes->get('/users/newUser', [UsersDashboard::class, 'createForm']);                                          //New User
-$routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);                                          //Submitting Form
-
-$routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);                         //Get UpdateForm template
-$routes->post('/users/(:num)/update/(:num)', [UsersDashboard::class, 'updateForm']);                            //Submit form to update
-
-
-$routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);                             //View Form
-$routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);                         //Delete Form
+$routes->get('/users/getForm', [UsersDashboard::class, 'getForm']);                                                 // Get the Form HTML
+$routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm']);                                // Old User
+$routes->get('/users/newUser', [UsersDashboard::class, 'createForm']);                                              // New User
+$routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);                                              // Submitting Form
+$routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);                             // Get UpdateForm template
+$routes->post('/users/(:num)/update/(:num)', [UsersDashboard::class, 'updateForm']);                                // Submit form to update
+$routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);                                 // View Form
+$routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);                             // Delete Form
 
 /* Testing Routes  */
 $routes->get('/form', 'FormController::index');

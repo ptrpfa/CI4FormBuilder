@@ -120,7 +120,9 @@ class UsersDashboard extends BaseController
 		//Get all the form name and put inside a dropdown selector 
 		$options = [];
 		foreach ($formData as $form) {
-			$options[$form['FormID']] = $form['Name'];
+			if($form['Status'] == 1) {
+				$options[$form['FormID']] = sprintf("%s (v%s)", $form['Name'], $form['Version']);
+			}
 		}
 
 
