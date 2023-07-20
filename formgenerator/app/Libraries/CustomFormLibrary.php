@@ -58,8 +58,14 @@ class CustomFormLibrary
                 $csrfHash = csrf_hash();
 
                 $formStructure =  $this->formModel->get_form($formID, $structure_only);
-       
-                $formStructure = preg_replace('/<\/form>/', '<input type="hidden" name="' . $csrfToken . '" value="' . $csrfHash . '"></form>', $formStructure);
+
+                if ($structure_only === true){
+                    $formStructure = preg_replace('/<\/form>/', '<input type="hidden" name="' . $csrfToken . '" value="' . $csrfHash . '"></form>', $formStructure);
+                }
+                else{
+                    $formStructure['Structure'] = preg_replace('/<\/form>/', '<input type="hidden" name="' . $csrfToken . '" value="' . $csrfHash . '"></form>', $formStructure['Structure']);
+                }
+
             }else{
                 $formStructure =  $this->formModel->get_form($formID, $structure_only);
             }
@@ -471,9 +477,6 @@ class CustomFormLibrary
 
                 // set rule based on input type
                 switch ($type) {
-                    case 'checkbox':
-                        $rules[$name] = 'required';
-                        break;
                     case 'radio':
                         $rules[$name] = 'required';
                         break;

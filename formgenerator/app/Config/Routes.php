@@ -5,6 +5,7 @@ namespace Config;
 // Imports
 use App\Controllers\TemplateDashboard;
 use App\Controllers\UsersDashboard;
+use App\Controllers\FormController;
 use App\Controllers\Home;
 
 // Create a new instance of our RouteCollection class.
@@ -69,7 +70,8 @@ $routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm'
 $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);                             // Delete Form
 
 /* Testing Routes  */
-$routes->get('/form', 'FormController::index');
+$routes->match(['get', 'post'], '/form/create', [FormController::class, 'create']);
+$routes->get('/index', [FormController::class, 'index']);
 $routes->get('/new', 'AdminController::index');
 $routes->get('/test', 'Sample::index');                                                                         // Currently referencing to f1040sa form
 

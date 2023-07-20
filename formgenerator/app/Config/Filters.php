@@ -29,7 +29,7 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
-            'session' => ['except' => ['login*', 'register', 'auth/a/*']],  // Enable CI4 Shield to protect all routes
+            'session' => ['except' => ['login*', 'register', 'auth/a/*', 'form', 'index']],  // Enable CI4 Shield to protect all routes
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
