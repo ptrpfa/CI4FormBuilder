@@ -171,7 +171,7 @@ class TemplateDashboard extends BaseController
 		}
 		else { 
 			// GET request
-			return view('admin/form_template/createForm', ['form_templates' => $form_templates]);
+			return view('admin/form_template/createForm', ['title' => 'New Template','form_templates' => $form_templates]);
 		}
 	}
 

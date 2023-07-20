@@ -1,9 +1,11 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
-<div class="alert alert-danger">
-    <?= session()->getFlashdata('error') ?>
-    <?= validation_list_errors() ?>
-</div>
+<?php if(session()->has('error')) : ?>
+    <div class="alert alert-danger">
+        <?= session()->getFlashdata('error') ?>
+        <?= validation_list_errors() ?>
+    </div>
+<?php endif; ?>
 
 <form class="row g-3 m-3 form-creation" action="<?=base_url('/template/create')?>" method="post">
     <?= csrf_field() ?>
