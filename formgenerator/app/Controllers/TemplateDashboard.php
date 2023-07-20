@@ -129,7 +129,7 @@ class TemplateDashboard extends BaseController
 			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
 			'form_status'  => 'required|max_length[1]|min_length[1]|in_list[0,1]',
 			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
-			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !]+$/]'
+			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !\.]+$/]'
 		];
 		// Get form template files
 		$form_templates = directory_map('../app/Config/FormTemplates', 1);
@@ -282,7 +282,7 @@ class TemplateDashboard extends BaseController
 		return view('admin/success', ['message' => 'Deactivated all versions of form ' . $formID . '!']);
 	}
 
-
+	// Function to get HTML dump of unserialised form structure
 	public function getFormHTML()
 	{
 		if ($this->request->is('get')) {

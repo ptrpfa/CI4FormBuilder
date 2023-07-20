@@ -120,27 +120,6 @@ class CustomFormLibrary
         }
     }
 
-    public function test($data){ //For Ryan to buckle boots, dun touch
-        $formStructure = '';
-
-        if (isset($data['Structure'])) {
-            $fields = $data['Structure'];
-        }else{
-            $fields = $data;
-        }
-
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $formStructure .= $this->test($value);
-            } else {
-                $formStructure .= $value;
-            }
-        }
-        
-        //Set the new Structure
-        return $formStructure; //<-- This shit is the form html
-    }
-
     // Function to update a specified form template in the database
     public function updateForm($data)
     {   
@@ -276,6 +255,7 @@ class CustomFormLibrary
             throw $e;
         }
     }
+    
     public function getResponseFormData($responseID) {
         try {
             return $this->formResponseModel->retrieveFormData($responseID);

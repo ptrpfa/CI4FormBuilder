@@ -154,31 +154,3 @@ $(document).ready(function() {
     });
 
 });
-
-//ARCHIVE
-
-// $(document).on('submit', '#formContainer form', function(e) {
-//   e.preventDefault();
-
-//   var formValue = $('#name-control').val(); // Get the username
-//   var formID = $('#formSelector').find(":selected").val();
-
-//   if (formID === null || formID === "") {
-//     formID = $('#edit_formid').val();
-//     // Get the form's action URL
-//     var actionUrl = $('#formContainer form').attr("action");
-//     console.log(actionUrl);
-
-//     // Split the action URL using '/' as the separator
-//     var segments = actionUrl.split('/');
-
-//     //Get Response ID
-//     var responseID = segments[segments.length - 1];
-
-//     $(this).attr("action") = '/users/' + responseID + '/update/' + formID;
-    
-//     return false;
-//   }
-
-
-// });

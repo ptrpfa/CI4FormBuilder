@@ -54,7 +54,7 @@ $routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::c
 $routes->get('/template/activate/(:num)', [TemplateDashboard::class, 'activateForm']);                              // View to activate a specified form template
 $routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                                  // View to delete a specified form template
 $routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                            // View to delete all versions of a specified form template
-$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                                   // For HTMl dump                 
+$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                                   // For displaying of unserialised form structure (HTML dump)                 
 $routes->get('/template/print', [TemplateDashboard::class, 'printFormHTML']);                                       // For previewing the form
 
 /* User Dashboard */
@@ -70,9 +70,6 @@ $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteF
 
 /* Testing Routes  */
 $routes->get('/form', 'FormController::index');
-$routes->get('/new', 'AdminController::index');
-$routes->get('/test', 'Sample::index');                                                                         // Currently referencing to f1040sa form
-
 
 //All invalid route, route to here
 $routes->group('', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function ($routes) {
