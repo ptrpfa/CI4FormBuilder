@@ -16,14 +16,14 @@ class FormController extends BaseController
 
     public function index()
     {
-        $responseData = $this->formBuilder->getResponseFormData(144);
+        $responseData = $this->formBuilder->getResponseFormData(148);
         d(unserialize($responseData['Response']));
     }
 
-    public function create()
+    public function create($formID)
     {
-        $formID = 68;
-		$form = $this->formBuilder->getForm($formID, false);
+
+        $form = $this->formBuilder->getForm($formID, false);
         $title = $form['Name'];
         $html = $form['Structure'];
         $user = 'Adrian';
@@ -33,14 +33,12 @@ class FormController extends BaseController
             'view' => $html
         ];
 
+
         if (!$this->request->is('post')) {
             return view('templates/header', $data)
             . view('form/create')
             . view('templates/footer');
         }
-
-        $post = $this->request->getPost();
-        $keys = array_keys($post);
 
         try{
             $rules = null;
@@ -53,6 +51,9 @@ class FormController extends BaseController
         } catch (\Exception $e){
             return view('errors/html/error_404', ['message' => $e->getMessage()]);
         }
+
+        $post = $this->request->getPost();
+        $keys = array_keys($post);
 
         $encrpyt = false;
         $validatedData = $this->formBuilder->validateData($post, $rules, $encrpyt);
