@@ -54,7 +54,7 @@ $routes->match(['get', 'post'], '/template/update/(:num)', [TemplateDashboard::c
 $routes->get('/template/activate/(:num)', [TemplateDashboard::class, 'activateForm']);                              // View to activate a specified form template
 $routes->get('/template/delete/(:num)', [TemplateDashboard::class, 'deleteForm']);                                  // View to delete a specified form template
 $routes->get('/template/deleteAll/(:num)', [TemplateDashboard::class, 'deleteAllForm']);                            // View to delete all versions of a specified form template
-$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                                   // For HTMl dump                 
+$routes->get('/template/getFormHTML', [TemplateDashboard::class, 'getFormHTML']);                                   // For displaying of unserialised form structure (HTML dump)                 
 $routes->get('/template/print', [TemplateDashboard::class, 'printFormHTML']);                                       // For previewing the form
 
 /* User Dashboard */
