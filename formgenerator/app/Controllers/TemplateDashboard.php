@@ -15,8 +15,7 @@ class TemplateDashboard extends BaseController
     }
 	
 	// Index view
-	public function index()
-	{
+	public function index() {
 		// Initialise view's context data
 		$data = [];
 
@@ -96,7 +95,7 @@ class TemplateDashboard extends BaseController
 		return view('admin/dashboard', $data);
 	}
 
-	// View to get a particular form template
+	// View to get a particular form template (PDF)
 	public function readForm($formID) {
         try {
 			// Fetch form from database
@@ -124,7 +123,7 @@ class TemplateDashboard extends BaseController
 		// Load helper functions in controller
 		helper(['form', 'validation_helper', 'filesystem']);
 		// Initialise associative array keys and rules
-		$keys = ['form_name', 'form_status', 'form_version', 'form_description', 'form_structure', 'form_template'];
+		$keys = ['form_name', 'form_status', 'form_version', 'form_description', 'form_template'];
 		$db_keys = ['Name', 'Status', 'Version', 'Description', 'Structure'];
 		$rules = [
 			'form_name' => 'required|max_length[500]|min_length[1]|regex_match[/^[a-zA-Z0-9_ ]+$/]',
@@ -132,28 +131,14 @@ class TemplateDashboard extends BaseController
 			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
 			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !]+$/]'
 		];
-		// Boolean flag to determine if a predefined form template is used
-		$use_template = false;
 		// Get form template files
 		$form_templates = directory_map('../app/Config/FormTemplates', 1);
 		// Check request type
 		if($this->request->is('post')) {	 
 			// Get POST data
 			$post = $this->request->getPost($keys);
-			// Check type of form structure provided
-			if($post['form_template'] == null) {
-				// Remove form_template key-value pair
-				unset($post['form_template']);
-			}
-			else {
-				// Remove form_structure key-value pair
-				unset($post['form_structure']);
-				$use_template = true;
-			}
-
 			// Validate data received
 			$validated_data = validate($post, $rules, false);
-
 			// Check if data validation failed
 			if(!$validated_data['success']) {
 				// // Append form template files to context data
@@ -166,22 +151,15 @@ class TemplateDashboard extends BaseController
 				// Map validated data keys to their database equivalent
 				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
-					// Check type of form structure used (HTML dump or predefined file template)
-					if($use_template) {
-						// Load form structure
-						include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
-						$validated_data['Structure'] = $fields;
-						$includedVars = get_defined_vars();
-						if (isset($includedVars['Rules'])) {
-							$validated_data['Rules'] = $includedVars['Rules'];
-						}
-						// Create form
-						$formID = $this->formBuilder->createForm($validated_data);
+					// Load form structure from form template file
+					include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+					$validated_data['Structure'] = $fields;
+					$includedVars = get_defined_vars();
+					if (isset($includedVars['Rules'])) {
+						$validated_data['Rules'] = $includedVars['Rules'];
 					}
-					else {
-						// Create form from HTML dump provided
-						$formID = $this->formBuilder->createFormDump($validated_data);
-					}
+					// Create form
+					$formID = $this->formBuilder->createForm($validated_data);
 				}
 				catch(\Exception $e) {
 					// Return exception
@@ -210,7 +188,7 @@ class TemplateDashboard extends BaseController
 		// Load helper functions in controller
 		helper(['form', 'validation_helper', 'filesystem']);
 		// Initialise associative array keys and rules
-		$keys = ['form_id', 'form_name', 'form_status', 'form_version', 'form_description', 'form_structure', 'form_template'];
+		$keys = ['form_id', 'form_name', 'form_status', 'form_version', 'form_description', 'form_template'];
 		$db_keys = ['FormID', 'Name', 'Status', 'Version', 'Description', 'Structure'];
 		$rules = [
 			'form_id'  => 'required|max_length[100]|min_length[1]|regex_match[/^[0-9]+$/]',
@@ -219,29 +197,14 @@ class TemplateDashboard extends BaseController
 			'form_version'  => 'required|max_length[100]|min_length[0]|regex_match[/^[0-9\.]*$/]',
 			'form_description'  => 'required|max_length[1000]|min_length[0]|regex_match[/^[a-zA-Z0-9_ !]+$/]'
 		];
-		// Boolean flag to determine if a predefined form template is used
-		$use_template = false;
 		// Get form template files
 		$form['form_templates'] = directory_map('../app/Config/FormTemplates', 1);
 		// Check request type
 		if($this->request->is('post')) {	 
 			// Get POST data
 			$post = $this->request->getPost($keys);
-			// Check type of form structure provided
-			if($post['form_template'] == null) {
-				// Remove form_template key-value pair
-				unset($post['form_template']);
-				$post['form_structure'] = htmlspecialchars_decode($post['form_structure']);
-			}
-			else {
-				// Remove form_structure key-value pair
-				unset($post['form_structure']);
-				$use_template = true;
-			}
-
 			// Validate data received
 			$validated_data = validate($post, $rules, false);
-
 			// Check if data validation failed
 			if(!$validated_data['success']) {
 				// Combine form and post arrays
@@ -253,22 +216,15 @@ class TemplateDashboard extends BaseController
 				// Map validated data keys to their database equivalent
 				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
-					// Check type of form structure used (HTML dump or predefined file template)
-					if($use_template) {
-						// Load form structure
-						include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
-						$validated_data['Structure'] = $fields;
-						$includedVars = get_defined_vars();
-						if (isset($includedVars['Rules'])) {
-							$validated_data['Rules'] = $includedVars['Rules'];
-						}
-						// Update form
-						$this->formBuilder->updateForm($validated_data);
+					// Load form structure from form template file
+					include(APPPATH . 'Config/FormTemplates/' . $validated_data['Structure']);
+					$validated_data['Structure'] = $fields;
+					$includedVars = get_defined_vars();
+					if (isset($includedVars['Rules'])) {
+						$validated_data['Rules'] = $includedVars['Rules'];
 					}
-					else {
-						// Update form from HTML dump provided
-						$this->formBuilder->updateFormDump($validated_data);
-					}
+					// Update form
+					$this->formBuilder->updateForm($validated_data);
 				}
 				catch(\Exception $e) {
 					// Return exception

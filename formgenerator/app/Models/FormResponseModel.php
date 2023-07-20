@@ -8,7 +8,7 @@ class FormResponseModel extends Model
     // Model fields
     protected $table = 'Response';
     protected $primaryKey = 'ResponseID';
-    protected $allowedFields = ['FormID', 'User', 'Response'];
+    protected $allowedFields = ['FormID', 'Datetime', 'User', 'Response'];
 
     // Function to get all form response and template data from the database
     public function get_all_data() 
