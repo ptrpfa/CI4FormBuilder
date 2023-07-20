@@ -44,7 +44,7 @@ class FormController extends BaseController
 
         try{
             $rules = null;
-            if(is_null($form['Rules'])){
+            if(is_null($form['Rules']) || $form['Rules'] === false){
                 $rules = $this->formBuilder->generateRulesFromHTML($html);
             }else{
                 $rules = $form['Rules'];
@@ -70,7 +70,6 @@ class FormController extends BaseController
 
 		$uploaded_files = $this->request->getFiles();
 		if ($uploaded_files) {
-            d("Hello");
 			$file_label = "user_file";
 			$file_rules = [
 				'user_file' => [

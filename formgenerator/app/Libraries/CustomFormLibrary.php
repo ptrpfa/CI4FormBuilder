@@ -457,6 +457,8 @@ class CustomFormLibrary
 
                 // set rule based on input type
                 switch ($type) {
+                    case 'checkbox':
+                        break;
                     case 'radio':
                         $rules[$name] = 'required';
                         break;
