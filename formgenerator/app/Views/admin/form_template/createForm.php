@@ -1,8 +1,15 @@
 <?= $this->extend('admin/layouts/main') ?>
 <?= $this->section('content') ?>
-<div class="alert alert-danger">
-        <?= validation_list_errors() ?>
-</div>
+
+<?php if ($_SERVER['REQUEST_METHOD'] === 'POST') : ?>
+    <?php $validationErrors = validation_list_errors(); ?>
+    <?php if (!empty($validationErrors)) : ?>
+        <div class="alert alert-danger">
+            <?= $validationErrors ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
 
 <form class="row g-3 m-3 form-creation" action="<?=base_url('/template/create')?>" method="post">
     <?= csrf_field() ?>

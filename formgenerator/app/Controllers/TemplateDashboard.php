@@ -142,9 +142,10 @@ class TemplateDashboard extends BaseController
 			// Check if data validation failed
 			if(!$validated_data['success']) {
 				// // Append form template files to context data
-				$post['form_templates'] = $form_templates;
+				$data['form_templates'] = $form_templates;
+				$data['title'] = 'New Template';
 				// // Return validation errors
-				return view('admin/form_template/createForm', $post);
+				return view('admin/form_template/createForm', $data);
 		
 			}
 			else {
@@ -166,7 +167,7 @@ class TemplateDashboard extends BaseController
 					return $e->getMessage();
 				}
 				// Return view
-				return view('admin/success', ['message' => 'Created new form ' . $formID . '!']);
+				return view('admin/success', ['title' => 'New Template', 'message' => 'Created new form ' . $formID . '!']);
 			}
 		}
 		else { 
