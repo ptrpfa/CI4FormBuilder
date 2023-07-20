@@ -99,7 +99,7 @@ class Home extends BaseController
 
             $user = $users->findById(user_id());
             $user->fill([
-                'password' => $details['password']
+                'password' => $credentials['password']
             ]);
     
             $users->save($user);

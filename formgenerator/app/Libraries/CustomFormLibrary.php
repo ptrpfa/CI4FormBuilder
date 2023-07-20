@@ -83,10 +83,11 @@ class CustomFormLibrary
             Format:
                 $data  = [
                     'Name' => 'Form template name',
-                    'Status' => 1
                     'Version' => 1.0,
                     'Description' => 'Sample format',
-                    'Structure' =>  HTML form structure
+                    'Structure' => Serialised HTML form structure
+                    'Status' => 1
+                    'Rules' => Serialised parameter rules
                 ];
         */
         // Initialise form structure variables
@@ -118,36 +119,6 @@ class CustomFormLibrary
             throw $e;
         }
     }
-
-    // Function to create a new form template from a HTML dump and insert it into the database
-    public function createFormDump($data)
-    {   
-        /* 
-            Arguments:
-            $data: Associative array of form template column values
-            Format:
-                $data  = [
-                    'Name' => 'Form template name',
-                    'Status' => 1
-                    'Version' => 1.0,
-                    'Description' => 'Sample format',
-                    'Structure' =>  HTML form structure
-                ];
-        */
-        
-        try{
-            // Serialise the form structure (HTML dump)
-            $data['Structure'] = serialize($data['Structure']);
-            // Create new form template
-            return $this->formModel->create_form($data);
-        }catch(\Exception $e){
-            // Log the error or display a user-friendly error message
-            log_message('error', 'Form insertion failed: ' . $e->getMessage());
-            // Throw exception
-            throw $e;
-        }
-    }
-
 
     public function test($data){ //For Ryan to buckle boots, dun touch
         $formStructure = '';
@@ -205,35 +176,6 @@ class CustomFormLibrary
         $data['Structure'] = serialize($formStructure);
         // Send to model to update
         try{
-            $this->formModel->update_form($data['FormID'], $data);
-        }catch(\Exception $e){
-            // Log the error or display a user-friendly error message
-            log_message('error', 'Form update failed: ' . $e->getMessage());
-            // Throw exception
-            throw $e;
-        }
-    }
-
-    // Function to update a form template with a HTML dump 
-    public function updateFormDump($data)
-    {   
-        /* 
-            Arguments:
-            $data: Associative array of form template column values
-            Format:
-                $data  = [
-                    'Name' => 'Form template name',
-                    'Status' => 1
-                    'Version' => 1.0,
-                    'Description' => 'Sample format',
-                    'Structure' =>  HTML form structure
-                ];
-        */
-        
-        try{
-            // Serialise the form structure (HTML dump)
-            $data['Structure'] = serialize($data['Structure']);
-            // Update form template
             $this->formModel->update_form($data['FormID'], $data);
         }catch(\Exception $e){
             // Log the error or display a user-friendly error message
