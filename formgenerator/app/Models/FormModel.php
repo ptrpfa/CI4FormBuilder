@@ -20,83 +20,40 @@ class FormModel extends Model
             $structure_only: Default value of true will only return the unserialised structure of forms. If false, return all form template data.
         */
 
-        // // Check if a formID was not provided
-        // if(!$formID) {
-        //     // Check if only the structure of forms are to be returned
-        //     if($structure_only) {
-        //         // Initialise empty array
-        //         $form_structures = [];
-        //         // Loop through each form
-        //         foreach($this->findAll() as $form) {
-        //             // Append unserialised form structure into array
-        //             array_push($form_structures, unserialize($form['Structure']));
-        //         }
-        //         // Return array of unserialised form structures
-        //         return $form_structures;
-        //     }
-        //     else {
-        //         // Return all form data
-        //         $forms = $this->findAll();
-
-        //         foreach ($forms as &$form) {
-        //             // Unserialize form structure and rules
-        //             $form['Structure'] = unserialize($form['Structure']);
-        //             $form['Rules'] = unserialize($form['Rules']);
-        //         }
-                
-        //         return $forms;
-        //     }
-            
-        // }
-        // // A valid formID was provided
-        // else {
-        //     // Get specified form
-        //     $form = $this->find($formID);
-        //     // Check if a valid form was obtained
-        //     if($form) {     
-        //         // Return all form data or the unserialised form structure only, depending on the value of the boolean flag
-        //         $form['Structure'] = unserialize($form['Structure']);
-        //         $form['Rules'] = unserialize($form['Rules']);
-
-        //         return $structure_only ? $form['Structure'] : $form;
-        //     }
-        //     else {
-        //         // Exception handling
-        //         throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
-        //     }
-        // }
-
+        // Initialise return variables
         $forms = null;
         $form_structures = null;
         
+        // Check if a formID was specified
         if ($formID !== null) {
             // Retrieve the specified form
             $form = $this->find($formID);
-        
+            // Check if a valid form is obtained
             if ($form) {
                 // Unserialize form structure and rules
                 $form['Structure'] = unserialize($form['Structure']);
                 $form['Rules'] = unserialize($form['Rules']);
-        
                 // Remove unnecessary keys if returning structure only
                 if ($structure_only) {
                     $form_structures = $form['Structure'];
                 } else {
                     $forms = $form;
                 }
-            } else {
+            } 
+            else {
                 // Throw an exception if the form is not found
                 throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
             }
-        } else {
-            // Retrieve the form data
+        } 
+        // No formID specified
+        else {
+            // Retrieve all form data
             $forms = $this->findAll();
-        
+            // Loop through each form
             foreach ($forms as &$form) {
                 // Unserialize form structure and rules
                 $form['Structure'] = unserialize($form['Structure']);
                 $form['Rules'] = unserialize($form['Rules']);
-        
                 // Remove unnecessary keys if returning structure only
                 if ($structure_only) {
                     $form_structures[] = $form['Structure'];
@@ -106,13 +63,13 @@ class FormModel extends Model
         }
 
         // Return the form data
-        /* 
-         * formID = null, structure = true => returns $form_structure
-         * formID = null, structure = false => returns all $forms
-         * formID = 1, structure = true => returns all $form_structure
-         * forId = 1, structure = false => returns $forms (single)
-        */
         return $structure_only ? $form_structures : $forms;
+        /* 
+         * formID = null, structure_only = true => returns $form_structure (return all unserialised form structures)
+         * formID = null, structure_only = false => returns all $forms (return all forms, with serialised form structures)
+         * formID = 1, structure_only = true => returns $form_structure (return unserialised form structure of specified form)
+         * forId = 1, structure_only = false => returns $forms (return specified form)
+        */
     }
 
     // Function to create a new form template and insert it into the database
@@ -124,10 +81,11 @@ class FormModel extends Model
             Format:
                 $data  = [
                     'Name' => 'Form template name',
-                    'Status' => 1
                     'Version' => 1.0,
                     'Description' => 'Sample format',
-                    'Structure' =>  HTML form structure
+                    'Structure' => Serialised HTML form structure
+                    'Status' => 1
+                    'Rules' => Serialised parameter rules
                 ];
         */
         // Create new form template and insert it into the database
@@ -150,6 +108,15 @@ class FormModel extends Model
             Arguments:
             $formID: Form template to be updated
             $data: Associative array of data to update
+            Format:
+                $data  = [
+                    'Name' => 'Form template name',
+                    'Version' => 1.0,
+                    'Description' => 'Sample format',
+                    'Structure' => Serialised HTML form structure
+                    'Status' => 1
+                    'Rules' => Serialised parameter rules
+                ];
         */
         // Get specified form
         $form = $this->find($formID);
@@ -222,6 +189,7 @@ class FormModel extends Model
     //     return $rules;
     // }
     
+    // Function to check if a given form is active
     public function isActive($formID){
         $form = $this->find($formID);
         return $form['Status'] == 1;
