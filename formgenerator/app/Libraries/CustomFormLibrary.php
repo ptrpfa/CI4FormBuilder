@@ -207,14 +207,14 @@ class CustomFormLibrary
     }
 
     // Function to delete all versions of a specified form template in the database
-    public function deleteAllForm($formID) {
+    public function updateAllFormStatus($formID, $new_status) {
         /* 
             Arguments:
             $formID: Form template to be deleted
         */
         try {
             // Delete all versions of the specified form template 
-            $this->formModel->delete_all_forms($formID);
+            $this->formModel->update_all_form_status($formID, $new_status);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message

@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Models;
 
 // Imports
 use CodeIgniter\Model;
 
 class FormModel extends Model
-{   
+{
     // Model fields
     protected $table = 'Form';
     protected $primaryKey = 'FormID';
@@ -13,7 +14,7 @@ class FormModel extends Model
 
     // Function to get a specified form or all form data from the database
     public function get_form($formID = null, $structure_only = true)
-    {   
+    {
         /* 
             Arguments:
             $formID: Default value of null will fetch all form templates from the database. If a form ID is specified, fetch the specified form template from the database.
@@ -23,7 +24,7 @@ class FormModel extends Model
         // Initialise return variables
         $forms = null;
         $form_structures = null;
-        
+
         // Check if a formID was specified
         if ($formID !== null) {
             // Retrieve the specified form
@@ -39,12 +40,11 @@ class FormModel extends Model
                 } else {
                     $forms = $form;
                 }
-            } 
-            else {
+            } else {
                 // Throw an exception if the form is not found
                 throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
             }
-        } 
+        }
         // No formID specified
         else {
             // Retrieve all form data
@@ -74,7 +74,7 @@ class FormModel extends Model
 
     // Function to create a new form template and insert it into the database
     public function create_form($data)
-    {    
+    {
         /* 
             Arguments:
             $data: Associative array of form template column values
@@ -100,7 +100,7 @@ class FormModel extends Model
             throw new \Exception('Failed to insert form.');
         }
     }
-    
+
     // Function to update a specified form template
     public function update_form($formID, $data)
     {
@@ -121,11 +121,10 @@ class FormModel extends Model
         // Get specified form
         $form = $this->find($formID);
         // Check if a valid formID was provided
-        if($form) {     
+        if ($form) {
             // Update form template's active status
             $this->update($formID, $data);
-        }
-        else {
+        } else {
             // Exception handling
             throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
         }
@@ -133,7 +132,7 @@ class FormModel extends Model
 
     // Function to update the status of a specified form template
     public function update_form_status($formID, $new_status = 0)
-    {   
+    {
         /* 
             Arguments:
             $formID: Form template to be updated
@@ -141,58 +140,47 @@ class FormModel extends Model
         // Get specified form
         $form = $this->find($formID);
         // Check if a valid formID was provided
-        if($form) {     
+        if ($form) {
             $data = ['Status' => $new_status];
             $data['deletedAt'] = ($new_status == 0) ? date('Y-m-d H:i:s') : null;
             // Update form template's active status
             $this->update($formID, $data);
-        }
-        else {
+        } else {
             // Exception handling
             throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
         }
     }
 
-    // Function to delete all versions of a specified form template
-    public function delete_all_forms($formID)
+    // Function to update the status of all versions of a specified form template
+    public function update_all_form_status($formID, $new_status)
     {
         /* 
             Arguments:
-            $formID: Form template to be deleted
+            $formID: Form template to be updated
         */
         // Get specified form
         $form = $this->find($formID);
         // Check if a valid formID was provided
-        if($form) {     
+        if ($form) {
             // Get targeted forms
             $forms = $this->where('Name', $form['Name'])->findAll();
-            // Loop through each form and update its status
-            foreach($forms as $target) {
-                $this->update($target['FormID'], ['Status' => 0, 'deletedAt' => date('Y-m-d H:i:s')]);
+            // Set data to be updated
+            $data = ['Status' => $new_status];
+            $data['deletedAt'] = ($new_status == 0) ? date('Y-m-d H:i:s') : null;
+            // Loop through each form and update its data
+            foreach ($forms as $target) {
+                $this->update($target['FormID'], $data);
             }
-        }
-        else {
+        } else {
             // Exception handling
             throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
         }
     }
 
-    // public function getRules($formID)
-    // {
-    //     $form = $this->find($formID);
-    //     $rules = null;
-
-    //     if ($form && $form->Rule !== null) {
-    //         $rules = $form->rule;
-    //     }
-    
-    //     return $rules;
-    // }
-    
     // Function to check if a given form is active
-    public function isActive($formID){
+    public function isActive($formID)
+    {
         $form = $this->find($formID);
         return $form['Status'] == 1;
     }
-
 }

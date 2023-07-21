@@ -57,7 +57,7 @@
                 $table .= '<td>' . ($row[$columnTitle] ?? '') . '</td>';
             }
             
-            if(array_key_exists('Create', $actions) || array_key_exists('DeleteAll', $actions)){
+            if(array_key_exists('Create', $actions) || array_key_exists('DeactivateAll', $actions) || array_key_exists('ActivateAll', $actions)){
                 $table .= '<td>';
                 $table .= '<div class="btn-group dropleft">';
                 $table .= '<button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -67,8 +67,11 @@
                 if (array_key_exists('Create', $actions)) {
                     $table .= '<button onclick="location.href=\''. $actions['Create'] .'\'" class="dropdown-item" type="button">New Form</button>';
                 }
-                if (array_key_exists('DeleteAll', $actions)) {
-                    $table .= '<button onclick="location.href=\''. $actions['DeleteAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:red;">Delete All</button>';
+                if (array_key_exists('ActivateAll', $actions)) {
+                    $table .= '<button onclick="location.href=\''. $actions['ActivateAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:green;">Activate All</button>';
+                }
+                if (array_key_exists('DeactivateAll', $actions)) {
+                    $table .= '<button onclick="location.href=\''. $actions['DeactivateAll'] . $row['id'] . '\'"class="dropdown-item" type="button" style="color:red;">Deactivate All</button>';
                 }
                 $table .= '</div>';
                 $table .= '</div>';
