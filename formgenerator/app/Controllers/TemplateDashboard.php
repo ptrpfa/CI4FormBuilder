@@ -142,12 +142,11 @@ class TemplateDashboard extends BaseController
 			$validated_data = validate($post, $rules, false);
 			// Check if data validation failed
 			if(!$validated_data['success']) {
-				// // Append form template files to context data
+				// Append form template files to context data
 				$data['form_templates'] = $form_templates;
 				$data['title'] = 'New Template';
 				// // Return validation errors
 				return view('admin/form_template/createForm', $data);
-		
 			}
 			else {
 				// Map validated data keys to their database equivalent

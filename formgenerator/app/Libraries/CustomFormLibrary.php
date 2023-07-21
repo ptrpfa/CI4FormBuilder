@@ -22,7 +22,7 @@ class CustomFormLibrary
         $this->formResponseModel = new FormResponseModel();
     }
 
-    /* Form Template CRUD */
+    /* Form Template CRUD Functions */
     // Function to get a specifed form template from the database
     public function getForm($formID = null, $structure_only = true)
     {
@@ -218,7 +218,7 @@ class CustomFormLibrary
         }
     }
 
-    /* User Response CRUD */
+    /* User Form Response CRUD Functions */
     // Function to get all data from the database
     public function getAllData()
     {
@@ -385,37 +385,8 @@ class CustomFormLibrary
         }
     }
 
-    public function validateData($post, $rules, $encrpyt)
-    {
-        /* 
-            Arguments:
-            $post: filtered response data 
-            $rules: rules for validation 
-            $encrpyt: encrpyt or not (true/false) 
-        */
-        helper(['form', 'validation_helper']);
-        return validate($post, $rules, $encrpyt);
-    }
-
-    public function validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes)
-    {
-        /* 
-            Arguments:
-            $post: filtered response data 
-            $rules: rules for validation 
-            $encrpyt: encrpyt or not (true/false) 
-        */
-        helper(['form', 'validation_helper']);
-        return validateUploadedFiles($current_file, $allowedMaxSize, $allowedMimeTypes);
-    }
-
-    /* 
-    *
-    * Rules functions 
-    *
-    */
-
-    // Generate rules from HTML
+    /* Form Rules Functions */
+    // Function to automatically generate rules from a given HTML form structure
     public function generateRulesFromHTML($html, $ignore = true)
     {
 
@@ -511,17 +482,17 @@ class CustomFormLibrary
         return $rules;
     }
 
-    //Generates a basic set of rules from $post data
+    // Function to generate a basic set of rules from $post data
     public function generateRulesFromPOST($post)
     {
 
-        //Initialize $rules
+        // Initialize $rules
         $rules = [];
 
-        //Get keys from $post data
+        // Get keys from $post data
         $keys = array_keys($post);
 
-        //Assign each key as a key in rules, assign each key with a standard set of rules
+        // Assign each key as a key in rules, assign each key with a standard set of rules
         foreach ($keys as $key) {
             $rules[$key] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
         }
@@ -529,147 +500,34 @@ class CustomFormLibrary
         return $rules;
     }
 
-    /* 
-    * 
-    * Form HTML Container Creation
-    *
-    */
-
-    public function new_div($data = array(), $row = '', $span = '', $column = '', $attributes = '')
+    // Function to validate data
+    public function validateData($post, $rules, $encrpyt)
     {
-        $rowClass = is_numeric($row) ? 'row-' . $row : $row;
-        $columnClass = ($span ? 'col-' . $span . '-' . $column : ($column ? 'col-md-' . $column : ''));
-
-        $content = implode('', array_values($data));
-        $newDIV =  "<div class='$rowClass $columnClass $attributes'>"
-            . $content
-            . "</div>";
-
-        return $newDIV;
-    }
-    public function new_list($data = array(), $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $content = '<ul class="list-group ' . $attributeString . '" >';
-        foreach ($data as $item) {
-            $content .= '<li class="list-group-item">';
-            $content .= $item;
-            $content .= '</li>';
-        }
-        $content .= '</ul>';
-        return $content;
+        /* 
+            Arguments:
+            $post: filtered response data 
+            $rules: rules for validation 
+            $encrpyt: encrpyt or not (true/false) 
+        */
+        helper(['form', 'validation_helper']);
+        return validate($post, $rules, $encrpyt);
     }
 
-    /*
-    *
-    *  Form HTML Tags Creation 
-    *
-    */
-
-    public function form_open($action = '', $attributes = '', $method = 'post')
+    // Function to validate uploaded files
+    public function validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes)
     {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $form = '<form action="' . $action . '" method="' . $method . '" ' . $attributeString . '>';
-
-
-        return $form;
+        /* 
+            Arguments:
+            $post: filtered response data 
+            $rules: rules for validation 
+            $encrpyt: encrpyt or not (true/false) 
+        */
+        helper(['form', 'validation_helper']);
+        return validateUploadedFiles($current_file, $allowedMaxSize, $allowedMimeTypes);
     }
 
-    public function form_close()
-    {
-        return '<div style="text-align: center; padding: 20px 0;">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-                </form>';
-    }
-
-    public function new_label($name = '', $value = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $formLabel = "<label for='" . $name . "' " . $attributeString . ">" . $value . "</label>";
-        return $formLabel;
-    }
-
-    public function new_input($name = '', $value = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $input = '<input type="text" name="' . $name . '" value="' . $value . '" ' . $attributeString . '>';
-
-        return $input;
-    }
-
-    public function new_upload_file_input($name = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $input = '<input type="file" name="' . $name . '" ' . $attributeString . '>';
-
-        return $input;
-    }
-
-    public function new_textarea($name = '', $value = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $textarea = '<textarea name="' . $name . '" value="' . $value . '" ' . $attributeString . '></textarea>';
-        return $textarea;
-    }
-
-    public function new_radio($name = '', $value = '', $attributes = '', $checked = false)
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $checkedAttribute = $checked ? 'checked' : '';
-
-        $radio = '<input type="radio" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
-
-        return $radio;
-    }
-
-    public function new_checkbox($name = '', $value = '', $attributes = '', $checked = false)
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        $checkedAttribute = $checked ? 'checked' : '';
-
-        $radio = '<input type="checkbox" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
-
-        return $radio;
-    }
-
-    function new_dropdown($name = '', $options = array(), $selected = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-
-        $dropdown = '<select name="' . $name . '" ' . $attributeString . '>';
-        foreach ($options as $value => $display) {
-            $selectedAttr = ($value == $selected) ? 'selected' : '';
-            $dropdown .= '<option value="' . $value . '" ' . $selectedAttr . '>' . $display . '</option>';
-        }
-        $dropdown .= '</select>';
-        $dropdown .= '<i class="fas fa-caret-down" style="position: absolute; top: 50%; right: 2.5%; transform: translateY(-50%);"></i>';
-
-        return $dropdown;
-    }
-
-    public function new_html($tag = 'p', $value = '', $attributes = '')
-    {
-        $attributeString = $this->attributes_creator($attributes);
-
-        return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
-    }
-
-    /* 
-    *
-    * Form Creation Helper Class
-    *
-    */
-
+    /* Utility Functions */
+    // Function to automatically create a set of HTML attributes
     private function attributes_creator($attributes)
     {
         $attributeString = '';
@@ -688,6 +546,7 @@ class CustomFormLibrary
         return $attributeString;
     }
 
+    // Function to export a form into PDF
     public function export_to_pdf($formData)
     {
         $pdf = new Pdf();
@@ -718,10 +577,7 @@ class CustomFormLibrary
             // Unsupported operating system
             die('Unsupported operating system.');
         }
-        // $globaloptions = array(
-        // 	'title' => 'Meow',
-        // );
-        // $pdf->setOptions($globaloptions);
+
         $pdf->addPage($html);
 
         $pdfContent = $pdf->toString();
@@ -729,6 +585,7 @@ class CustomFormLibrary
         return $pdfContent;
     }
 
+    // Function to unpack and get a HTML dump of a library-formatted form structure
     public function getFormHTML($filename)
     {
         $formStructure = '';
@@ -745,5 +602,144 @@ class CustomFormLibrary
         }
 
         return $formStructure;
+    }
+
+    /* Functions to create HTML containers */
+    // Function to automatically create a new div
+    public function new_div($data = array(), $row = '', $span = '', $column = '', $attributes = '')
+    {
+        $rowClass = is_numeric($row) ? 'row-' . $row : $row;
+        $columnClass = ($span ? 'col-' . $span . '-' . $column : ($column ? 'col-md-' . $column : ''));
+
+        $content = implode('', array_values($data));
+        $newDIV =  "<div class='$rowClass $columnClass $attributes'>"
+            . $content
+            . "</div>";
+
+        return $newDIV;
+    }
+
+    // Function to automatically create a new unordered list
+    public function new_list($data = array(), $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $content = '<ul class="list-group ' . $attributeString . '" >';
+        foreach ($data as $item) {
+            $content .= '<li class="list-group-item">';
+            $content .= $item;
+            $content .= '</li>';
+        }
+        $content .= '</ul>';
+        return $content;
+    }
+
+    /* Functions to create HTML form elements */
+
+    // Function to automatically create a new form open tag
+    public function form_open($action = '', $attributes = '', $method = 'post')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $form = '<form action="' . $action . '" method="' . $method . '" ' . $attributeString . '>';
+
+
+        return $form;
+    }
+
+    // Function to automatically create a new form closing tag
+    public function form_close()
+    {
+        return '<div style="text-align: center; padding: 20px 0;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                </form>';
+    }
+
+    // Function to automatically create a new form label field
+    public function new_label($name = '', $value = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $formLabel = "<label for='" . $name . "' " . $attributeString . ">" . $value . "</label>";
+        return $formLabel;
+    }
+
+    // Function to automatically create a new text input field
+    public function new_input($name = '', $value = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $input = '<input type="text" name="' . $name . '" value="' . $value . '" ' . $attributeString . '>';
+
+        return $input;
+    }
+
+    // Function to automatically create a new file upload input field
+    public function new_upload_file_input($name = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $input = '<input type="file" name="' . $name . '" ' . $attributeString . '>';
+
+        return $input;
+    }
+
+    // Function to automatically create a new textarea input field
+    public function new_textarea($name = '', $value = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $textarea = '<textarea name="' . $name . '" value="' . $value . '" ' . $attributeString . '></textarea>';
+        return $textarea;
+    }
+
+    // Function to automatically create a new radio button input field
+    public function new_radio($name = '', $value = '', $attributes = '', $checked = false)
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $checkedAttribute = $checked ? 'checked' : '';
+
+        $radio = '<input type="radio" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
+
+        return $radio;
+    }
+
+    // Function to automatically create a new checkbox input field
+    public function new_checkbox($name = '', $value = '', $attributes = '', $checked = false)
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        $checkedAttribute = $checked ? 'checked' : '';
+
+        $radio = '<input type="checkbox" name="' . $name . '" value="' . $value . '" ' . $attributeString . ' ' . $checkedAttribute . '>';
+
+        return $radio;
+    }
+
+    // Function to automatically create a new dropdown menu input field
+    function new_dropdown($name = '', $options = array(), $selected = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+
+        $dropdown = '<select name="' . $name . '" ' . $attributeString . '>';
+        foreach ($options as $value => $display) {
+            $selectedAttr = ($value == $selected) ? 'selected' : '';
+            $dropdown .= '<option value="' . $value . '" ' . $selectedAttr . '>' . $display . '</option>';
+        }
+        $dropdown .= '</select>';
+        $dropdown .= '<i class="fas fa-caret-down" style="position: absolute; top: 50%; right: 2.5%; transform: translateY(-50%);"></i>';
+
+        return $dropdown;
+    }
+
+    // Function to automatically create a new html tag pair
+    public function new_html($tag = 'p', $value = '', $attributes = '')
+    {
+        $attributeString = $this->attributes_creator($attributes);
+
+        return '<' . $tag . ' ' . $attributeString . '>' . $value . '</' . $tag . '>';
     }
 }
