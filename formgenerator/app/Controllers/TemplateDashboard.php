@@ -48,7 +48,7 @@ class TemplateDashboard extends BaseController
 				'actions' => [	
 					'Read' => base_url('template/') . $formID,
 					'Update' => base_url('template/update/') . $formID,
-					'Delete' => base_url('template/delete/'). $formID, 
+					'Delete' => base_url('template/deactivate/'). $formID, 
 					'Activate' => base_url('template/activate/'). $formID 
 				]
 			];
@@ -242,11 +242,11 @@ class TemplateDashboard extends BaseController
 		}
 	}
 
-	// View to delete a form template (set status to inactive)
-	public function deleteForm($formID) {
+	// View to deactivate a form template (set status to inactive)
+	public function deactivateForm($formID) {
 		try {
 			// Delete the specified form template
-			$this->formBuilder->deleteForm($formID);
+			$this->formBuilder->deactivateForm($formID);
 		}
 		catch(\Exception $e) {
 			// Return exception

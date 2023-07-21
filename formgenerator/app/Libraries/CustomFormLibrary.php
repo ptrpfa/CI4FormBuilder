@@ -164,8 +164,8 @@ class CustomFormLibrary
         }
     }
 
-    // Function to delete a specified form in the database
-    public function deleteForm($formID)
+    // Function to deactivate a specified form in the database
+    public function deactivateForm($formID)
     {
         /* 
             Arguments:
@@ -200,7 +200,7 @@ class CustomFormLibrary
         }
     }
 
-    // Function to delete all versions of a specified form template in the database
+    // Function to update the active status of all versions of a specified form template in the database
     public function updateAllFormStatus($formID, $new_status)
     {
         /* 
