@@ -448,10 +448,12 @@ class CustomFormLibrary
                         $rules[$name] = 'required|integer';
                         break;
                     case 'text':
-                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
+                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        // $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
                         break;
                     default:
-                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
+                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        // $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
                         break;
                 }
             }

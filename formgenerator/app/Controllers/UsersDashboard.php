@@ -210,6 +210,7 @@ class UsersDashboard extends BaseController
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
 
+		d($rules);
 
 		// foreach ($keys as $key) {
 		// 	if (is_array($post[$key])) {
@@ -314,11 +315,16 @@ class UsersDashboard extends BaseController
 			$html = $this->formBuilder->getAssociatedFormData($responseID);
 
 			try {
-				$form = $this->formBuilder->getForm($formID, false);
+				if ($formID === null){
+					$form = $this->formBuilder->getAssociatedFormData($responseID, false);
+				}
+				else{
+					$form = $this->formBuilder->getForm($formID, false);
+				}
 				$rules = null;
 
 				//Get Rules from model
-				if (!is_null($form['Rules'])) {
+				if (is_null($form['Rules']) || $form['Rules'] === false) {
 					$rules = $this->formBuilder->generateRulesFromHTML($html);
 				} else {
 					$rules = $form['Rules'];

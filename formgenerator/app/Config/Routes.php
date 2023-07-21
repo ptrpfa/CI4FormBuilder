@@ -66,7 +66,7 @@ $routes->get('/users/createForm/(:segment)', [UsersDashboard::class, 'createForm
 $routes->get('/users/newUser', [UsersDashboard::class, 'createForm']);                                              // New User
 $routes->post('/users/submit', [UsersDashboard::class, 'submitForm']);                                              // Submitting Form
 $routes->get('/users/(:num)/updateForm/(:num)', [UsersDashboard::class, 'updateForm']);                             // Get UpdateForm template
-$routes->post('/users/(:num)/update/(:num)', [UsersDashboard::class, 'updateForm']);                                // Submit form to update
+$routes->post('/users/update/(:num)', [UsersDashboard::class, 'updateForm']);                                // Submit form to update
 $routes->get('/users/(:num)/readForm/(:num)', [UsersDashboard::class, 'readForm']);                                 // View Form
 $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteForm']);                             // Delete Form
 
