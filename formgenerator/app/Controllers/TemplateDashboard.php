@@ -3,56 +3,55 @@
 namespace App\Controllers;
 
 class TemplateDashboard extends BaseController
-{	
+{
 	// Class variables
-    private $formBuilder;
+	private $formBuilder;
 
 	// Class constructor
 	public function __construct()
-    {
-        // Instantiate the CustomFormBuilder library
-        $this->formBuilder = service('CustomFormLibrary');
-    }
-	
+	{
+		// Instantiate the CustomFormBuilder library
+		$this->formBuilder = service('CustomFormLibrary');
+	}
+
 	// Index view
-	public function index() {
+	public function index()
+	{
 		// Initialise view's context data
 		$data = [];
 
 		try {
 			// Get all form template data
 			$forms = $this->formBuilder->getForm(null, false);
-		}
-		catch(\Exception $e) {
+		} catch (\Exception $e) {
 			// Return exception
 			return $e->getMessage();
 		}
 
 		// Loop through each form
-		foreach ($forms as $form) 
-		{
+		foreach ($forms as $form) {
 			// Get form fields
 			$formID = $form['FormID'];
 			$name = $form['Name'];
 			$version = $form['Version'];
 			$datetime = $form['Datetime'];
 			$description = $form['Description'];
-			$status = ($form['Status'] ? 'Active' : 'Inactive') . ' - ' .  ($form['deletedAt'] ? $form['deletedAt'] : 'NIL') ;
+			$status = ($form['Status'] ? 'Active' : 'Inactive') . ' - ' .  ($form['deletedAt'] ? $form['deletedAt'] : 'NIL');
 
 			// Set subrow information
-			$subrow = [	
-				'Version' => $version, 
-				'Description' => $description, 
-				'Datetime' => $datetime, 
+			$subrow = [
+				'Version' => $version,
+				'Description' => $description,
+				'Datetime' => $datetime,
 				'Status' => $status,
-				'actions' => [	
+				'actions' => [
 					'Read' => base_url('template/') . $formID,
 					'Update' => base_url('template/update/') . $formID,
-					'Delete' => base_url('template/deactivate/'). $formID, 
-					'Activate' => base_url('template/activate/'). $formID 
+					'Delete' => base_url('template/deactivate/') . $formID,
+					'Activate' => base_url('template/activate/') . $formID
 				]
 			];
-		
+
 			$foundMatch = false;
 			// Find the row in $data based on the 'id' field
 			foreach ($data as  &$rowData) {
@@ -63,7 +62,7 @@ class TemplateDashboard extends BaseController
 					break;
 				}
 			}
-			
+
 			if (!$foundMatch) {
 				$data[] = [
 					'id' => $formID,
@@ -73,23 +72,22 @@ class TemplateDashboard extends BaseController
 					]
 				];
 			}
-
 		}
 
 		// Set table values
 		$tableTitle = 'Web Form Templates';
 		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
-		$actions = [									
+		$actions = [
 			'New' => base_url('template/create'),  					// Whole New Form Template
 			'DeactivateAll' => base_url('template/deactivateAll/'), // Deactivate all version of this forms
 			'ActivateAll' => base_url('template/activateAll/'), 	// Activate all version of this forms
 		];
 
-        // Generate the table
+		// Generate the table
 		$table = create_dashboard_table($tableTitle, $columnTitles, $data, 'admin', $actions);
 
 		// Prepare data context
-        $data['title'] = 'Form Templates';
+		$data['title'] = 'Form Templates';
 		$data['table'] =  $table;
 
 		// Return view
@@ -97,30 +95,31 @@ class TemplateDashboard extends BaseController
 	}
 
 	// View to get a particular form template (PDF)
-	public function readForm($formID) {
-        try {
+	public function readForm($formID)
+	{
+		try {
 			// Fetch form from database
-			$form = $this->formBuilder->getForm($formID, false);	
+			$form = $this->formBuilder->getForm($formID, false);
 			$pdfContent = $this->formBuilder->export_to_pdf($form['Structure']);
 
 			$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="700px"></iframe>';
-        }
-		catch(\Exception $e){
+		} catch (\Exception $e) {
 			// Return exception
-            return $e->getMessage();
-        }
-        // Prepare data context
-        $data = [
-            'title' => $form['Name'],
-            'FormView'  => $pdfIframe
+			return $e->getMessage();
+		}
+		// Prepare data context
+		$data = [
+			'title' => $form['Name'],
+			'FormView'  => $pdfIframe
 			// 'FormView'  => unserialize($form['Structure'])
-        ];
+		];
 		// Return view
-        return view('admin/form_template/previewForm', $data);
+		return view('admin/form_template/previewForm', $data);
 	}
 
 	// View to create a new form template
-	public function createForm($formID = null) {
+	public function createForm($formID = null)
+	{
 		// Load helper functions in controller
 		helper(['form', 'validation_helper', 'filesystem']);
 		// Initialise associative array keys and rules
@@ -135,20 +134,19 @@ class TemplateDashboard extends BaseController
 		// Get form template files
 		$form_templates = directory_map('../app/Config/FormTemplates', 1);
 		// Check request type
-		if($this->request->is('post')) {	 
+		if ($this->request->is('post')) {
 			// Get POST data
 			$post = $this->request->getPost($keys);
 			// Validate data received
 			$validated_data = validate($post, $rules, false);
 			// Check if data validation failed
-			if(!$validated_data['success']) {
+			if (!$validated_data['success']) {
 				// Append form template files to context data
 				$data['form_templates'] = $form_templates;
 				$data['title'] = 'New Template';
 				// // Return validation errors
 				return view('admin/form_template/createForm', $data);
-			}
-			else {
+			} else {
 				// Map validated data keys to their database equivalent
 				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
@@ -161,31 +159,29 @@ class TemplateDashboard extends BaseController
 					}
 					// Create form
 					$formID = $this->formBuilder->createForm($validated_data);
-				}
-				catch(\Exception $e) {
+				} catch (\Exception $e) {
 					// Return exception
 					return $e->getMessage();
 				}
 				// Return view
 				return view('admin/success', ['title' => 'New Template', 'message' => 'Created new form ' . $formID . '!']);
 			}
-		}
-		else { 
+		} else {
 			// GET request
-			return view('admin/form_template/createForm', ['title' => 'New Template','form_templates' => $form_templates]);
+			return view('admin/form_template/createForm', ['title' => 'New Template', 'form_templates' => $form_templates]);
 		}
 	}
 
 	// View to update a form template
-	public function updateForm($formID) {
+	public function updateForm($formID)
+	{
 		try {
 			// Fetch form from database
 			$form = $this->formBuilder->getForm($formID, false);
-        }
-		catch(\Exception $e){
+		} catch (\Exception $e) {
 			// Return exception
-            return $e->getMessage();
-        }
+			return $e->getMessage();
+		}
 		// Load helper functions in controller
 		helper(['form', 'validation_helper', 'filesystem']);
 		// Initialise associative array keys and rules
@@ -201,19 +197,18 @@ class TemplateDashboard extends BaseController
 		// Get form template files
 		$form['form_templates'] = directory_map('../app/Config/FormTemplates', 1);
 		// Check request type
-		if($this->request->is('post')) {	 
+		if ($this->request->is('post')) {
 			// Get POST data
 			$post = $this->request->getPost($keys);
 			// Validate data received
 			$validated_data = validate($post, $rules, false);
 			// Check if data validation failed
-			if(!$validated_data['success']) {
+			if (!$validated_data['success']) {
 				// Combine form and post arrays
 				$form = array_merge($form, $post);
 				// Return validation errors
 				return view('admin/form_template/updateForm', $form);
-			}
-			else {
+			} else {
 				// Map validated data keys to their database equivalent
 				$validated_data = array_combine($db_keys, array_values($validated_data['data']));
 				try {
@@ -226,28 +221,26 @@ class TemplateDashboard extends BaseController
 					}
 					// Update form
 					$this->formBuilder->updateForm($validated_data);
-				}
-				catch(\Exception $e) {
+				} catch (\Exception $e) {
 					// Return exception
 					return $e->getMessage();
 				}
 				// Return view
 				return view('admin/success', ['message' => 'Updated form ' . $formID . '!']);
 			}
-		}
-		else { 
+		} else {
 			// GET request
 			return view('admin/form_template/updateForm', $form);
 		}
 	}
 
 	// View to deactivate a form template (set status to inactive)
-	public function deactivateForm($formID) {
+	public function deactivateForm($formID)
+	{
 		try {
 			// Delete the specified form template
 			$this->formBuilder->deactivateForm($formID);
-		}
-		catch(\Exception $e) {
+		} catch (\Exception $e) {
 			// Return exception
 			return $e->getMessage();
 		}
@@ -256,12 +249,12 @@ class TemplateDashboard extends BaseController
 	}
 
 	// View to activate a form template (set status to active)
-	public function activateForm($formID) {
+	public function activateForm($formID)
+	{
 		try {
 			// Activate the specified form template
 			$this->formBuilder->activateForm($formID);
-		}
-		catch(\Exception $e) {
+		} catch (\Exception $e) {
 			// Return exception
 			return $e->getMessage();
 		}
@@ -270,12 +263,12 @@ class TemplateDashboard extends BaseController
 	}
 
 	// View to delete all versions of a specified form template (set status to inactive)
-	public function deactivateAllForm($formID) {
+	public function deactivateAllForm($formID)
+	{
 		try {
 			// Delete all versions of the specified form template
 			$this->formBuilder->updateAllFormStatus($formID, 0);
-		}
-		catch(\Exception $e) {
+		} catch (\Exception $e) {
 			// Return exception
 			return $e->getMessage();
 		}
@@ -284,12 +277,12 @@ class TemplateDashboard extends BaseController
 	}
 
 	// View to activate all versions of a specified form template (set status to active)
-	public function activateAllForm($formID) {
+	public function activateAllForm($formID)
+	{
 		try {
 			// Delete all versions of the specified form template
 			$this->formBuilder->updateAllFormStatus($formID, 1);
-		}
-		catch(\Exception $e) {
+		} catch (\Exception $e) {
 			// Return exception
 			return $e->getMessage();
 		}
@@ -303,21 +296,22 @@ class TemplateDashboard extends BaseController
 		if ($this->request->is('get')) {
 			//Get File name from ajax call
 			$filename = $this->request->getVar('filename');
-			
+
 			//Pass file name to library to get form html dump
 			include(APPPATH . 'Config/FormTemplates/' . $filename);
 
 			$formhtml = $this->formBuilder->getFormHTML($fields);
-			
+
 			$response = [
 				'status' => 'success',
 				'data' => $formhtml, // Replace with the actual form data
 			];
-		
+
 			return $this->response->setJSON($response);
 		}
-	}	
+	}
 
+	// Function to get a PDF dump of a form structure
 	public function printFormHTML()
 	{
 		if ($this->request->is('get')) {
@@ -330,9 +324,8 @@ class TemplateDashboard extends BaseController
 				'status' => 'success',
 				'pdfContent' => base64_encode($pdfContent), // Replace with the actual form data
 			];
-		
-			return $this->response->setJSON($response);
 
+			return $this->response->setJSON($response);
 		}
 	}
 }

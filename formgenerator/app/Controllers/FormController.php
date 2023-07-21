@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use Exception;
 
 class FormController extends BaseController
@@ -11,7 +12,6 @@ class FormController extends BaseController
     {
         // Instantiate the CustomFormBuilder library
         $this->formBuilder = service('CustomFormLibrary');
-
     }
 
     public function index()
@@ -36,19 +36,18 @@ class FormController extends BaseController
 
         if (!$this->request->is('post')) {
             return view('templates/header', $data)
-            . view('form/create')
-            . view('templates/footer');
+                . view('form/create')
+                . view('templates/footer');
         }
 
-        try{
+        try {
             $rules = null;
-            if(is_null($form['Rules']) || $form['Rules'] === false){
+            if (is_null($form['Rules']) || $form['Rules'] === false) {
                 $rules = $this->formBuilder->generateRulesFromHTML($html);
-            }else{
+            } else {
                 $rules = $form['Rules'];
             }
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return view('errors/html/error_404', ['message' => $e->getMessage()]);
         }
 
@@ -64,48 +63,45 @@ class FormController extends BaseController
             return view('errors/html/error_404', ['message' => $errorMessage]);
         }
 
-		$validatedData = $validatedData['data'];
-		foreach ($keys as $key) {
-			$formData[$key] = $validatedData[$key];
-		}
+        $validatedData = $validatedData['data'];
+        foreach ($keys as $key) {
+            $formData[$key] = $validatedData[$key];
+        }
 
-		$uploaded_files = $this->request->getFiles();
-		if ($uploaded_files) {
-			$file_label = "user_file";
-			$file_rules = [
-				'user_file' => [
-					'label' => 'Uploaded File',
-					'rules' => [
-						sprintf('max_size[%s,2048]', $file_label),                                                          // Max file size (in KB)
-						sprintf('mime_in[%s,image/bmp,image/jpg,image/jpeg,image/gif,image/png,image/webp]', $file_label)   // Restricted file MIME types
-					],
-				],
-			];
+        $uploaded_files = $this->request->getFiles();
+        if ($uploaded_files) {
+            $file_label = "user_file";
+            $file_rules = [
+                'user_file' => [
+                    'label' => 'Uploaded File',
+                    'rules' => [
+                        sprintf('max_size[%s,2048]', $file_label),                                                          // Max file size (in KB)
+                        sprintf('mime_in[%s,image/bmp,image/jpg,image/jpeg,image/gif,image/png,image/webp]', $file_label)   // Restricted file MIME types
+                    ],
+                ],
+            ];
 
-			if (!$this->validate($file_rules)) {
-				return view('errors/html/error_404', ['message' => implode($this->validator->getErrors())]);
-			} else {
-				foreach ($uploaded_files['user_file'] as $current_file) {
-					if ($current_file->isValid() && !$current_file->hasMoved()) {
-						$folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
-						$file_path = $current_file->store($folder, $current_file->getRandomName());
-						$formData['files'] = 'uploads/' . $folder;
-					}
-				}
-			}
+            if (!$this->validate($file_rules)) {
+                return view('errors/html/error_404', ['message' => implode($this->validator->getErrors())]);
+            } else {
+                foreach ($uploaded_files['user_file'] as $current_file) {
+                    if ($current_file->isValid() && !$current_file->hasMoved()) {
+                        $folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
+                        $file_path = $current_file->store($folder, $current_file->getRandomName());
+                        $formData['files'] = 'uploads/' . $folder;
+                    }
+                }
+            }
+        } else {
+            $formData['files'] = '';
+        }
 
-		}
-		else {
-			$formData['files'] = '';
-		}
+        $formData = serialize($formData);
 
-		$formData = serialize($formData);
-
-		$this->formBuilder->submitFormData($formID, $user, $formData);
+        $this->formBuilder->submitFormData($formID, $user, $formData);
 
         return view('templates/header', $data)
-        . view('form/success')
-        . view('templates/footer');
-
+            . view('form/success')
+            . view('templates/footer');
     }
 }

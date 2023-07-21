@@ -183,7 +183,7 @@ class FormModel extends Model
         // Get form
         $form = $this->find($formID);
         // Check if a valid form was obtained
-        if($form) {
+        if ($form) {
             return $form['Status'] == 1;
         } else {
             // Exception handling

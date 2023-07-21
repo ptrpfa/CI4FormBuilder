@@ -7,10 +7,10 @@ use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;
 
 class FormBuilder extends Migration
-{   
+{
     // Setup database
     public function up()
-    {   
+    {
 
         // Read database configuration from .env file
         $DB_SCHEMA = getenv('database.default.database');
@@ -122,7 +122,6 @@ class FormBuilder extends Migration
 
         // Re-enable foreign key checks after migration rules are completed
         $this->db->enableForeignKeyChecks();
-        
     }
 
     // Database teardown
@@ -132,5 +131,4 @@ class FormBuilder extends Migration
         $this->forge->dropTable('Form', true);
         $this->forge->dropTable('Response', true);
     }
-    
 }

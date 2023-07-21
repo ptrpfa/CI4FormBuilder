@@ -13,12 +13,15 @@ $fields = [
         'group' => $formBuilder->new_div(
             array(
                 //new_label($name='', $value='', $attributes='')
-                $formBuilder->new_label('name', 'Name'), 
+                $formBuilder->new_label('name', 'Name'),
                 //new_input($name='', $value='', $attributes='' OR $attributes=[])
-                $formBuilder->new_input('name', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'), 
+                $formBuilder->new_input('name', '', 'class="form-control" id="name-control" placeholder="Enter your name" required'),
             ),
-            1,'md', 9, 'mt-4'
-        )        
+            1,
+            'md',
+            9,
+            'mt-4'
+        )
     ],
     'message' => [
         'group' => $formBuilder->new_div(
@@ -27,23 +30,29 @@ $fields = [
                 $formBuilder->new_label('message', 'Message', 'class="message-label-control"'),
                 //new_textarea($name='', $value='', $attributes='' OR $attributes=[])
                 $formBuilder->new_textarea(
-                    'message', '',
-                    array('class'=> 'form-control message-control', 'placeholder'=>'Enter you message', 'required'=> true)
+                    'message',
+                    '',
+                    array('class' => 'form-control message-control', 'placeholder' => 'Enter you message', 'required' => true)
                 ),
             ),
-            2,'md', 9
+            2,
+            'md',
+            9
         )
     ],
     'signature' => [
         'group' => $formBuilder->new_div(
             array(
-                $formBuilder->new_label('signature', 'Signature'), 
+                $formBuilder->new_label('signature', 'Signature'),
 
-                $formBuilder->new_upload_file_input('user_file[]', 'class="form-control" id="user_file" multiple'), 
+                $formBuilder->new_upload_file_input('user_file[]', 'class="form-control" id="user_file" multiple'),
 
             ),
-            1,'md', 9, 'mt-4'
-        )        
+            1,
+            'md',
+            9,
+            'mt-4'
+        )
     ],
     'sex-help' => [
         'group' => $formBuilder->new_div(
@@ -53,7 +62,9 @@ $fields = [
                         $formBuilder->new_label('sex-help', 'How to sex'),
                         $formBuilder->new_html('p', 'Key in which sex group you are', 'id="sex-helper"'),
                     ],
-                    '', 'md', 2
+                    '',
+                    'md',
+                    2
                 ),
                 $formBuilder->new_div(
                     [
@@ -64,17 +75,26 @@ $fields = [
                                 $formBuilder->new_radio('gender', 'male', 'id="male" class="form-check-input"'),
                                 $formBuilder->new_label('male', 'Male', 'class="form-check-label"'),
                             ],
-                            '', '', '', 'form-check form-check-inline'
+                            '',
+                            '',
+                            '',
+                            'form-check form-check-inline'
                         ),
                         $formBuilder->new_div(
                             [
                                 $formBuilder->new_radio('gender', 'female', 'id="female" class="form-check-input"'),
                                 $formBuilder->new_label('female', 'Female', 'class="form-check-label"'),
                             ],
-                            '', '', '', 'form-check form-check-inline'
+                            '',
+                            '',
+                            '',
+                            'form-check form-check-inline'
                         ),
                     ],
-                    '', 'md', '5', 'radio-control'
+                    '',
+                    'md',
+                    '5',
+                    'radio-control'
                 ),
             ],
             'row'
@@ -83,7 +103,7 @@ $fields = [
     'tail' => [
         'group' => $formBuilder->form_close()
     ],
-    
+
 ];
 
 $Rules = [
