@@ -83,7 +83,7 @@ class FormController extends BaseController
 			];
 
 			if (!$this->validate($file_rules)) {
-				return view('errors/html/error_404', ['message' => 'error']);
+				return view('errors/html/error_404', ['message' => implode($this->validator->getErrors())]);
 			} else {
 				foreach ($uploaded_files['user_file'] as $current_file) {
 					if ($current_file->isValid() && !$current_file->hasMoved()) {

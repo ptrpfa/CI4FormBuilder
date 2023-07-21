@@ -118,13 +118,15 @@ class UsersDashboard extends BaseController
 		$formData = $this->formBuilder->getForm(null, false);
 
 		//Get all the form name and put inside a dropdown selector 
-		$options['default'] = 'Select Form';
 		foreach ($formData as $form) {
 			if($form['Status'] == 1) {
 				$options[$form['FormID']] = sprintf("%s (v%s)", $form['Name'], $form['Version']);
 			}
 		}
-
+		
+		// Sort form according to name and version no
+		asort($options);
+		$options = ['default' => 'Select Form'] + $options;
 
 		//Using the custom library to create a form to catch what form the user want to create 
 		$form = [
