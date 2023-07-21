@@ -10,37 +10,21 @@ class FormResponseModel extends Model
     protected $primaryKey = 'ResponseID';
     protected $allowedFields = ['FormID', 'Datetime', 'User', 'Response'];
 
-    // Function to get all form response and template data from the database
-    public function get_all_data() 
-    {
-        // Build joined query 
-        $builder = $this->db->table('Response');
-        $builder->select('Form.*, Response.ResponseID, Response.Datetime, Response.User, Response.Response');   // Selected columns
-        $builder->join('Form', 'Form.FormID = Response.FormID');                                                // Join condition
-
-        // Form query
-        $query = $builder->get();
-        
-        // Return results
-        return $query->getResult();
-    }
-
-    //Get the form data
+    // Function to get a specific form response from the database
     public function retrieveFormData($responseID)
     {
         try {
-            // $this->where(['ResponseID'=>$responseID])->first();
             return $this->where(['ResponseID'=>$responseID])->first();
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
-            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            log_message('error', 'Form response not found or invalid: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
     }
     
-    //Inserting form data
+    // Function to insert a form response into the database
     public function insertFormData($formID, $user, $formData)
     {
         $this->insert([
@@ -50,7 +34,7 @@ class FormResponseModel extends Model
         ]);
     }
 
-    //Update the form data
+    // Function to update a form response in the database
     public function updateFormData($responseID, $formData)
     {
         $this->update($responseID, $formData);
@@ -77,7 +61,7 @@ class FormResponseModel extends Model
 		return view('admin/users/delete_success', $data);
 	}
 
-    //Get All Data
+    // Function to get all form response and template data from the database
     public function getAllData()
     {
         // Build joined query using the form response model as the base
