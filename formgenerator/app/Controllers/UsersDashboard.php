@@ -172,6 +172,7 @@ class UsersDashboard extends BaseController
 		// 	$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
 		// }
 
+
 		//Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
@@ -181,33 +182,46 @@ class UsersDashboard extends BaseController
 		if(!$formModel -> isActive($formID)) {
 			return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
 		}
-	
+
 		// Remove the 'username' and 'formid' key from the array 
 		unset($post['username']);
 		unset($post['formid']);
 	
 		// extract keys from $post output 
 		$keys = array_keys($post);
-		$html = $this->formBuilder->getForm($formID);
 
-		//Getting the rules
-		try{
-			$form = $this->formBuilder->getForm($formID, false);
-			$rules = null;
+		// $html = $this->formBuilder->getForm($formID);
+
+		// //Getting the rules
+		// try{
+		// 	$form = $this->formBuilder->getForm($formID, false);
+		// 	$rules = null;
 			
-			if(is_null($form['Rules']) || $form['Rules'] === false){
-				$rules = $this->formBuilder->generateRulesFromHTML($html);
-			}else{
-				$rules = $form['Rules'];
-			}
+		// 	if(is_null($form['Rules']) || $form['Rules'] === false){
+		// 		$rules = $this->formBuilder->generateRulesFromHTML($html);
+		// 	}else{
+		// 		$rules = $form['Rules'];
+		// 	}
 
-		} catch (\Exception $e){
-			return view('errors/html/error_404', ['message' => $e->getMessage()]);
+		// } catch (\Exception $e){
+		// 	return view('errors/html/error_404', ['message' => $e->getMessage()]);
+		// }
+		
+
+		foreach ($keys as $key) {
+			if (is_array($post[$key])) {
+				// Adjust the validation rules for the checkbox arrays
+				$rules[$key] = ['required'];
+			} else {
+				$rules[$key] = ['max_length[1000]', 'min_length[0]', 'regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
+			}
 		}
-		// Remove auto-generated rule for file uploads
+
+		// var_dump($rules);
+		//Remove auto-generated rule for file uploads
 		// unset($rules['user_file[]']);
 
-		// Validate the input using the custom validate function
+		//Validate the input using the custom validate function
 		$encrypt = false;
 		$validatedData = $this->formBuilder->validateData($post, $rules, $encrypt);
 
@@ -228,43 +242,34 @@ class UsersDashboard extends BaseController
 
 		// Check for uploaded files, if any
 		$uploaded_files = $this->request->getFiles();
+		
 		if ($uploaded_files) {
-			// Label used for files in form
 			$file_label = "user_file";
-			// Array of rules for uploaded files
-			$file_rules = [
-				// Uploaded file validation rules
-				'user_file' => [
-					'label' => 'Uploaded File',
-					'rules' => [
-						sprintf('max_size[%s,2048]', $file_label),                                                          // Max file size (in KB)
-						sprintf('mime_in[%s,image/bmp,image/jpg,image/jpeg,image/gif,image/png,image/webp]', $file_label)   // Restricted file MIME types
-					],
-				],
-			];
-
-			// Check for file upload rules
-			if (!$this->validate($file_rules)) {
-				// Return view
-				return view('errors/html/error_404', ['message' => "File Upload Error!"]);
-			} else {
-				// Loop through each file
-				foreach ($uploaded_files['user_file'] as $current_file) {
-					// Check if file is uploaded via HTTP with no errors, and if file has been moved
-					if ($current_file->isValid() && !$current_file->hasMoved()) {
-						// Set folder name (id)
-						$folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
-						// Store file on server (id/<filename>)
-						$file_path = $current_file->store($folder, $current_file->getRandomName());
-						// Set filepath to POST data, if a file is successfully uploaded
-						$formData['files'] = 'uploads/' . $folder;
-					}
+			$allowedMaxSize = 2048; // 2MB maximum file size
+			$allowedMimeTypes = ['image/bmp', 'image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp'];
+	
+			foreach ($uploaded_files['user_file'] as $index => $current_file) {
+				// Validate each uploaded file
+				if ($current_file->getError() === UPLOAD_ERR_NO_FILE) {
+					break;
+				}
+				// $uploadErrors = $this->validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes);
+				$uploadErrors = $this->formBuilder->validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes);
+	
+				if (!empty($uploadErrors)) {
+					// Return view with the file upload validation errors
+					return view('errors/html/error_404', ['message' => "File Upload Error: " . implode(', ', $uploadErrors)]);
+				} else {
+					// Set folder name (id)
+					$folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
+					// Store file on server (id/<filename>)
+					$file_path = $current_file->store($folder, $current_file->getRandomName());
+					// Set filepath to POST data, if a file is successfully uploaded
+					$post['user_file'][$index] = $file_path;
 				}
 			}
-
-		}
-		else {
-			$formData['files'] = '';
+		} else {
+			$post['user_file'] = '';
 		}
 
 		// Serialize the form data
@@ -310,7 +315,7 @@ class UsersDashboard extends BaseController
 				$rules = null;
 				
 				//Get Rules from model
-				if(is_null($form['Rules']) || $form['Rules'] === false){
+				if( !is_null($form['Rules']) ){
 					$rules = $this->formBuilder->generateRulesFromHTML($html);
 				}else{
 					$rules = $form['Rules'];
@@ -330,7 +335,7 @@ class UsersDashboard extends BaseController
 				return view('errors/html/error_404', ['message' => $errorMessage]);
 			}
 
-			$responseData = serialize($validatedData['data']);
+			$responseData = serialize($post);
 
 			$formData = [
 				'Response' => $responseData

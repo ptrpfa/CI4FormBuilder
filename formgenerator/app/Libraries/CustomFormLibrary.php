@@ -402,6 +402,17 @@ class CustomFormLibrary
         return validate($post, $rules, $encrpyt);
     }
 
+    public function validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes){
+        /* 
+            Arguments:
+            $post: filtered response data 
+            $rules: rules for validation 
+            $encrpyt: encrpyt or not (true/false) 
+        */
+        helper(['form', 'validation_helper']);
+        return validateUploadedFiles($current_file, $allowedMaxSize, $allowedMimeTypes);
+    }
+
     /* 
     *
     * Rules functions 
@@ -458,6 +469,7 @@ class CustomFormLibrary
                 // set rule based on input type
                 switch ($type) {
                     case 'checkbox':
+                        $rules[$name] = 'required';
                         break;
                     case 'radio':
                         $rules[$name] = 'required';
@@ -469,10 +481,10 @@ class CustomFormLibrary
                         $rules[$name] = 'required|integer';
                         break;
                     case 'text':
-                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
                         break;
                     default:
-                        $rules[$name] = 'required|max_length[500]|min_length[3]|regex_match[/^[a-zA-Z0-9_ ]+$/]';
+                        $rules[$name] = 'required|regex_match[/^[a-zA-Z0-9_\s\-!@#$%^&*(),.?":{}|<>\]+$/]';
                         break;
                 }
             }

@@ -86,6 +86,25 @@ function validate($data, $rules, $encrypt = true)
     ];
 }
 
+function validateUploadedFiles($file, $allowedMaxSize, $allowedMimeTypes)
+{
+    $errors = [];
+
+    // Perform validation on the file, e.g., check file size, file type, etc.
+    if ($file->getSize() > $allowedMaxSize * 2048) {
+        $errors[] = "File size exceeds the maximum limit ({$allowedMaxSize}KB).";
+    }
+
+    $mimeType = $file->getMimeType();
+    if (!in_array($mimeType, $allowedMimeTypes)) {
+        $errors[] = "Invalid file type. Allowed file types: BMP, JPG, JPEG, GIF, PNG, WebP.";
+    }
+
+    // Add more validation rules as needed
+
+    return $errors;
+}
+
 
 // Function to sanitize input
 function sanitizeInput($input)
