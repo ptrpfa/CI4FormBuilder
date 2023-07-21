@@ -81,7 +81,8 @@ class TemplateDashboard extends BaseController
 		$columnTitles = ['Form', 'Version', 'Description', 'Datetime', 'Status'];
 		$actions = [									
 			'New' => base_url('template/create'),  					// Whole New Form Template
-			'DeleteAll' => base_url('template/deleteAll/'), 	// Delete all version of this forms
+			'DeactivateAll' => base_url('template/deactivateAll/'), // Deactivate all version of this forms
+			'ActivateAll' => base_url('template/activateAll/'), 	// Activate all version of this forms
 		];
 
         // Generate the table
@@ -270,10 +271,10 @@ class TemplateDashboard extends BaseController
 	}
 
 	// View to delete all versions of a specified form template (set status to inactive)
-	public function deleteAllForm($formID) {
+	public function deactivateAllForm($formID) {
 		try {
 			// Delete all versions of the specified form template
-			$this->formBuilder->deleteAllForm($formID);
+			$this->formBuilder->updateAllFormStatus($formID, 0);
 		}
 		catch(\Exception $e) {
 			// Return exception
@@ -281,6 +282,20 @@ class TemplateDashboard extends BaseController
 		}
 		// Return view
 		return view('admin/success', ['message' => 'Deactivated all versions of form ' . $formID . '!']);
+	}
+
+	// View to activate all versions of a specified form template (set status to active)
+	public function activateAllForm($formID) {
+		try {
+			// Delete all versions of the specified form template
+			$this->formBuilder->updateAllFormStatus($formID, 1);
+		}
+		catch(\Exception $e) {
+			// Return exception
+			return $e->getMessage();
+		}
+		// Return view
+		return view('admin/success', ['message' => 'Activated all versions of form ' . $formID . '!']);
 	}
 
 	// Function to get HTML dump of unserialised form structure
