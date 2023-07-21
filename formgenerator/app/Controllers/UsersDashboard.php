@@ -192,32 +192,32 @@ class UsersDashboard extends BaseController
 		// extract keys from $post output 
 		$keys = array_keys($post);
 
-		// $html = $this->formBuilder->getForm($formID);
+		$html = $this->formBuilder->getForm($formID);
 
-		// //Getting the rules
-		// try{
-		// 	$form = $this->formBuilder->getForm($formID, false);
-		// 	$rules = null;
+		//Getting the rules
+		try{
+			$form = $this->formBuilder->getForm($formID, false);
+			$rules = null;
 			
-		// 	if(is_null($form['Rules']) || $form['Rules'] === false){
-		// 		$rules = $this->formBuilder->generateRulesFromHTML($html);
-		// 	}else{
-		// 		$rules = $form['Rules'];
-		// 	}
+			if(is_null($form['Rules']) || $form['Rules'] === false){
+				$rules = $this->formBuilder->generateRulesFromHTML($html);
+			}else{
+				$rules = $form['Rules'];
+			}
 
-		// } catch (\Exception $e){
-		// 	return view('errors/html/error_404', ['message' => $e->getMessage()]);
-		// }
+		} catch (\Exception $e){
+			return view('errors/html/error_404', ['message' => $e->getMessage()]);
+		}
 		
 
-		foreach ($keys as $key) {
-			if (is_array($post[$key])) {
-				// Adjust the validation rules for the checkbox arrays
-				$rules[$key] = ['required'];
-			} else {
-				$rules[$key] = ['max_length[1000]', 'min_length[0]', 'regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
-			}
-		}
+		// foreach ($keys as $key) {
+		// 	if (is_array($post[$key])) {
+		// 		// Adjust the validation rules for the checkbox arrays
+		// 		$rules[$key] = ['required'];
+		// 	} else {
+		// 		$rules[$key] = ['regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
+		// 	}
+		// }
 
 		// var_dump($rules);
 		//Remove auto-generated rule for file uploads
