@@ -74,8 +74,7 @@ $routes->get('/users/(:num)/deleteForm/(:num)', [UsersDashboard::class, 'deleteF
 $routes->match(['get', 'post'], '/form/(:num)', [FormController::class, 'create']);
 $routes->get('/index', [FormController::class, 'index']);                                                                        // Currently referencing to f1040sa form
 
-
-//All invalid route, route to here
+// Re-route all invalid routes to CI4 shield for security
 $routes->group('', ['namespace' => 'CodeIgniter\Shield\Controllers'], static function ($routes) {
     $routes->get('(:any)', 'LoginController::loginView');
 });

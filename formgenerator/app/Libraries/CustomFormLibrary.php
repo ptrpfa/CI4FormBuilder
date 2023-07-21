@@ -30,7 +30,7 @@ class CustomFormLibrary
     {
         // Return results
         try{
-            return $this->formResponseModel->getAllData();
+            return $this->formResponseModel->get_all_data();
         }catch(\Exception $e) {
             // Log the error or display a user-friendly error message
             log_message('error', 'Data retrieval failed: ' . $e->getMessage());
@@ -252,7 +252,7 @@ class CustomFormLibrary
         */
         try {
             // Delete the specified form template 
-            $this->formResponseModel->deleteFormData($responseID);
+            $this->formResponseModel->delete_form_response($responseID);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
@@ -264,7 +264,7 @@ class CustomFormLibrary
     
     public function getResponseFormData($responseID) {
         try {
-            return $this->formResponseModel->retrieveFormData($responseID);
+            return $this->formResponseModel->get_form_response($responseID);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
@@ -360,7 +360,7 @@ class CustomFormLibrary
         */
         try {
             // Submit the specified form response  
-            $this->formResponseModel->insertFormData($formID, $user, $formData);
+            $this->formResponseModel->create_form_response($formID, $user, $formData);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message
@@ -380,7 +380,7 @@ class CustomFormLibrary
         */
         try {
             // Submit the specified form response  
-            $this->formResponseModel->updateFormData($responseID, $formData);
+            $this->formResponseModel->update_form_response($responseID, $formData);
         }
         catch(\Exception $e) {
             // Log the error or display a user-friendly error message

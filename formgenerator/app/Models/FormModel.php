@@ -178,9 +178,16 @@ class FormModel extends Model
     }
 
     // Function to check if a given form is active
-    public function isActive($formID)
+    public function is_active($formID)
     {
+        // Get form
         $form = $this->find($formID);
-        return $form['Status'] == 1;
+        // Check if a valid form was obtained
+        if($form) {
+            return $form['Status'] == 1;
+        } else {
+            // Exception handling
+            throw new \Exception('Form template not found or invalid for FormID: ' . $formID);
+        }
     }
 }

@@ -1,24 +1,30 @@
 <?php
-//Helper function to conduct validation, sanization and encryption
-//Data to be pass into paramters are both associate arrays
-// $_POST = [
-//     'name' => $post['name'],
-//     'message' => $post['message']
-// ];
-
-// $rules = [
-//     'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
-//     'message'  => 'required|max_length[5000]|min_length[10]',
-// ];
-// For encyrption service to work ensure that encryption.key under .env file is filled up
-// You can find the key under .env_prod
-// You can create a new key with \CodeIgniter\Encryption\Encryption::createKey();
-// Use hex2bin: and bin2hex: to switch switch between readable and non readable keys
-// For use case, check out Survey.php create() function
+// Helper functions to conduct validation, sanization and encryption
 
 // Function to validate and encrypt data
 function validate($data, $rules, $encrypt = true)
 {
+    /* 
+        Arguments:
+        $data: Data to be validated 
+            Format:
+                $data = [
+                    'name' => $post['name'],
+                    'message' => $post['message']
+                ];
+        $rules: Rules to check
+            Format:
+                $rules = [
+                    'name' => 'required|max_length[255]|min_length[3]|regex_match[/^[a-zA-Z]+$/]',
+                    'message'  => 'required|max_length[5000]|min_length[10]',
+                ];
+        $encrypt: Boolean flag whether to encrypt $data fields
+                For encryption service to work ensure that encryption.key under .env file is filled up
+                You can find the key under .env_prod
+                Alternatively, you can create a new key with \CodeIgniter\Encryption\Encryption::createKey();
+                Use hex2bin: and bin2hex: to switch switch between readable and non readable keys
+    */
+
     // Initialise service instances
     $validation = \Config\Services::validation();
     $encrypter = \Config\Services::encrypter();
@@ -27,8 +33,6 @@ function validate($data, $rules, $encrypt = true)
     foreach ($rules as $field => $rule) {
         $validation->setRule($field, ucwords(str_replace('_', ' ', $field)), $rule);
     }
-
-    // print_r($data);
 
     // Check rules against data
     if (!$validation->run($data)) {
@@ -41,7 +45,7 @@ function validate($data, $rules, $encrypt = true)
                 $errorFields[] = $field;
             }
         }
-        
+
         if (empty($errorFields)) {
         } else {
             return [
@@ -86,6 +90,7 @@ function validate($data, $rules, $encrypt = true)
     ];
 }
 
+// Function to validate uploaded files
 function validateUploadedFiles($file, $allowedMaxSize, $allowedMimeTypes)
 {
     $errors = [];
@@ -120,16 +125,18 @@ function sanitizeInput($input)
 }
 
 // Function to serialize data
-function serializeData($data) {
+function serializeData($data)
+{
     return serialize($data);
 }
 
 // Function to decrypt data
-function decrypt($data) {
+function decrypt($data)
+{
     // Initialise service instance
     $encrypter = \Config\Services::encrypter();
     // Loop through each data to decrypt it
-    foreach($data as $key => $value) {
+    foreach ($data as $key => $value) {
         $decryptedtext = $encrypter->decrypt($value);
         $data[$key] = $decryptedtext;
     }
