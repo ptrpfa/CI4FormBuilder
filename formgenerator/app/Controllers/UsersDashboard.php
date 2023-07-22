@@ -165,9 +165,8 @@ class UsersDashboard extends BaseController
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
 
-		$formModel = new FormModel();
-
-		if (!$formModel->is_active($formID)) {
+		// Check if form is active
+		if (!model(FormModel::class)->is_active($formID)) {
 			return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
 		}
 
@@ -291,6 +290,11 @@ class UsersDashboard extends BaseController
 					$form = $this->formBuilder->getForm($formID, false);
 				}
 				$rules = null;
+
+				// Check if form is active
+				if (!model(FormModel::class)->is_active($form['FormID'])) {
+					return view('errors/html/error_404', ['message' => 'The form you are trying to submit is currently inactive.']);
+				}
 
 				//Get Rules from model
 				if (is_null($form['Rules']) || $form['Rules'] === false) {

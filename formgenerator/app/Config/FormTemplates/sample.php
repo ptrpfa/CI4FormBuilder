@@ -59,7 +59,7 @@ $fields = [
             [
                 $formBuilder->new_div(
                     [
-                        $formBuilder->new_label('sex-help', 'How to sex'),
+                        $formBuilder->new_label('sex-help', 'Sex'),
                         $formBuilder->new_html('p', 'Key in which sex group you are', 'id="sex-helper"'),
                     ],
                     '',
