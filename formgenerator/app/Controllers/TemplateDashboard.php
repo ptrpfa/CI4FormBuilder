@@ -133,6 +133,8 @@ class TemplateDashboard extends BaseController
 		];
 		// Get form template files
 		$form_templates = directory_map('../app/Config/FormTemplates', 1);
+		asort($form_templates);
+		// d($form_templates);
 		// Check request type
 		if ($this->request->is('post')) {
 			// Get POST data
