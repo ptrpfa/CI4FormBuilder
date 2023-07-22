@@ -268,13 +268,16 @@ class UsersDashboard extends BaseController
 		return view('admin/users/create_success', $data);
 	}
 
+	// Function to get a preview of a user form response
 	public function readForm($responseID, $formID)
 	{
 		$data['title'] = 'View Form';
-		//Fetch data and form send to view
-		$formData = $this->formBuilder->getForm($formID);
+		// // Fetch data and form send to view
+		// $formData = $this->formBuilder->getForm($formID);
+		// $pdfContent = $this->formBuilder->export_to_pdf($formData);
 
-		$pdfContent = $this->formBuilder->export_to_pdf($formData);
+		// Get user's form response and generate a PDF of it
+		$pdfContent = $this->formBuilder->export_to_pdf($this->updateForm($responseID, $formID, true));
 
 		$pdfIframe = '<iframe id="pdf-view" src="data:application/pdf;base64,' . base64_encode($pdfContent) . '" width="100%" height="800px"></iframe>';
 
@@ -283,7 +286,7 @@ class UsersDashboard extends BaseController
 		return view('admin/users/ViewForm', $data);
 	}
 
-	public function updateForm($responseID, $formID = null)
+	public function updateForm($responseID, $formID = null, $data_only = false)
 	{
 		//Edit Form Submitted
 		if ($this->request->getPost()) {
@@ -350,7 +353,7 @@ class UsersDashboard extends BaseController
 			$data['form_name']  = $form['Name'];
 			$data['formID']  = $formID;
 
-			return view('admin/users/EditForm', $data);
+			return !$data_only ? view('admin/users/EditForm', $data) : $data['view'];
 		}
 	}
 
