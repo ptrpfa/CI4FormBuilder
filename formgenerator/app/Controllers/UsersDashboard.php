@@ -168,15 +168,6 @@ class UsersDashboard extends BaseController
 	{
 		$post = $this->request->getPost();
 
-		// Additional logic to handle file upload IF exists
-		// $uploadFile = $this->request->getFile('signature');
-		// if($uploadFile && $uploadFile->isValid() && ! $uploadFile -> hasMoved()) {
-		// 	$newName = $uploadFile -> getRandomName(); //This is to avoid duplicated file names
-		// 	$uploadFile->move(WRITEPATH . 'uploads', $newName); //Creates a folder in the writable folder called 'uploads'
-		// 	$post['signature'] = WRITEPATH . 'uploads/' . $newName; //Store to that 'upload' folder created above
-		// }
-
-
 		//Retrieve the value of 'username' and 'formid'
 		$username = $post['username'] ?? 'default_user';
 		$formID = $post['formid'];
@@ -209,21 +200,6 @@ class UsersDashboard extends BaseController
 		} catch (\Exception $e) {
 			return view('errors/html/error_404', ['message' => $e->getMessage()]);
 		}
-
-		d($rules);
-
-		// foreach ($keys as $key) {
-		// 	if (is_array($post[$key])) {
-		// 		// Adjust the validation rules for the checkbox arrays
-		// 		$rules[$key] = ['required'];
-		// 	} else {
-		// 		$rules[$key] = ['regex_match[/^[a-zA-Z0-9_#@: \.\+\-]+$/]'];
-		// 	}
-		// }
-
-		// var_dump($rules);
-		//Remove auto-generated rule for file uploads
-		// unset($rules['user_file[]']);
 
 		//Validate the input using the custom validate function
 		$encrypt = false;

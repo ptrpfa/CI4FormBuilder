@@ -319,7 +319,12 @@ class CustomFormLibrary
                             if ($element->getAttribute('value') === $value) {
                                 $element->setAttribute('checked', 'checked');
                             }
-                        } else {
+                        } else if ($element->getAttribute('type') === 'checkbox') {
+                            if ($element->getAttribute('value') === $value) {
+                                $element->setAttribute('checked', 'checked');
+                            }
+                        }
+                        else {
                             $element->setAttribute('value', $value);
                         }
                     } else if ($element->tagName === 'select') {
