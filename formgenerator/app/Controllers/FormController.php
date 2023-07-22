@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use App\Models\FormModel;
 
 class FormController extends BaseController
 {
@@ -14,6 +15,7 @@ class FormController extends BaseController
         $this->formBuilder = service('CustomFormLibrary');
     }
 
+    // Temporary view
     public function index()
     {
         $responseData = $this->formBuilder->getResponseFormData(208);
@@ -23,10 +25,15 @@ class FormController extends BaseController
     public function create($formID)
     {
 
+        // Check if form is active
+		if (!model(FormModel::class)->is_active($formID)) {
+			return view('errors/html/error_404', ['message' => 'The form  is currently inactive.']);
+		}
+
         $form = $this->formBuilder->getForm($formID, false);
         $title = $form['Name'];
         $html = $form['Structure'];
-        $user = 'Adrian';
+        $user = 'Demo User';
 
         $data = [
             'title' => $title,
