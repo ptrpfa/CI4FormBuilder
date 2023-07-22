@@ -290,7 +290,7 @@ class TemplateDashboard extends BaseController
 		return view('admin/success', ['message' => 'Activated all versions of form ' . $formID . '!']);
 	}
 
-	// Function to get HTML dump of unserialised form structure
+	// View to get HTML dump of unserialised form structure
 	public function getFormHTML()
 	{
 		if ($this->request->is('get')) {
@@ -311,7 +311,7 @@ class TemplateDashboard extends BaseController
 		}
 	}
 
-	// Function to get a PDF dump of a form structure
+	// View to get a PDF dump of a form structure
 	public function printFormHTML()
 	{
 		if ($this->request->is('get')) {
