@@ -245,11 +245,11 @@ class UsersDashboard extends BaseController
 					// Store file on server (id/<filename>)
 					$file_path = $current_file->store($folder, $current_file->getRandomName());
 					// Set filepath to POST data, if a file is successfully uploaded
-					$post['user_file'][$index] = $file_path;
+					$formData['user_file'][$index] = $file_path;
 				}
 			}
 		} else {
-			$post['user_file'] = '';
+			$formData['user_file'] = '';
 		}
 
 		// Serialize the form data
@@ -322,7 +322,40 @@ class UsersDashboard extends BaseController
 				return view('errors/html/error_404', ['message' => $errorMessage]);
 			}
 
-			$responseData = serialize($post);
+			$responseData = $validatedData['data'];
+
+			$uploaded_files = $this->request->getFiles();
+
+			if ($uploaded_files) {
+				$file_label = "user_file";
+				$allowedMaxSize = 2048; // 2MB maximum file size
+				$allowedMimeTypes = ['image/bmp', 'image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp'];
+	
+				foreach ($uploaded_files['user_file'] as $index => $current_file) {
+					// Validate each uploaded file
+					if ($current_file->getError() === UPLOAD_ERR_NO_FILE) {
+						break;
+					}
+					// $uploadErrors = $this->validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes);
+					$uploadErrors = $this->formBuilder->validateUploadedFile($current_file, $allowedMaxSize, $allowedMimeTypes);
+	
+					if (!empty($uploadErrors)) {
+						// Return view with the file upload validation errors
+						return view('errors/html/error_404', ['message' => "File Upload Error: " . implode(', ', $uploadErrors)]);
+					} else {
+						// Set folder name (id)
+						$folder = sprintf("%d", model(FormResponseModel::class)->get_next_id());
+						// Store file on server (id/<filename>)
+						$file_path = $current_file->store($folder, $current_file->getRandomName());
+						// Set filepath to POST data, if a file is successfully uploaded
+						$responseData['user_file'][$index] = $file_path;
+					}
+				}
+			} else {
+				$responseData['user_file'] = '';
+			}
+
+			$responseData = serialize($responseData);
 
 			$formData = [
 				'Response' => $responseData
