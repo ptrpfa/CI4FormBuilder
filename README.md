@@ -38,7 +38,4 @@ library/ (empty CI4 web application for you to start development!)
     ```
 6. If you plan on using CI4 Shield for authentication, create an account to login by navigating to `/login`.
     ![login](docs/login.png)
-    
-    configure `Autoload.php` for autoloading helper functions
-
 7. Start coding! Please refer to the documentation provided to learn how to use our library, or click [here](https://ptrpfa.notion.site/5959fa04a29c483fbb2190002c2016e5?v=0f3e85b64ee2489bbae6665707c43e3c&pvs=4) to view our shared Notion documentation.
