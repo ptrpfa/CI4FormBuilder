@@ -17,14 +17,12 @@ class UsersDashboard extends BaseController
 		$this->formBuilder = service('CustomFormLibrary');
 	}
 
+	// Index view
 	public function index()
 	{
 		// Sample table data
 		$tableTitle = 'User List';
 		$columnTitles = ['User', 'Form Name', 'Version', 'Datetime'];
-		/*** 
-			Create the Action Button redirection URL  
-		 ***/
 		$actions = [
 			'New' => 'users/newUser', //New User & New Form
 		];
@@ -89,12 +87,7 @@ class UsersDashboard extends BaseController
 		return view('admin/users/table', $data);
 	}
 
-	//--------------------------------------------------------------------//
-	/***
-		CRUD PORTION
-	 ***/
-
-	//Get the Form HTML 
+	// View to get HTML dump of unserialised form structure
 	public function getForm()
 	{
 		$formID = $this->request->getVar('formID');
@@ -109,10 +102,10 @@ class UsersDashboard extends BaseController
 		return $this->response->setJSON($response);
 	}
 
-	//Returns the base tempalte for user to create a new form 
-	//If old user then pass in $name, else it is empty
+	// View to create a form submission
 	public function createForm($name = '')
 	{
+		//Returns the base template for user to create a new form. If existing user then pass in $name, else it is empty
 		//Get all the data from library's model
 		$formData = $this->formBuilder->getForm(null, false);
 
@@ -163,7 +156,7 @@ class UsersDashboard extends BaseController
 		return view('admin/users/NewForm', $data);
 	}
 
-	//Submit new form
+	// View for user submission of a form response
 	public function submitForm()
 	{
 		$post = $this->request->getPost();
@@ -272,9 +265,6 @@ class UsersDashboard extends BaseController
 	public function readForm($responseID, $formID)
 	{
 		$data['title'] = 'View Form';
-		// // Fetch data and form send to view
-		// $formData = $this->formBuilder->getForm($formID);
-		// $pdfContent = $this->formBuilder->export_to_pdf($formData);
 
 		// Get user's form response and generate a PDF of it
 		$pdfContent = $this->formBuilder->export_to_pdf($this->updateForm($responseID, $formID, true));
@@ -286,6 +276,7 @@ class UsersDashboard extends BaseController
 		return view('admin/users/ViewForm', $data);
 	}
 
+	// View to update a user's form response
 	public function updateForm($responseID, $formID = null, $data_only = false)
 	{
 		//Edit Form Submitted
@@ -294,10 +285,9 @@ class UsersDashboard extends BaseController
 			$html = $this->formBuilder->getAssociatedFormData($responseID);
 
 			try {
-				if ($formID === null){
+				if ($formID === null) {
 					$form = $this->formBuilder->getAssociatedFormData($responseID, false);
-				}
-				else{
+				} else {
 					$form = $this->formBuilder->getForm($formID, false);
 				}
 				$rules = null;
@@ -366,7 +356,7 @@ class UsersDashboard extends BaseController
 			$data['title'] = 'Form Update';
 			return view('admin/users/update_success', $data);
 		} else {
-			//Get the form structure for user to update their form data
+			// Get the form structure for user to update their form data
 			try {
 				// Fetch form from database
 				$form = $this->formBuilder->getForm($formID, false);
@@ -390,6 +380,7 @@ class UsersDashboard extends BaseController
 		}
 	}
 
+	// Function to delete a user's form response
 	public function deleteForm($responseID)
 	{
 		try {

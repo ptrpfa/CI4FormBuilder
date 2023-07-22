@@ -133,6 +133,8 @@ class TemplateDashboard extends BaseController
 		];
 		// Get form template files
 		$form_templates = directory_map('../app/Config/FormTemplates', 1);
+		asort($form_templates);
+		// d($form_templates);
 		// Check request type
 		if ($this->request->is('post')) {
 			// Get POST data
@@ -290,7 +292,7 @@ class TemplateDashboard extends BaseController
 		return view('admin/success', ['message' => 'Activated all versions of form ' . $formID . '!']);
 	}
 
-	// Function to get HTML dump of unserialised form structure
+	// View to get HTML dump of unserialised form structure
 	public function getFormHTML()
 	{
 		if ($this->request->is('get')) {
@@ -311,7 +313,7 @@ class TemplateDashboard extends BaseController
 		}
 	}
 
-	// Function to get a PDF dump of a form structure
+	// View to get a PDF dump of a form structure
 	public function printFormHTML()
 	{
 		if ($this->request->is('get')) {

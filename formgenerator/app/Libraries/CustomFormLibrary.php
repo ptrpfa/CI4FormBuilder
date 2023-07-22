@@ -232,6 +232,8 @@ class CustomFormLibrary
             throw $e;
         }
     }
+
+    // Function to get the form data for a given form response
     public function getAssociatedFormData($responseID, $structure_only = true)
     {
 
@@ -262,24 +264,26 @@ class CustomFormLibrary
             $this->formResponseModel->delete_form_response($responseID);
         } catch (\Exception $e) {
             // Log the error or display a user-friendly error message
-            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            log_message('error', 'Form response deletion failed: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
     }
 
+    // Function to get a given form response from the database
     public function getResponseFormData($responseID)
     {
         try {
             return $this->formResponseModel->get_form_response($responseID);
         } catch (\Exception $e) {
             // Log the error or display a user-friendly error message
-            log_message('error', 'Form deletion failed: ' . $e->getMessage());
+            log_message('error', 'Form response fetching failed: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
     }
 
+    // Function to return a populated HTML dump for a completed form response
     public function placeFormData($responseID, $response, $view)
     {
         // create new DOM document object
@@ -351,6 +355,7 @@ class CustomFormLibrary
         return $view;
     }
 
+    // Function to add a form response
     public function submitFormData($formID, $user, $formData)
     {
         /* 
@@ -364,12 +369,13 @@ class CustomFormLibrary
             $this->formResponseModel->create_form_response($formID, $user, $formData);
         } catch (\Exception $e) {
             // Log the error or display a user-friendly error message
-            log_message('error', 'Form insertion failed: ' . $e->getMessage());
+            log_message('error', 'Form response insertion failed: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
     }
 
+    // Function to update a form response
     public function submitUpdatedFormData($responseID, $formData)
     {
 
@@ -384,7 +390,7 @@ class CustomFormLibrary
             $this->formResponseModel->update_form_response($responseID, $formData);
         } catch (\Exception $e) {
             // Log the error or display a user-friendly error message
-            log_message('error', 'Form update failed: ' . $e->getMessage());
+            log_message('error', 'Form response update failed: ' . $e->getMessage());
             // Throw exception
             throw $e;
         }
