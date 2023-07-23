@@ -33,7 +33,11 @@ Two project deliverables have been completed for this project, namely a bare-bon
 ```
 README.md (this file)
 
-notion_documentation.pdf (exported documentation from our public Notion documentation page)
+deliverables/
+    report_group07.pdf (group report)
+    slides_group07.pdf (group slides)
+    video_group07.mp4 (group presentation)
+    notion_documentation.pdf (exported documentation from our public Notion documentation page)
 
 docs/ (images for documentation)
 
