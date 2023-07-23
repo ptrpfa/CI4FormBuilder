@@ -7,7 +7,7 @@
 2201159 Ryan Lai Wei Shao
 
 ### Library Overview
-The custom form builder library consists of two main components, each playing a crucial role in enabling the creation and utilization of customizable forms within generic web applications. This system design empowers developers to create dynamic and user-friendly forms, harnessing the full potential of the custom library. To leverage the functionalities of the custom library, programmers are required to set up both components within their web application environment. 
+The custom form builder library consists of two main components, each playing a crucial role in enabling the creation and utilization of customizable forms within generic web applications. This system design empowers developers to create dynamic and user-friendly forms, harnessing the full potential of the custom library. To leverage the functionalities of the custom library, programmers are required to set up both components within their web application environment. You can view our presentation [here]().
 
 ![System Architecture](/docs/arch.png)
 
@@ -33,11 +33,7 @@ Two project deliverables have been completed for this project, namely a bare-bon
 ```
 README.md (this file)
 
-deliverables/
-    report_group07.pdf (group report)
-    slides_group07.pdf (group slides)
-    video_group07.mp4 (group presentation)
-    notion_documentation.pdf (exported documentation from our public Notion documentation page)
+notion_documentation.pdf (exported documentation from our public Notion documentation page)
 
 docs/ (images for documentation)
 
