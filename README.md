@@ -46,6 +46,11 @@ library/ (empty CI4 web application for you to start development!)
     ```
     cp -r library <project name>
     ```
+
+    Otherwise, you can create a copy of the `formgenerator/` project which contains the administrator dashboard web application. You can use build on top of this web application or simply study it to take reference for your web application!
+    ```
+    cp -r formgenerator <project name>
+    ```
 2. Modify the database credentials in the ``.env`` file. By default, it is configured to connect to our cloud MySQL database.
 3. Run this command to create the database schema in your configured database: 
     ```
