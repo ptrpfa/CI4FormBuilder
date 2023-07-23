@@ -60,23 +60,30 @@ library/ (empty CI4 web application for you to start development!)
     ```
     php spark db:create FormBuilder
     ```
-4. Run this command to create all necessary tables in your database: 
+4. Install CI4 shield by running these commands:
+    ```
+    composer config minimum-stability dev
+    composer config prefer-stable true
+    composer require codeigniter4/shield
+    php spark shield:setup
+    ```
+6. Run this command to create all necessary tables in your database: 
     ```
     php spark migrate --all
     ```
-5. If you would like to just import our empty MySQL database into your own database using an `SQL` file, run the following command below:
+7. If you would like to just import our empty MySQL database into your own database using an `SQL` file, run the following command below:
     ```
     mysql -u<username> -p < sql/Empty_22July2023.sql
     ```
-6. Run these commands to ensure all dependencies defined in our `composer.json` file are installed and updated:
+8. Run these commands to ensure all dependencies defined in our `composer.json` file are installed and updated:
     ```
     composer install
     composer update
     ```
-7. Run this command to start the web application: 
+9. Run this command to start the web application: 
     ```
     php spark serve
     ```
-7. If you plan on using CI4 Shield for authentication, create an account to login by navigating to `/login`.
+7. Create an account to login by navigating to `/login`.
     ![login](docs/login.png)
 8. Start coding! Please refer to the documentation provided to learn how to use our library, or click [here](https://ptrpfa.notion.site/5959fa04a29c483fbb2190002c2016e5?v=0f3e85b64ee2489bbae6665707c43e3c&pvs=4) to view our shared Notion documentation.
