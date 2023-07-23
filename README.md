@@ -37,6 +37,8 @@ notion_documentation.pdf (exported documentation from our public Notion document
 
 docs/ (images for documentation)
 
+sql/ (exported library database)
+
 formgenerator/ (Admin web application for managing Forms)
 
 library/ (empty CI4 web application for you to start development!)
@@ -62,12 +64,16 @@ library/ (empty CI4 web application for you to start development!)
     ```
     php spark migrate --all
     ```
-5. Run these commands to ensure all dependencies defined in our `composer.json` file are installed and updated:
+5. If you would like to just import our empty MySQL database into your own database using an `SQL` file, run the following command below:
+    ```
+    mysql -u<username> -p < sql/Empty_22July2023.sql
+    ```
+6. Run these commands to ensure all dependencies defined in our `composer.json` file are installed and updated:
     ```
     composer install
     composer update
     ```
-6. Run this command to start the web application: 
+7. Run this command to start the web application: 
     ```
     php spark serve
     ```
