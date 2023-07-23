@@ -33,6 +33,8 @@ Two project deliverables have been completed for this project, namely a bare-bon
 ```
 README.md (this file)
 
+notion_documentation.pdf (exported documentation from our public Notion documentation page)
+
 docs/ (images for documentation)
 
 formgenerator/ (Admin web application for managing Forms)
