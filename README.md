@@ -24,6 +24,11 @@ Programmers are expected to maintain user details independently since such infor
 The library consists of the following components (more details on each function can be viewed in our Notion documentation [here](https://ptrpfa.notion.site/5959fa04a29c483fbb2190002c2016e5?v=0f3e85b64ee2489bbae6665707c43e3c&pvs=4)):
 ![Library Functions](/docs/library_functions.png)
 
+<u>Deliverables (Admin Dashboard and Bare-Bones Web Application)</u><br>
+Two project deliverables have been completed for this project, namely a bare-bones web application project for developers to build on to utilise the form builder library, as well as a user-friendly administrator dashboard web application that is built on the library to showcase its features. The administrative portal also serves as a reference for developers on how to utilise the library’s various features.
+
+![Admin Dashboard](/docs/dashboard.png)
+
 ### Submission Files
 ```
 README.md (this file)
