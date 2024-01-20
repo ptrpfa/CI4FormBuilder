@@ -21,7 +21,7 @@ The relational database consists of two tables, Form and Response. The Form tabl
 Programmers are expected to maintain user details independently since such information will not be stored by the library. The Response table includes a `User` field to allow programmers to identify users who have submitted a form response. This intentional separation of information ensures that the library remains lightweight while providing programmers with the flexibility to define their own database design to complement the library. Additionally, migration files are included for each table to facilitate fast deployment of the custom library.
 
 <u>Library Design</u><br>
-The library consists of the following components (more details on each function can be viewed in our Notion documentation [here](https://ptrpfa.notion.site/5959fa04a29c483fbb2190002c2016e5?v=0f3e85b64ee2489bbae6665707c43e3c&pvs=4)):
+The library consists of the following components (more details on each function can be viewed in our Notion documentation [here]()):
 ![Library Functions](docs/library_functions.png)
 
 <u>Deliverables (Admin Dashboard and Bare-Bones Web Application)</u><br>
@@ -86,4 +86,4 @@ library/ (empty CI4 web application for you to start development!)
     ```
 7. Create an account to login by navigating to `/login`.
     ![login](docs/login.png)
-8. Start coding! Please refer to the documentation provided to learn how to use our library, or click [here](https://ptrpfa.notion.site/5959fa04a29c483fbb2190002c2016e5?v=0f3e85b64ee2489bbae6665707c43e3c&pvs=4) to view our shared Notion documentation.
+8. Start coding! Please refer to the documentation provided to learn how to use our library, or click [here]() to view our shared Notion documentation.
